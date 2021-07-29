@@ -28,3 +28,6 @@ After cloning the repo, the extension is practically installed yet disabled. In 
 - [ ] Preferences: Languages;
 
 - [ ] save/restore strip position.
+
+# Contributors
+@justperfection:gnome.org
