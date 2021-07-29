@@ -18,8 +18,8 @@ After cloning the repo, the extension is practically installed yet disabled. In 
 
 # TODO
 - [x] improve performance;
-- [ ] detect width screen;
-- [ ] Icon panel
+- [x] detect width screen;
+- [x] Icon panel
 - [ ] check gnome 40 compatibility;
 
 - [ ] Preferences: color;
