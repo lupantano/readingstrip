@@ -8,7 +8,7 @@ Installation via git is performed by cloning the repo into your local gnome-shel
 git clone https://github.com/lupantano/readingstrip.git <extensions-dir>/readingstrip@lupantano.gihthub
 ```
 
-After cloning the repo, the extension is practically installed yet disabled. In order to enable it, you need to use gnome-tweak-tool - find the extension, titled 'Clipboard Indicator', in the 'Extensions' screen and turn it 'On'. You may need to restart the shell (Alt+F2 and insert 'r' in the prompt) for the extension to be listed there.
+After cloning the repo, the extension is practically installed yet disabled. In order to enable it, you need to use gnome-tweak-tool - find the extension, titled 'Reading Strip', in the 'Extensions' screen and turn it 'On'. You may need to restart the shell (Alt+F2 and insert 'r' in the prompt) for the extension to be listed there.
 
 # Latest News
 - 0.20210729: initial commit.
