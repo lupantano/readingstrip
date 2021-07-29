@@ -14,6 +14,7 @@ After cloning the repo, the extension is practically installed yet disabled. In 
 
 # Latest News
 - 0.20210729: initial commit.
+- v3: improve performance
 
 # TODO
 - [x] improve performance;
