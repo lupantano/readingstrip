@@ -22,4 +22,5 @@ After cloning the repo, the extension is practically installed yet disabled. In 
 - [ ] Preferences: color;
 - [ ] Preferences: height;
 - [ ] Preferences: opacity;
-- [ ] Preferences: shortcuts;
+- [ ] Preferences: shortcuts actiave/deactivate;
+- [ ] Preferences: Languages;
