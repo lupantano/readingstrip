@@ -18,12 +18,11 @@
 const {St, Clutter} = imports.gi;
 const Gdk = imports.gi.Gdk
 const Main = imports.ui.main;
-const Mainloop = imports.mainloop;
 
 const stripHeight = 36;
 const stripOpacity = 90;
 
-let panelButton, panelButtonText, timeout,  strip;
+let panelButton, panelButtonText, strip;
 
 function followMouse(){
   let [mouse_x, mouse_y, mask] = global.get_pointer();
@@ -41,28 +40,35 @@ function enable() {
   });
   panelButton.set_child(panelButtonText);
 
-  strip = new St.Icon({
+  strip = new St.Widget({
     style : 'background-color : gold',
     reactive : false,
     can_focus : false,
     track_hover : false,
     opacity: stripOpacity,
     width : (1.5 * 2560),
-    //width : 1.5 * Gdk.Monitor.get_width_mm();
     height : stripHeight,
     x : 0,
     y : 0,
   });
 
+  const PointerWatcher = imports.ui.pointerWatcher;
+  let interval = 1000 / Clutter.get_default_frame_rate();
+  let pointerWatch = PointerWatcher.getPointerWatcher().addWatch(interval, (x, y) => {
+        strip.y = (y - stripHeight/2);
+        return true;
+  });
+
   Main.uiGroup.add_child(strip);
   Main.panel._rightBox.insert_child_at_index(panelButton, 1);
-  timeout = Mainloop.timeout_add_seconds(0.5, followMouse);
 }
 
 function disable() {
   Main.panel._rightBox.remove_child(panelButton);
-  Mainloop.source_remove(timeout);
   Main.uiGroup.remove_child(strip);
+
+  pointerWatch.remove();
+  pointerWatch = null;
   strip.destroy;
   strip = null;
 }
