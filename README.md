@@ -24,3 +24,5 @@ After cloning the repo, the extension is practically installed yet disabled. In 
 - [ ] Preferences: opacity;
 - [ ] Preferences: shortcuts actiave/deactivate;
 - [ ] Preferences: Languages;
+
+- [ ] save/restore strip position.
