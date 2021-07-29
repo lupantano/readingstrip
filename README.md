@@ -16,7 +16,7 @@ After cloning the repo, the extension is practically installed yet disabled. In 
 - 0.20210729: initial commit.
 
 # TODO
-- [ ] improve performance;
+- [x] improve performance;
 - [ ] detect width screen;
 - [ ] Icon panel
 - [ ] check gnome 40 compatibility;
