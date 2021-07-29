@@ -15,7 +15,6 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-
 const {St, Clutter} = imports.gi;
 const Gdk = imports.gi.Gdk
 const Main = imports.ui.main;
@@ -32,7 +31,7 @@ function followMouse(){
   return true;
 }
 
-function init() {
+function enable() {
   panelButton = new St.Bin({
     style_class : "panel-button"
   });
@@ -56,9 +55,6 @@ function init() {
   });
 
   Main.uiGroup.add_child(strip);
-}
-
-function enable() {
   Main.panel._rightBox.insert_child_at_index(panelButton, 1);
   timeout = Mainloop.timeout_add_seconds(0.5, followMouse);
 }
