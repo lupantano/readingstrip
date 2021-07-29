@@ -1,0 +1,10 @@
+{
+	"description" : "It is a program with an equivalent function to a reading guide on the computer, that's really useful for people with dyslexia.",
+	"name" : "Reading Strip",
+	"shell-version" : [
+		"3.36.8"
+	],
+	"url" : "https://github.com/lupantano/readingstrip",
+	"uuid" : "readingstrip@lupantano.gihthub",
+	"version" : 0.20200729
+}
