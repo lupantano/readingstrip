@@ -1,6 +1,8 @@
 # Reading Strip
 It is a **extension for Gnome-Shell** with an equivalent function to a reading guide on the computer, that's really useful for people with **dyslexia**.
 
+![Sample](sample.png)
+
 # Installation
 
 Installation via git is performed by cloning the repo into your local gnome-shell extensions directory (usually ~/.local/share/gnome-shell/extensions/):
