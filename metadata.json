@@ -1,5 +1,5 @@
 {
-	"description" : "It is a program with an equivalent function to a reading guide on the computer, that's really useful for people with dyslexia.",
+	"description" : "It is a extension for Gnome-Shell with an equivalent function to a reading guide on the computer, that's really useful for people with dyslexia.",
 	"name" : "Reading Strip",
 	"shell-version" : [
 		"3.36.8"
