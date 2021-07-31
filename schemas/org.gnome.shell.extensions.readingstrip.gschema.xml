@@ -6,5 +6,9 @@
             <default>true</default>
             <description>State of extension, whether it's enabled or disabled using indicator icon in panel</description>
         </key>
+        <key name="hotkey" type="as">
+            <default><![CDATA[['<Super>space']]]></default>
+            <summary>Hotkey to enable/disable the strip</summary>
+        </key>
     </schema>
 </schemalist>
