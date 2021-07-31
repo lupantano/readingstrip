@@ -21,7 +21,7 @@ After cloning the repo, the extension is practically installed yet disabled. In 
 - [x] detect width screen;
 - [x] Icon panel
 - [x] multi monitor support 
-- [ ] check gnome 40 compatibility;
+- [x] check gnome 40 compatibility;
 
 - [ ] Preferences: color;
 - [ ] Preferences: height;
