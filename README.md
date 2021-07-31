@@ -24,11 +24,12 @@ You can activate/deactive with **super + space**.
 - [x] Icon panel
 - [x] multi monitor support 
 - [x] check gnome 40 compatibility;
+- [x] shortcuts **super + space** actiave/deactivate;
 
 - [ ] Preferences: color;
 - [ ] Preferences: height;
 - [ ] Preferences: opacity;
-- [ ] Preferences: shortcuts actiave/deactivate;
+- [ ] Preferences: shortcuts actiave/deactivate strip;
 - [ ] Preferences: Languages;
 
 - [x] save/restore strip position.
