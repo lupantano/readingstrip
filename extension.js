@@ -15,7 +15,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-const { St, Clutter, GObject } = imports.gi;
+const { St, Clutter, GObject, Meta, Shell } = imports.gi;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const PointerWatcher = imports.ui.pointerWatcher;
@@ -64,7 +64,7 @@ function toggleReadingStrip() {
 const ReadingStrip = GObject.registerClass(
 	class ReadingStrip extends PanelMenu.Button {
 		_init() {
-			super._init(null, "ReadingStrip");
+			super._init(null, 'ReadingStrip');
 			let panelButtonIcon = new St.Icon({
 				icon_name: 'emblem-important',
 				icon_size: '24',
@@ -81,8 +81,13 @@ let monitor_change_signal_id = 0;
 function enable() {
 	// get settings
 	settings = ExtensionUtils.getSettings();
-
-	// Create Strip
+	Main.wm.addKeybinding('hotkey', settings,
+						  Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
+						  Shell.ActionMode.ALL,
+						  () => {
+							  toggleReadingStrip();
+						  });
+	// create strip
 	strip = new St.Widget({
 		style: stripColor,
 		opacity: stripOpacity,
@@ -106,7 +111,7 @@ function enable() {
 
 	// add button to top panel
 	panelButton = new ReadingStrip();
-	Main.panel.addToStatusArea("ReadingStrip", panelButton);
+	Main.panel.addToStatusArea('ReadingStrip', panelButton);
 
 	// watch for monitor changes
 	num_monitors = Main.layoutManager.monitors.length;
@@ -123,6 +128,7 @@ function disable() {
 		Main.layoutManager.disconnect(monitor_change_signal_id);
 	}
 
+	Main.wm.removeKeybinding('hotkey');
 	settings = null;
 
 	panelButton.destroy();
