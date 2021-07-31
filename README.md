@@ -16,10 +16,6 @@ cd readingstrip && make
 
 After cloning the repo, the extension is practically installed yet disabled. In order to enable it, you need to use gnome-tweak-tool - find the extension, titled 'Reading Strip', in the 'Extensions' screen and turn it 'On'. You may need to restart the shell (Alt+F2 and insert 'r' in the prompt) for the extension to be listed there.
 
-# Latest News
-- 0.20210729: initial commit.
-- v3: improve performance
-
 # TODO
 - [x] improve performance;
 - [x] detect width screen;
@@ -35,4 +31,5 @@ After cloning the repo, the extension is practically installed yet disabled. In 
 - [ ] save/restore strip position.
 
 # Contributors
-@justperfection:gnome.org
+@justperfection
+@harshadgavali 
