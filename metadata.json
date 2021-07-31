@@ -8,5 +8,5 @@
 	"url" : "https://github.com/lupantano/readingstrip",
 	"uuid" : "readingstrip@lupantano.gihthub",
 	"settings-schema": "org.gnome.shell.extensions.readingstrip",
-	"version" : 4.1
+	"version" : 6
 }
