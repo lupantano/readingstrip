@@ -4,10 +4,14 @@ It is a **extension for Gnome-Shell** with an equivalent function to a reading g
 ![Sample](sample.png)
 
 # Installation
-
-Installation via git is performed by cloning the repo into your local gnome-shell extensions directory (usually ~/.local/share/gnome-shell/extensions/):
+* Install from [gnome extensions site](https://extensions.gnome.org/extension/4419/reading-strip/)
+* Install via git
 ```
-git clone https://github.com/lupantano/readingstrip.git <extensions-dir>/readingstrip@lupantano.gihthub
+# First clone the git repository
+git clone https://github.com/lupantano/readingstrip.git
+
+# install extension
+cd readingstrip && make
 ```
 
 After cloning the repo, the extension is practically installed yet disabled. In order to enable it, you need to use gnome-tweak-tool - find the extension, titled 'Reading Strip', in the 'Extensions' screen and turn it 'On'. You may need to restart the shell (Alt+F2 and insert 'r' in the prompt) for the extension to be listed there.
