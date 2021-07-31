@@ -15,62 +15,127 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-const {St, Clutter} = imports.gi;
+const { St, Clutter, GObject } = imports.gi;
 const Main = imports.ui.main;
+const PanelMenu = imports.ui.panelMenu;
+const PointerWatcher = imports.ui.pointerWatcher;
+const ExtensionUtils = imports.misc.extensionUtils;
 
 const stripHeight = 36;
 const stripOpacity = 90;
 const stripColor = 'background-color : gold';
+// TODO: adjust interval value according to different frame rates of different monitor
+const interval = 1000 / Clutter.get_default_frame_rate();
 
-let panelButton, panelButtonIcon, strip, pointerWatch;
+let panelButton, strip, pointerWatch, settings;
+let num_monitors = 1;
+
+// follow cursor position, and monitor as well
+function syncStrip(x, y, monitor_changed = false) {
+	if (monitor_changed || num_monitors > 1) {
+		const currentMonitor = Main.layoutManager.currentMonitor;
+		strip.x = currentMonitor.x;
+		strip.width = currentMonitor.width;
+	}
+
+	strip.y = (y - stripHeight / 2);
+}
+
+// toggle strip on or off
+function toggleReadingStrip() {
+	if (strip.visible) {
+		strip.visible = false;
+		settings.set_boolean('enabled', false);
+
+		pointerWatch.remove();
+		pointerWatch = null;
+	}
+	else {
+		strip.visible = true;
+		settings.set_boolean('enabled', true);
+
+		const [x, y] = global.get_pointer();
+		syncStrip(x, y, true);
+		const pointerWatcher = PointerWatcher.getPointerWatcher();
+		pointerWatch = pointerWatcher.addWatch(interval, syncStrip);
+	}
+}
+
+const ReadingStrip = GObject.registerClass(
+	class ReadingStrip extends PanelMenu.Button {
+		_init() {
+			super._init(null, "ReadingStrip");
+			let panelButtonIcon = new St.Icon({
+				icon_name: 'emblem-important',
+				icon_size: '24',
+			});
+
+			this.add_actor(panelButtonIcon);
+			this.connect('button-press-event', toggleReadingStrip);
+		}
+	}
+);
+
+let monitor_change_signal_id = 0;
 
 function enable() {
-  // Detect Screen
-  let pMonitor = Main.layoutManager.primaryMonitor;
+	// get settings
+	settings = ExtensionUtils.getSettings();
 
-  // Add to Panel
-  panelButton = new St.Bin({
-    style_class : "panel-button"
-  });
-  panelButtonIcon = new St.Icon({
-    icon_name: 'emblem-important',
-    icon_size: '24',
-  });
-  panelButton.set_child(panelButtonIcon);
-  Main.panel._rightBox.insert_child_at_index(panelButton, 1);
+	// Create Strip
+	strip = new St.Widget({
+		style: stripColor,
+		opacity: stripOpacity,
+		reactive: false,
+		can_focus: false,
+		track_hover: false,
+		height: stripHeight,
+		visible: false
+	});
 
-  // Create Strip
-  strip = new St.Widget({
-    style : stripColor,
-    opacity: stripOpacity,
-    reactive : false,
-    can_focus : false,
-    track_hover : false,
-    width: pMonitor.width,
-    height : stripHeight,
-  });
-  Main.uiGroup.add_child(strip);
+	Main.uiGroup.add_child(strip);
 
-  // Follow mouse
-  const PointerWatcher = imports.ui.pointerWatcher;
-  let interval = 1000 / Clutter.get_default_frame_rate();
-  pointerWatch = PointerWatcher.getPointerWatcher().addWatch(interval, (x, y) => {
-        strip.y = (y - stripHeight/2);
-        return true;
-  });
+	// sync with current monitor
+	const [x, y] = global.get_pointer();
+	syncStrip(x, y, true);
+
+	// load previous state
+	if (settings.get_boolean('enabled')) {
+		toggleReadingStrip();
+	}
+
+	// add button to top panel
+	panelButton = new ReadingStrip();
+	Main.panel.addToStatusArea("ReadingStrip", panelButton);
+
+	// watch for monitor changes
+	num_monitors = Main.layoutManager.monitors.length;
+	monitor_change_signal_id = Main.layoutManager.connect('monitors-changed', () => {
+		num_monitors = Main.layoutManager.monitors.length;
+		const [x, y] = global.get_pointer();
+		syncStrip(x, y, true);
+	});
 }
 
 function disable() {
-  Main.panel._rightBox.remove_child(panelButton);
-  Main.uiGroup.remove_child(strip);
+	// remove monitor change watch
+	if (monitor_change_signal_id) {
+		Main.layoutManager.disconnect(monitor_change_signal_id);
+	}
 
-  if (pointerWatch) {
-    pointerWatch.remove();
-    pointerWatch = null;
-  }
+	settings = null;
 
-  if (strip) {
-    strip.destroy;
-    strip = null;
-  }
+	panelButton.destroy();
+	panelButton = null;
+	Main.uiGroup.remove_child(strip);
+
+	if (pointerWatch) {
+		pointerWatch.remove();
+		pointerWatch = null;
+	}
+
+	if (strip) {
+		strip.destroy;
+		strip = null;
+	}
 }
