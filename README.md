@@ -20,6 +20,7 @@ After cloning the repo, the extension is practically installed yet disabled. In 
 - [x] improve performance;
 - [x] detect width screen;
 - [x] Icon panel
+- [x] multi monitor support 
 - [ ] check gnome 40 compatibility;
 
 - [ ] Preferences: color;
@@ -28,7 +29,7 @@ After cloning the repo, the extension is practically installed yet disabled. In 
 - [ ] Preferences: shortcuts actiave/deactivate;
 - [ ] Preferences: Languages;
 
-- [ ] save/restore strip position.
+- [x] save/restore strip position.
 
 # Contributors
 @justperfection
