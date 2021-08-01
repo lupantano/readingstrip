@@ -18,6 +18,27 @@ After cloning the repo, the extension is practically installed yet disabled. In 
 
 You can activate/deactive with **super + space**.
 
+# SETTINGS
+
+```
+cd ~/.local/share/gnome-shell/extensions/readingstrip@lupantano.gihthub/
+
+# height 1:100, default = 2
+gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-height 2
+
+# opacity 1:255, default = 90
+gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-opacity 90
+
+# readingstrip-enable-hotkey false:true, default = true
+gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-enable-hotkey true
+
+# readingstrip-color #00000 : #FFFFFF, default = gold
+gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-color gold
+gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-color red
+gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-color "#2233FF"
+
+```
+
 # TODO
 - [x] improve performance;
 - [x] detect width screen;
@@ -27,11 +48,14 @@ You can activate/deactive with **super + space**.
 - [x] shortcuts **super + space** actiave/deactivate;
 - [x] height strip is 1.8% height monitor.
 
-- [ ] Preferences: color;
-- [ ] Preferences: height;
-- [ ] Preferences: opacity;
-- [ ] Preferences: shortcuts actiave/deactivate strip;
-- [ ] Preferences: Languages;
+- [x] Preferences: color;
+- [x] Preferences: height;
+- [x] Preferences: opacity;
+- [x] Preferences: shortcuts actiave/deactivate strip;
+- ~~[ ] Preferences: Languages;~~
+- [ ] Preferences: add blur around stripe;
+- [ ] Preferences GUI;
+- [ ] App icon --> status activate/deactivate
 
 - [x] save/restore strip position.
 
