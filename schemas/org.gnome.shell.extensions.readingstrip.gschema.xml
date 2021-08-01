@@ -4,11 +4,33 @@
         <!-- See also: https://developer.gnome.org/glib/stable/gvariant-format-strings.html -->
         <key name="enabled" type="b">
             <default>true</default>
-            <description>State of extension, whether it's enabled or disabled using indicator icon in panel</description>
+            <summary>State of extension, whether it's enabled or disabled using indicator icon in panel</summary>
+            <description/>
+        </key>
+        <key name="readingstrip-enable-hotkey" type="b">
+            <default>true</default>
+            <summary>Whether to enable hotkey</summary>
+            <description/>
+        </key>
+        <key name="readingstrip-color" type="s">
+            <default>"gold"</default>
+            <summary>Strip color</summary>
+            <description/>
+        </key>
+        <key name="readingstrip-opacity" type="u">
+            <default>90</default>
+            <summary>% of opacity</summary>
+            <description/>
+        </key>
+        <key name="readingstrip-height" type="d">
+            <default>2.0</default>
+            <summary>% of height of monitor</summary>
+            <description/>
         </key>
         <key name="readingstrip-hotkey" type="as">
             <default><![CDATA[['<Super>space']]]></default>
             <summary>Hotkey to enable/disable the strip</summary>
+            <description/>
         </key>
     </schema>
 </schemalist>
