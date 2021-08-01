@@ -25,6 +25,7 @@ You can activate/deactive with **super + space**.
 - [x] multi monitor support 
 - [x] check gnome 40 compatibility;
 - [x] shortcuts **super + space** actiave/deactivate;
+- [x] height strip is 1.8% height monitor.
 
 - [ ] Preferences: color;
 - [ ] Preferences: height;

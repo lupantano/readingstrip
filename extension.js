@@ -21,11 +21,13 @@ const PanelMenu = imports.ui.panelMenu;
 const PointerWatcher = imports.ui.pointerWatcher;
 const ExtensionUtils = imports.misc.extensionUtils;
 
-const stripHeight = 36;
-const stripOpacity = 90;
-const stripColor = 'background-color : gold';
+const currentMonitor = Main.layoutManager.currentMonitor;
 // TODO: adjust interval value according to different frame rates of different monitor
 const interval = 1000 / Clutter.get_default_frame_rate();
+
+const stripHeight = currentMonitor.height/100*1.8; // %  height monitor
+const stripOpacity = 90;
+const stripColor = 'background-color : gold';
 
 let panelButton, strip, pointerWatch, settings;
 let num_monitors = 1;
@@ -33,7 +35,6 @@ let num_monitors = 1;
 // follow cursor position, and monitor as well
 function syncStrip(x, y, monitor_changed = false) {
 	if (monitor_changed || num_monitors > 1) {
-		const currentMonitor = Main.layoutManager.currentMonitor;
 		strip.x = currentMonitor.x;
 		strip.width = currentMonitor.width;
 	}
@@ -91,10 +92,10 @@ function enable() {
 	strip = new St.Widget({
 		style: stripColor,
 		opacity: stripOpacity,
+		height: stripHeight,
 		reactive: false,
 		can_focus: false,
 		track_hover: false,
-		height: stripHeight,
 		visible: false
 	});
 
