@@ -81,7 +81,7 @@ let monitor_change_signal_id = 0;
 function enable() {
 	// get settings
 	settings = ExtensionUtils.getSettings();
-	Main.wm.addKeybinding('hotkey', settings,
+	Main.wm.addKeybinding('readingstrip-hotkey', settings,
 						  Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
 						  Shell.ActionMode.ALL,
 						  () => {
@@ -128,7 +128,7 @@ function disable() {
 		Main.layoutManager.disconnect(monitor_change_signal_id);
 	}
 
-	Main.wm.removeKeybinding('hotkey');
+	Main.wm.removeKeybinding('readingstrip-hotkey');
 	settings = null;
 
 	panelButton.destroy();
