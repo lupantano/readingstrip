@@ -4,8 +4,8 @@ It is a **extension for Gnome-Shell** with an equivalent function to a reading g
 ![Sample](sample.png)
 
 # Installation
-* Install from [gnome extensions site](https://extensions.gnome.org/extension/4419/reading-strip/)
-* Install via git
+* Install from [gnome extensions site](https://extensions.gnome.org/extension/4419/reading-strip/);
+* Install via git:
 ```
 # First clone the git repository
 git clone https://github.com/lupantano/readingstrip.git
@@ -16,9 +16,11 @@ cd readingstrip && make
 
 After cloning the repo, the extension is practically installed yet disabled. In order to enable it, you need to use gnome-tweak-tool - find the extension, titled 'Reading Strip', in the 'Extensions' screen and turn it 'On'. You may need to restart the shell (Alt+F2 and insert 'r' in the prompt) for the extension to be listed there.
 
-You can activate/deactive with **super + space**.
+# Use
 
-# SETTINGS
+You can activate/deactive with **super + space** or click on icon panel.
+
+# Settings
 
 ```
 cd ~/.local/share/gnome-shell/extensions/readingstrip@lupantano.gihthub/
