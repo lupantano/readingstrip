@@ -37,9 +37,9 @@ const ReadingStrip = GObject.registerClass(
 		_init() {
 			super._init(null, 'ReadingStrip');
 			let panelButtonIcon = new St.Icon({
-				gicon : Gio.icon_new_for_string(`${Extension.path}/icons/readingstrip_symbolic.svg`),
+				gicon : Gio.icon_new_for_string(`${Extension.path}/icons/readingstrip-symbolic.svg`),
 				style_class: 'system-status-icon',
-				icon_size: '24',
+				icon_size: '16',
 			});
 
 			this.add_actor(panelButtonIcon);
