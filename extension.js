@@ -26,6 +26,9 @@ const Extension = ExtensionUtils.getCurrentExtension();
 const interval = 1000 / Clutter.get_default_frame_rate();
 
 let panelButton, strip, pointerWatch;
+let panelButtonIcon;
+let panelButtonIcon_on =  Gio.icon_new_for_string(`${Extension.path}/icons/readingstrip-on-symbolic.svg`);
+let panelButtonIcon_off =  Gio.icon_new_for_string(`${Extension.path}/icons/readingstrip-off-symbolic.svg`);
 let settings, setting_changed_signal_ids = [];
 let currentMonitor = Main.layoutManager.currentMonitor;
 let num_monitors = 1;
@@ -36,8 +39,8 @@ const ReadingStrip = GObject.registerClass(
 	class ReadingStrip extends PanelMenu.Button {
 		_init() {
 			super._init(null, 'ReadingStrip');
-			let panelButtonIcon = new St.Icon({
-				gicon : Gio.icon_new_for_string(`${Extension.path}/icons/readingstrip-symbolic.svg`),
+			panelButtonIcon = new St.Icon({
+				gicon : panelButtonIcon_off,
 				style_class: 'system-status-icon',
 				icon_size: '16',
 			});
@@ -63,11 +66,12 @@ function syncStrip(x, y, monitor_changed = false) {
 function toggleReadingStrip() {
 	if (strip.visible) {
 		strip.visible = false;
+        panelButtonIcon.gicon = panelButtonIcon_off;
 		pointerWatch.remove();
 		pointerWatch = null;
-	}
-	else {
+	}	else {
 		strip.visible = true;
+        panelButtonIcon.gicon = panelButtonIcon_on;
 		const [x, y] = global.get_pointer();
 		syncStrip(x, y, true);
 		const pointerWatcher = PointerWatcher.getPointerWatcher();

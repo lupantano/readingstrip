@@ -56,8 +56,9 @@ gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readi
 - [x] Preferences: shortcuts actiave/deactivate strip;
 - ~~[ ] Preferences: Languages;~~
 - [ ] Preferences: add blur around stripe;
+- [ ] Preferences: add vertical stripe;
 - [ ] Preferences GUI;
-- [ ] App icon --> status activate/deactivate
+- [x] App icon --> status activate/deactivate
 
 - [x] save/restore strip position.
 
