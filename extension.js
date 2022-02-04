@@ -1,6 +1,6 @@
 /*
   Reading Strip, Reading guide on the computer for people with dyslexia.
-  Copyright (C) 2021 Luigi Pantano
+  Copyright (C) 2021-22 Luigi Pantano
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ const ReadingStrip = GObject.registerClass(
 			panelButtonIcon = new St.Icon({
 				gicon : panelButtonIcon_off,
 				style_class: 'system-status-icon',
-				icon_size: '16',
+				icon_size: '16'
 			});
 
 			this.add_actor(panelButtonIcon);
