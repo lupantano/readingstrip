@@ -17,8 +17,8 @@
             <summary>Strip color</summary>
             <description/>
         </key>
-        <key name="readingstrip-opacity" type="u">
-            <default>90</default>
+        <key name="readingstrip-opacity" type="d">
+            <default>35</default>
             <summary>% of opacity</summary>
             <description/>
         </key>

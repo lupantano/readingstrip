@@ -28,8 +28,8 @@ cd ~/.local/share/gnome-shell/extensions/readingstrip@lupantano.gihthub/
 # height 1:100, default = 2
 gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-height 2
 
-# opacity 1:255, default = 90
-gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-opacity 90
+# opacity 1:100, default = 35
+gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-opacity 35
 
 # readingstrip-enable-hotkey false:true, default = true
 gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-enable-hotkey true
@@ -38,7 +38,6 @@ gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readi
 gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-color gold
 gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-color red
 gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-color "#2233FF"
-
 ```
 
 # TODO
@@ -56,6 +55,7 @@ gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readi
 - [x] Preferences: shortcuts actiave/deactivate strip;
 - ~~[ ] Preferences: Languages;~~
 - [ ] Preferences: add blur around stripe;
+- [ ] Preferences: add blur on not focused window 
 - [ ] Preferences: add vertical stripe;
 - [ ] Preferences GUI;
 - [x] App icon --> status activate/deactivate

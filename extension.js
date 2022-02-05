@@ -25,10 +25,7 @@ const Extension = ExtensionUtils.getCurrentExtension();
 // TODO: adjust interval value according to different frame rates of different monitor
 const interval = 1000 / Clutter.get_default_frame_rate();
 
-let panelButton, strip, pointerWatch;
-let panelButtonIcon;
-let panelButtonIcon_on =  Gio.icon_new_for_string(`${Extension.path}/icons/readingstrip-on-symbolic.svg`);
-let panelButtonIcon_off =  Gio.icon_new_for_string(`${Extension.path}/icons/readingstrip-off-symbolic.svg`);
+let panelButton, panelButtonIcon, panelButtonIcon_on, panelButtonIcon_off, strip, pointerWatch;
 let settings, setting_changed_signal_ids = [];
 let currentMonitor = Main.layoutManager.currentMonitor;
 let num_monitors = 1;
@@ -83,7 +80,7 @@ function toggleReadingStrip() {
 // synchronize extension state with current settings
 function syncSettings() {
 	strip.style = 'background-color : ' + settings.get_string('readingstrip-color');
-	strip.opacity = settings.get_uint('readingstrip-opacity');
+	strip.opacity = settings.get_double('readingstrip-opacity') * 255/100;
 	strip.height = settings.get_double('readingstrip-height') * currentMonitor.height/100;
 }
 
@@ -106,6 +103,10 @@ function syncHotKey(added) {
 }
 
 function enable() {
+    // load icons
+	panelButtonIcon_on = Gio.icon_new_for_string(`${Extension.path}/icons/readingstrip-on-symbolic.svg`);
+    panelButtonIcon_off = Gio.icon_new_for_string(`${Extension.path}/icons/readingstrip-off-symbolic.svg`);
+
 	// get settings
 	settings = ExtensionUtils.getSettings();
 
@@ -134,14 +135,13 @@ function enable() {
 	const [x, y] = global.get_pointer();
 	syncStrip(x, y, true);
 
-	// load previous state
-	if (settings.get_boolean('enabled')) {
-		toggleReadingStrip();
-	}
-
 	// add button to top panel
 	panelButton = new ReadingStrip();
 	Main.panel.addToStatusArea('ReadingStrip', panelButton);
+
+	// load previous state
+	if (settings.get_boolean('enabled'))
+		toggleReadingStrip();
 
 	// watch for monitor changes
 	num_monitors = Main.layoutManager.monitors.length;
@@ -154,9 +154,8 @@ function enable() {
 
 function disable() {
 	// remove monitor change watch
-	if (monitor_change_signal_id) {
+	if (monitor_change_signal_id)
 		Main.layoutManager.disconnect(monitor_change_signal_id);
-	}
 
 	if (settings.get_boolean('readingstrip-enable-hotkey'))
 		Main.wm.removeKeybinding('readingstrip-hotkey');
