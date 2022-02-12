@@ -20,12 +20,35 @@ function buildPrefsWidget() {
         visible: true
     });
 
-    let aboutLabel = new Gtk.Label({
-        label: 'Reading Strip Copyright (C) 2021-22  Luigi Pantano.',
-        halign: Gtk.Align.CENTER,
+    let heightLabel = new Gtk.Label({
+        label: '<b>Height</b> (%)',
+        halign: Gtk.Align.START,
+        use_markup: true,
         visible: true
     });
-    prefsWidget.attach(aboutLabel, 0, 1, 2, 1);
+    prefsWidget.attach(heightLabel, 0, 1, 1, 1);
+
+    let height = new Gtk.SpinButton({
+        value: this.settings.get_double('readingstrip-height'),
+        digits: 1,
+        adjustment: new Gtk.Adjustment({
+            lower: 2,
+            upper: 100,
+            step_increment: 0.5,
+            page_increment: 1
+        }),
+        halign: Gtk.Align.END,
+        hexpand: true,
+        visible: true
+    });
+    prefsWidget.attach(height, 1, 1, 1, 1);
+
+    this.settings.bind(
+        'readingstrip-height',
+        height,
+        'value',
+        Gio.SettingsBindFlags.DEFAULT
+    );
 
     let opacityLabel = new Gtk.Label({
         label: '<b>Opacity</b> (%)',
@@ -88,7 +111,14 @@ function buildPrefsWidget() {
         this.settings.set_double('readingstrip-opacity', 35)
         this.settings.set_string('readingstrip-color', 'gold');
     });
-    prefsWidget.attach(resetButton, 0, 6, 1, 1);
+    prefsWidget.attach(resetButton, 0, 4, 1, 1);
+
+    let aboutLabel = new Gtk.Label({
+        label: 'Reading Strip Copyright (C) 2021-22  Luigi Pantano.',
+        halign: Gtk.Align.CENTER,
+        visible: true
+    });
+    prefsWidget.attach(aboutLabel, 0, 5, 2, 1);
 
     return prefsWidget;
 }
