@@ -41,27 +41,13 @@ gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readi
 ```
 
 # TODO
-- [x] improve performance;
-- [x] detect width screen;
-- [x] Icon panel
-- [x] multi monitor support 
-- [x] check gnome 40 compatibility;
-- [x] shortcuts **super + space** actiave/deactivate;
-- [x] height strip is 1.8% height monitor.
-
-- [x] Preferences: color;
-- [x] Preferences: height;
-- [x] Preferences: opacity;
-- [x] Preferences: shortcuts actiave/deactivate strip;
-- ~~[ ] Preferences: Languages;~~
+- [ ] Preferences: strip's color like default color theme;
 - [ ] Preferences: add blur around stripe;
 - [ ] Preferences: add blur on not focused window 
 - [ ] Preferences: add vertical stripe;
-- [ ] Preferences GUI;
-- [x] App icon --> status activate/deactivate
-
-- [x] save/restore strip position.
+- [x] Preferences GUI;
 
 # Contributors
 @justperfection
-@harshadgavali 
+@harshadgavali
+@artyomzorin

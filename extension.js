@@ -87,7 +87,6 @@ function syncSettings() {
 // synchronize hot key
 function syncHotKey(added) {
 	if (settings.get_boolean('readingstrip-enable-hotkey')) {
-		log('readingstrip: adding hotkey');
 		Main.wm.addKeybinding('readingstrip-hotkey', settings,
 			Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
 			Shell.ActionMode.ALL,
@@ -97,7 +96,6 @@ function syncHotKey(added) {
 		);
 	}
 	else if (added) {
-		log('readingstrip: removing hotkey');
 		Main.wm.removeKeybinding('readingstrip-hotkey');
 	}
 }
@@ -122,7 +120,6 @@ function enable() {
 
 	// load settings
 	setting_changed_signal_ids.push(settings.connect('changed', syncSettings));
-	log(`readingstrip: init sync settings`);
 	syncSettings();
 	syncHotKey(false);
 
