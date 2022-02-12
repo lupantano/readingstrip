@@ -2,12 +2,10 @@
 
 const Gio = imports.gi.Gio;
 const Gtk = imports.gi.Gtk;
-
 const ExtensionUtils = imports.misc.extensionUtils;
 
-let home_dir = imports.gi.GLib.get_home_dir();
-
-function init() {
+function init (){
+    // nothing to do :-D
 }
 
 function buildPrefsWidget() {
@@ -22,13 +20,12 @@ function buildPrefsWidget() {
         visible: true
     });
 
-    let reloadLabel = new Gtk.Label({
-        label: "<b>Reload the extension to apply changes</b>",
+    let aboutLabel = new Gtk.Label({
+        label: 'Reading Strip Copyright (C) 2021-22  Luigi Pantano.',
         halign: Gtk.Align.CENTER,
-        use_markup: true,
         visible: true
     });
-    prefsWidget.attach(reloadLabel, 0, 1, 2, 1);
+    prefsWidget.attach(aboutLabel, 0, 1, 2, 1);
 
     let opacityLabel = new Gtk.Label({
         label: '<b>Opacity</b> (%)',
@@ -60,52 +57,28 @@ function buildPrefsWidget() {
         Gio.SettingsBindFlags.DEFAULT
     );
 
-    let enabledLabel = new Gtk.Label({
-        label: '<b>Enable:</b>',
+    let colorLabel = new Gtk.Label({
+        label: '<b>Color</b>:',
         halign: Gtk.Align.START,
         use_markup: true,
         visible: true
     });
-    prefsWidget.attach(enabledLabel, 0, 4, 1, 1);
+    prefsWidget.attach(colorLabel, 0, 3, 1, 1);
 
-    let enabledToggle = new Gtk.Switch({
-        active: this.settings.get_boolean ('enabled'),
+    let colorEntry = new Gtk.Entry({
+        text: this.settings.get_string('readingstrip-color'),
         halign: Gtk.Align.END,
         hexpand: true,
         visible: true
     });
-    prefsWidget.attach(enabledToggle, 1, 4, 1, 1);
+    prefsWidget.attach(colorEntry, 1, 3, 1, 1);
 
     this.settings.bind(
-        'enabled',
-        enabledToggle,
-        'active',
+        'readingstrip-color',
+        colorEntry,
+        'text',
         Gio.SettingsBindFlags.DEFAULT
     );
-
-    let colorLabel = new Gtk.Label({
-        label: '<b>Color:</b>',
-        halign: Gtk.Align.START,
-        use_markup: true,
-        visible: true
-    });
-    prefsWidget.attach(colorLabel, 0, 5, 1, 1);
-
-    let colorToggle = new Gtk.ComboBoxText({
-        halign: Gtk.Align.END,
-        visible: true
-    });
-    this.colorToggle = new Gtk.ComboBoxText();
-    let options = ["gold", "red", "green", "blue", "pink", "default theme color"]
-    for (let item of options)
-        colorToggle.append_text(item);
-
-    colorToggle.set_active(this.settings.get_string("readingstrip-color") || 0);
-    colorToggle.connect('changed', combobox => {
-        this.settings.set_string("readingstrip-color", combobox.get_active());
-    });
-    colorToggle.set_active(this.settings.get_string("readingstrip-color") || 0);
-    prefsWidget.attach(colorToggle, 1, 5, 1, 1);
 
     let resetButton = new Gtk.Button({
         label: "Reset Settings",
@@ -114,9 +87,8 @@ function buildPrefsWidget() {
     resetButton.connect('clicked', () => {
         this.settings.set_double('readingstrip-opacity', 35)
         this.settings.set_string('readingstrip-color', 'gold');
-        this.settings.set_boolean('enabled', false);
     });
-    prefsWidget.attach(resetButton, 0, 6, 2, 1);
+    prefsWidget.attach(resetButton, 0, 6, 1, 1);
 
     return prefsWidget;
 }
