@@ -108,7 +108,8 @@ function buildPrefsWidget() {
         visible: true
     });
     resetButton.connect('clicked', () => {
-        this.settings.set_double('readingstrip-opacity', 35)
+        this.settings.set_double('readingstrip-opacity', 35);
+        this.settings.set_double('readingstrip-height', 2);
         this.settings.set_string('readingstrip-color', 'gold');
     });
     prefsWidget.attach(resetButton, 0, 4, 1, 1);
