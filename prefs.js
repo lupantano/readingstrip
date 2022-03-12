@@ -20,13 +20,21 @@ function buildPrefsWidget() {
         visible: true
     });
 
+    let shortcutsLabel = new Gtk.Label({
+        label: 'You can activate/deactive with <b>SUPER+CTRL+SPACE</b> or click on icon panel',
+        halign: Gtk.Align.CENTER,
+        useMarkup: true,
+        visible: true
+    });
+    prefsWidget.attach(shortcutsLabel, 0, 1, 2, 1);
+
     let heightLabel = new Gtk.Label({
         label: '<b>Height</b> (%)',
         halign: Gtk.Align.START,
         use_markup: true,
         visible: true
     });
-    prefsWidget.attach(heightLabel, 0, 1, 1, 1);
+    prefsWidget.attach(heightLabel, 0, 2, 1, 1);
 
     let height = new Gtk.SpinButton({
         value: this.settings.get_double('readingstrip-height'),
@@ -41,7 +49,7 @@ function buildPrefsWidget() {
         hexpand: true,
         visible: true
     });
-    prefsWidget.attach(height, 1, 1, 1, 1);
+    prefsWidget.attach(height, 1, 2, 1, 1);
 
     this.settings.bind(
         'readingstrip-height',
@@ -56,7 +64,7 @@ function buildPrefsWidget() {
         use_markup: true,
         visible: true
     });
-    prefsWidget.attach(opacityLabel, 0, 2, 1, 1);
+    prefsWidget.attach(opacityLabel, 0, 3, 1, 1);
 
     let opacity = new Gtk.SpinButton({
         value: this.settings.get_double('readingstrip-opacity'),
@@ -71,7 +79,7 @@ function buildPrefsWidget() {
         hexpand: true,
         visible: true
     });
-    prefsWidget.attach(opacity, 1, 2, 1, 1);
+    prefsWidget.attach(opacity, 1, 3, 1, 1);
 
     this.settings.bind(
         'readingstrip-opacity',
@@ -86,7 +94,7 @@ function buildPrefsWidget() {
         use_markup: true,
         visible: true
     });
-    prefsWidget.attach(colorLabel, 0, 3, 1, 1);
+    prefsWidget.attach(colorLabel, 0, 4, 1, 1);
 
     let colorEntry = new Gtk.Entry({
         text: this.settings.get_string('readingstrip-color'),
@@ -94,7 +102,7 @@ function buildPrefsWidget() {
         hexpand: true,
         visible: true
     });
-    prefsWidget.attach(colorEntry, 1, 3, 1, 1);
+    prefsWidget.attach(colorEntry, 1, 4, 1, 1);
 
     this.settings.bind(
         'readingstrip-color',
@@ -105,6 +113,7 @@ function buildPrefsWidget() {
 
     let resetButton = new Gtk.Button({
         label: "Reset Settings",
+        hexpand: true,
         visible: true
     });
     resetButton.connect('clicked', () => {
@@ -112,14 +121,15 @@ function buildPrefsWidget() {
         this.settings.set_double('readingstrip-height', 2);
         this.settings.set_string('readingstrip-color', 'gold');
     });
-    prefsWidget.attach(resetButton, 0, 4, 1, 1);
+    prefsWidget.attach(resetButton, 0, 5, 1, 1);
 
     let aboutLabel = new Gtk.Label({
-        label: 'Reading Strip Copyright (C) 2021-22  Luigi Pantano.',
+        label: '<a href="https://github.com/lupantano/readingstrip">Reading Strip</a> Copyright (C) 2021 <a href="https://matrix.to/#/@lupantano:matrix.org">Luigi Pantano</a>',
         halign: Gtk.Align.CENTER,
+        use_markup: true,
         visible: true
     });
-    prefsWidget.attach(aboutLabel, 0, 5, 2, 1);
+    prefsWidget.attach(aboutLabel, 0, 6, 2, 1);
 
     return prefsWidget;
 }

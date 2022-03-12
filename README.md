@@ -18,7 +18,7 @@ After cloning the repo, the extension is practically installed yet disabled. In 
 
 # Use
 
-You can activate/deactive with **super + space** or click on icon panel.
+You can activate/deactive with **<Super><Ctrl>space**, **<Super>space** or click on icon panel.
 
 # Settings
 
@@ -45,6 +45,7 @@ gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readi
 - [ ] Preferences: add blur around stripe;
 - [ ] Preferences: add blur on not focused window 
 - [ ] Preferences: add vertical stripe;
+- [ ] Preferences: add shortcuts change;
 - [x] Preferences GUI;
 
 # Contributors

@@ -28,7 +28,7 @@
             <description/>
         </key>
         <key name="readingstrip-hotkey" type="as">
-            <default><![CDATA[['<Super>space']]]></default>
+            <default><![CDATA[['<Super><Control>space','<Super>space']]]></default>
             <summary>Hotkey to enable/disable the strip</summary>
             <description/>
         </key>
