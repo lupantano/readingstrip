@@ -1,7 +1,7 @@
 # Reading Strip
 It is a **extension for Gnome-Shell** with an equivalent function to a reading guide on the computer, that's really useful for people with **dyslexia**.
 
-![Sample](sample.png)
+![Sample](img/sample_1.png)
 
 # Installation
 * Install from [gnome extensions site](https://extensions.gnome.org/extension/4419/reading-strip/);
@@ -20,6 +20,7 @@ After cloning the repo, the extension is practically installed yet disabled. In 
 You can activate/deactive with **Super+Ctrl+space**, **Super+space** or click on icon panel.
 
 # Settings
+![Sample](img/sample_1.png)
 
 ```
 cd ~/.local/share/gnome-shell/extensions/readingstrip@lupantano.gihthub/
