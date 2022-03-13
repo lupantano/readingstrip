@@ -20,7 +20,7 @@ After cloning the repo, the extension is practically installed yet disabled. In 
 You can activate/deactive with **Super+Ctrl+space**, **Super+space** or click on icon panel.
 
 # Settings
-![Sample](img/sample_1.png)
+![Sample](img/sample_2.png)
 
 ```
 cd ~/.local/share/gnome-shell/extensions/readingstrip@lupantano.gihthub/
