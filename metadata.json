@@ -5,7 +5,8 @@
   "shell-version": [
     "3.36",
     "40",
-    "41"
+    "41",
+    "42"
   ],
   "url": "https://github.com/lupantano/readingstrip",
   "uuid": "readingstrip@lupantano.gihthub",
