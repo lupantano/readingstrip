@@ -1,0 +1,7 @@
+#+TITLE: Todo
+
+* BLUR
+https://extensions.gnome.org/extension/891/windows-blur-effects/
+https://github.com/mipmip/gnome-shell-extensions-highlight-focus/tree/main/src
+
+L'unione delle due darebbe l'effetto voluto.

@@ -23,12 +23,7 @@ const ExtensionUtils = imports.misc.extensionUtils;
 const Extension = ExtensionUtils.getCurrentExtension();
 
 // TODO: adjust interval value according to different frame rates of different monitor
-try {
-    const interval = 1000 / Clutter.get_default_frame_rate();
-} catch (err) {
-    // GNOME 42
-    const interval = 1000 / 30;
-}
+const interval = 1000 / 60;
 
 let panelButton, panelButtonIcon, panelButtonIcon_on, panelButtonIcon_off, strip, pointerWatch;
 let settings, setting_changed_signal_ids = [];
