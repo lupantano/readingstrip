@@ -34,10 +34,8 @@ gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readi
 # readingstrip-enable-hotkey false:true, default = true
 gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-enable-hotkey true
 
-# readingstrip-color #00000 : #FFFFFF, default = gold
-gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-color gold
-gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-color red
-gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-color "#2233FF"
+# readingstrip-color  rgb(0,0,0): rgb(255,255,255), default = rgb(246,211,45)
+gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-color rgb(246,211,45)
 ```
 
 # TODO
@@ -46,6 +44,7 @@ gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readi
 - [ ] Preferences: add blur on not focused window 
 - [ ] Preferences: add vertical stripe;
 - [ ] Preferences: add shortcuts change;
+- [x] Preferences: color button;
 - [x] Preferences GUI;
 
 # Contributors

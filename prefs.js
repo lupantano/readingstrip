@@ -1,7 +1,6 @@
 'use strict';
 
-const Gio = imports.gi.Gio;
-const Gtk = imports.gi.Gtk;
+const { Gio, Gtk, Gdk } = imports.gi;
 const ExtensionUtils = imports.misc.extensionUtils;
 
 function init (){
@@ -16,23 +15,20 @@ function buildPrefsWidget() {
         margin_top: 40,
         margin_bottom: 40,
         column_spacing: 20,
-        row_spacing: 12,
-        visible: true
+        row_spacing: 12
     });
 
     let shortcutsLabel = new Gtk.Label({
         label: 'You can activate/deactive with <b>SUPER+CTRL+SPACE</b> or click on icon panel',
         halign: Gtk.Align.CENTER,
-        useMarkup: true,
-        visible: true
+        useMarkup: true
     });
     prefsWidget.attach(shortcutsLabel, 0, 1, 2, 1);
 
     let heightLabel = new Gtk.Label({
         label: '<b>Height</b> (%)',
         halign: Gtk.Align.START,
-        use_markup: true,
-        visible: true
+        use_markup: true
     });
     prefsWidget.attach(heightLabel, 0, 2, 1, 1);
 
@@ -46,8 +42,7 @@ function buildPrefsWidget() {
             page_increment: 1
         }),
         halign: Gtk.Align.END,
-        hexpand: true,
-        visible: true
+        hexpand: true
     });
     prefsWidget.attach(height, 1, 2, 1, 1);
 
@@ -61,8 +56,7 @@ function buildPrefsWidget() {
     let opacityLabel = new Gtk.Label({
         label: '<b>Opacity</b> (%)',
         halign: Gtk.Align.START,
-        use_markup: true,
-        visible: true
+        use_markup: true
     });
     prefsWidget.attach(opacityLabel, 0, 3, 1, 1);
 
@@ -76,8 +70,7 @@ function buildPrefsWidget() {
             page_increment: 20
         }),
         halign: Gtk.Align.END,
-        hexpand: true,
-        visible: true
+        hexpand: true
     });
     prefsWidget.attach(opacity, 1, 3, 1, 1);
 
@@ -91,43 +84,37 @@ function buildPrefsWidget() {
     let colorLabel = new Gtk.Label({
         label: '<b>Color</b>:',
         halign: Gtk.Align.START,
-        use_markup: true,
-        visible: true
+        use_markup: true
     });
     prefsWidget.attach(colorLabel, 0, 4, 1, 1);
 
-    let colorEntry = new Gtk.Entry({
-        text: this.settings.get_string('readingstrip-color'),
-        halign: Gtk.Align.END,
-        hexpand: true,
-        visible: true
+    let rgba = new Gdk.RGBA();
+    rgba.parse(this.settings.get_string('readingstrip-color'));
+    let colorButton = new Gtk.ColorButton({
+        hexpand: false
     });
-    prefsWidget.attach(colorEntry, 1, 4, 1, 1);
+    colorButton.set_rgba(rgba);
+    prefsWidget.attach(colorButton, 1, 4, 1, 1);
 
-    this.settings.bind(
-        'readingstrip-color',
-        colorEntry,
-        'text',
-        Gio.SettingsBindFlags.DEFAULT
-    );
+    colorButton.connect('color-set', () => {
+        this.settings.set_string('readingstrip-color', colorButton.get_rgba().to_string());
+    });
 
     let resetButton = new Gtk.Button({
         label: "Reset Settings",
-        hexpand: true,
-        visible: true
+        hexpand: true
     });
     resetButton.connect('clicked', () => {
         this.settings.set_double('readingstrip-opacity', 35);
         this.settings.set_double('readingstrip-height', 2);
-        this.settings.set_string('readingstrip-color', 'gold');
+        this.settings.set_string('readingstrip-color', 'rgb(246,211,45)');
     });
-    prefsWidget.attach(resetButton, 0, 5, 1, 1);
+    prefsWidget.attach(resetButton, 1, 5, 1, 1);
 
     let aboutLabel = new Gtk.Label({
         label: '<a href="https://github.com/lupantano/readingstrip">Reading Strip</a> Copyright (C) 2021 <a href="https://matrix.to/#/@lupantano:matrix.org">Luigi Pantano</a>',
         halign: Gtk.Align.CENTER,
-        use_markup: true,
-        visible: true
+        use_markup: true
     });
     prefsWidget.attach(aboutLabel, 0, 6, 2, 1);
 

@@ -13,7 +13,7 @@
             <description/>
         </key>
         <key name="readingstrip-color" type="s">
-            <default>"gold"</default>
+            <default>"rgb(246,211,45)"</default>
             <summary>Strip color</summary>
             <description/>
         </key>
