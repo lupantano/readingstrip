@@ -4,11 +4,12 @@
   "settings-schema": "org.gnome.shell.extensions.readingstrip",
   "shell-version": [
     "3.36",
+    "3.38",
     "40",
     "41",
     "42"
   ],
   "url": "https://github.com/lupantano/readingstrip",
-  "uuid": "readingstrip@lupantano.gihthub",
-  "version": 16
+  "uuid": "readingstrip@lupantano",
+  "version": 17
 }

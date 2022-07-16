@@ -42,7 +42,6 @@ function buildPrefsWidget() {
             page_increment: 1
         }),
         halign: Gtk.Align.END,
-        hexpand: true
     });
     prefsWidget.attach(height, 1, 2, 1, 1);
 
@@ -70,7 +69,6 @@ function buildPrefsWidget() {
             page_increment: 20
         }),
         halign: Gtk.Align.END,
-        hexpand: true
     });
     prefsWidget.attach(opacity, 1, 3, 1, 1);
 
@@ -90,9 +88,7 @@ function buildPrefsWidget() {
 
     let rgba = new Gdk.RGBA();
     rgba.parse(this.settings.get_string('readingstrip-color'));
-    let colorButton = new Gtk.ColorButton({
-        hexpand: false
-    });
+    let colorButton = new Gtk.ColorButton();
     colorButton.set_rgba(rgba);
     prefsWidget.attach(colorButton, 1, 4, 1, 1);
 
@@ -101,8 +97,7 @@ function buildPrefsWidget() {
     });
 
     let resetButton = new Gtk.Button({
-        label: "Reset Settings",
-        hexpand: true
+        label: "Reset Settings"
     });
     resetButton.connect('clicked', () => {
         this.settings.set_double('readingstrip-opacity', 35);

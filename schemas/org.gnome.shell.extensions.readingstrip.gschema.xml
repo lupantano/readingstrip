@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
     <schema id="org.gnome.shell.extensions.readingstrip" path="/org/gnome/shell/extensions/readingstrip/">
-        <!-- See also: https://developer.gnome.org/glib/stable/gvariant-format-strings.html -->
         <key name="enabled" type="b">
             <default>true</default>
             <summary>State of extension, whether it's enabled or disabled using indicator icon in panel</summary>
-            <description/>
+            <description>State of extension, whether it's enabled or disabled using indicator icon in panel</description>
         </key>
         <key name="readingstrip-enable-hotkey" type="b">
             <default>true</default>
             <summary>Whether to enable hotkey</summary>
-            <description/>
+            <description>Whether to enable hotkey</description>
         </key>
         <key name="readingstrip-color" type="s">
             <default>"rgb(246,211,45)"</default>
             <summary>Strip color</summary>
-            <description/>
+            <description>Strip color</description>
         </key>
         <key name="readingstrip-opacity" type="d">
             <default>35</default>
             <summary>% of opacity</summary>
-            <description/>
+            <description>% of opacity</description>
         </key>
         <key name="readingstrip-height" type="d">
             <default>2.0</default>
             <summary>% of height of monitor</summary>
-            <description/>
+            <description>% of height of monitor</description>
         </key>
         <key name="readingstrip-hotkey" type="as">
             <default><![CDATA[['<Super><Control>space','<Super>space']]]></default>
             <summary>Hotkey to enable/disable the strip</summary>
-            <description/>
+            <description>Hotkey to enable/disable the strip</description>
         </key>
     </schema>
 </schemalist>
