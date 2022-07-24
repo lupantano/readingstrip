@@ -95,7 +95,7 @@ function buildPrefsWidget() {
 	this.settings.bind(
 		'color',
 		colorButton,
-		'rgba',
+		'rgba.to_string()',
 		Gio.SettingsBindFlags.DEFAULT
 	);
 

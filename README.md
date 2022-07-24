@@ -31,7 +31,7 @@ gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip heigh
 # opacity 1:100, default = 35
 gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip opacity 35
 
-# readingstrip-color  rgb(0,0,0): rgb(255,255,255), default = rgb(246,211,45)
+# color  rgb(0,0,0): rgb(255,255,255), default = rgb(246,211,45)
 gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip color rgb(246,211,45)
 ```
 

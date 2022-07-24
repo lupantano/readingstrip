@@ -19,6 +19,7 @@ const { St, Clutter, GObject, Meta, Shell, Gio } = imports.gi;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const PointerWatcher = imports.ui.pointerWatcher;
+const pointerWatcher = PointerWatcher.getPointerWatcher();
 const ExtensionUtils = imports.misc.extensionUtils;
 const Extension = ExtensionUtils.getCurrentExtension();
 const interval = 1000 / 60;
@@ -29,7 +30,7 @@ let panelButton, panelButtonIcon;
 let strip_h, strip_v, pointerWatch;
 let settings, setting_changed_signal_ids = [];
 let currentMonitor = Main.layoutManager.currentMonitor;
-let num_monitors = Main.layoutManager.monitors.length;;
+let num_monitors = Main.layoutManager.monitors.length;
 let monitor_change_signal_id = 0;
 
 // panel menu
@@ -50,34 +51,42 @@ const ReadingStrip = GObject.registerClass(
 );
 
 // follow cursor position, and monitor as well
-function syncStrip(x, y, monitor_changed = false) {
+function syncStrip(monitor_changed = false) {
+    const [x, y] = global.get_pointer();
 	if (monitor_changed || num_monitors > 1) {
 		currentMonitor = Main.layoutManager.currentMonitor;
 		strip_h.x = currentMonitor.x;
 		strip_h.width = currentMonitor.width;
+
+        strip_v.x = x - strip_v.width;
+		strip_v.height = currentMonitor.height;
 	}
 
-	strip_h.y = (y - strip_h.height / 2);
+	strip_h.y = y - strip_h.height / 2;
+    strip_v.y = currentMonitor.y;
 }
 
 // toggle strip on or off
 function toggleReadingStrip() {
-	if (strip_h.visible) {
+	if (strip_h.visible && strip_v.visible) {
 		panelButtonIcon.gicon = panelButtonIcon_off;
 		pointerWatch.remove();
 		pointerWatch = null;
 	} else {
 		panelButtonIcon.gicon = panelButtonIcon_on;
-		const [x, y] = global.get_pointer();
-		syncStrip(x, y, true);
-		const pointerWatcher = PointerWatcher.getPointerWatcher();
+		syncStrip(true);
 		pointerWatch = pointerWatcher.addWatch(interval, syncStrip);
 	}
 	strip_h.visible = !strip_h.visible;
+    strip_v.visible = !strip_h.visible;
 	settings.set_boolean('enabled', strip_h.visible);
 }
 
 function enable() {
+	// add button to top panel
+	panelButton = new ReadingStrip();
+	Main.panel.addToStatusArea('ReadingStrip', panelButton);
+
 	// create horizontal strip
 	strip_h = new St.Widget({
 		reactive: false,
@@ -87,12 +96,26 @@ function enable() {
 	});
 	Main.uiGroup.add_child(strip_h);
 
+    // create vertical strip
+	strip_v = new St.Widget({
+		reactive: false,
+		can_focus: false,
+		track_hover: false,
+		visible: false
+	});
+	Main.uiGroup.add_child(strip_v);
+
 	// synchronize extension state with current settings
 	settings = ExtensionUtils.getSettings();
 	setting_changed_signal_ids.push(settings.connect('changed', () => {
 		strip_h.style = 'background-color : ' + settings.get_string('color');
 		strip_h.opacity = settings.get_double('opacity') * 255/100;
 		strip_h.height = settings.get_double('height') * currentMonitor.height/100;
+
+        strip_v.visible = strip_h.visible && settings.get_boolean('vertical');
+        strip_v.style = strip_h.style;
+		strip_v.opacity = strip_h.opacity;
+		strip_v.width = strip_h.height / 2;
 	}));
 
 	// load previous state
@@ -108,18 +131,13 @@ function enable() {
 						  }
 						 );
 
-	// add button to top panel
-	panelButton = new ReadingStrip();
-	Main.panel.addToStatusArea('ReadingStrip', panelButton);
-
 	// watch for monitor changes
 	monitor_change_signal_id = Main.layoutManager.connect('monitors-changed', () => {
 		num_monitors = Main.layoutManager.monitors.length;
 	});
 
 	// sync with current monitor
-	const [x, y] = global.get_pointer();
-	syncStrip(x, y, true);
+	syncStrip(true);
 }
 
 function disable() {
@@ -135,14 +153,13 @@ function disable() {
 	panelButton.destroy();
 	panelButton = null;
 	Main.uiGroup.remove_child(strip_h);
+    Main.uiGroup.remove_child(strip_v);
 
-	if (pointerWatch) {
-		pointerWatch.remove();
-		pointerWatch = null;
-	}
+	pointerWatch.remove();
+	pointerWatch = null;
+	strip_h.destroy;
+	strip_h = null;
 
-	if (strip) {
-		strip.destroy;
-		strip = null;
-	}
+	strip_v.destroy;
+	strip_v = null;
 }
