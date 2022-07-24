@@ -21,14 +21,15 @@ const PanelMenu = imports.ui.panelMenu;
 const PointerWatcher = imports.ui.pointerWatcher;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Extension = ExtensionUtils.getCurrentExtension();
-
-// TODO: adjust interval value according to different frame rates of different monitor
 const interval = 1000 / 60;
+const panelButtonIcon_on = Gio.icon_new_for_string(`${Extension.path}/icons/readingstrip-on-symbolic.svg`);
+const panelButtonIcon_off = Gio.icon_new_for_string(`${Extension.path}/icons/readingstrip-off-symbolic.svg`);
 
-let panelButton, panelButtonIcon, panelButtonIcon_on, panelButtonIcon_off, strip, pointerWatch;
+let panelButton, panelButtonIcon;
+let strip_h, strip_v, pointerWatch;
 let settings, setting_changed_signal_ids = [];
 let currentMonitor = Main.layoutManager.currentMonitor;
-let num_monitors = 1;
+let num_monitors = Main.layoutManager.monitors.length;;
 let monitor_change_signal_id = 0;
 
 // panel menu
@@ -52,101 +53,73 @@ const ReadingStrip = GObject.registerClass(
 function syncStrip(x, y, monitor_changed = false) {
 	if (monitor_changed || num_monitors > 1) {
 		currentMonitor = Main.layoutManager.currentMonitor;
-		strip.x = currentMonitor.x;
-		strip.width = currentMonitor.width;
+		strip_h.x = currentMonitor.x;
+		strip_h.width = currentMonitor.width;
 	}
 
-	strip.y = (y - strip.height / 2);
+	strip_h.y = (y - strip_h.height / 2);
 }
 
 // toggle strip on or off
 function toggleReadingStrip() {
-	if (strip.visible) {
-		strip.visible = false;
-        panelButtonIcon.gicon = panelButtonIcon_off;
+	if (strip_h.visible) {
+		panelButtonIcon.gicon = panelButtonIcon_off;
 		pointerWatch.remove();
 		pointerWatch = null;
-	}	else {
-		strip.visible = true;
-        panelButtonIcon.gicon = panelButtonIcon_on;
+	} else {
+		panelButtonIcon.gicon = panelButtonIcon_on;
 		const [x, y] = global.get_pointer();
 		syncStrip(x, y, true);
 		const pointerWatcher = PointerWatcher.getPointerWatcher();
 		pointerWatch = pointerWatcher.addWatch(interval, syncStrip);
 	}
-	settings.set_boolean('enabled', strip.visible);
-}
-
-// synchronize extension state with current settings
-function syncSettings() {
-	strip.style = 'background-color : ' + settings.get_string('readingstrip-color');
-	strip.opacity = settings.get_double('readingstrip-opacity') * 255/100;
-	strip.height = settings.get_double('readingstrip-height') * currentMonitor.height/100;
-}
-
-// synchronize hot key
-function syncHotKey(added) {
-	if (settings.get_boolean('readingstrip-enable-hotkey')) {
-		Main.wm.addKeybinding('readingstrip-hotkey', settings,
-			Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
-			Shell.ActionMode.ALL,
-			() => {
-				toggleReadingStrip();
-			}
-		);
-	}
-	else if (added) {
-		Main.wm.removeKeybinding('readingstrip-hotkey');
-	}
+	strip_h.visible = !strip_h.visible;
+	settings.set_boolean('enabled', strip_h.visible);
 }
 
 function enable() {
-    // load icons
-	panelButtonIcon_on = Gio.icon_new_for_string(`${Extension.path}/icons/readingstrip-on-symbolic.svg`);
-    panelButtonIcon_off = Gio.icon_new_for_string(`${Extension.path}/icons/readingstrip-off-symbolic.svg`);
-
-	// get settings
-	settings = ExtensionUtils.getSettings();
-
-	// create strip
-	strip = new St.Widget({
+	// create horizontal strip
+	strip_h = new St.Widget({
 		reactive: false,
 		can_focus: false,
 		track_hover: false,
 		visible: false
 	});
+	Main.uiGroup.add_child(strip_h);
 
-	Main.uiGroup.add_child(strip);
-
-	// load settings
-	setting_changed_signal_ids.push(settings.connect('changed', syncSettings));
-	syncSettings();
-	syncHotKey(false);
-
-	// hotkey 
-	setting_changed_signal_ids.push(settings.connect('changed::enable-hotkey', () => {
-		syncHotKey(true);
+	// synchronize extension state with current settings
+	settings = ExtensionUtils.getSettings();
+	setting_changed_signal_ids.push(settings.connect('changed', () => {
+		strip_h.style = 'background-color : ' + settings.get_string('color');
+		strip_h.opacity = settings.get_double('opacity') * 255/100;
+		strip_h.height = settings.get_double('height') * currentMonitor.height/100;
 	}));
-
-	// sync with current monitor
-	const [x, y] = global.get_pointer();
-	syncStrip(x, y, true);
-
-	// add button to top panel
-	panelButton = new ReadingStrip();
-	Main.panel.addToStatusArea('ReadingStrip', panelButton);
 
 	// load previous state
 	if (settings.get_boolean('enabled'))
 		toggleReadingStrip();
 
+	// synchronize hot key
+	Main.wm.addKeybinding('hotkey', settings,
+						  Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
+						  Shell.ActionMode.ALL,
+						  () => {
+							  toggleReadingStrip();
+						  }
+						 );
+
+	// add button to top panel
+	panelButton = new ReadingStrip();
+	Main.panel.addToStatusArea('ReadingStrip', panelButton);
+
 	// watch for monitor changes
-	num_monitors = Main.layoutManager.monitors.length;
 	monitor_change_signal_id = Main.layoutManager.connect('monitors-changed', () => {
 		num_monitors = Main.layoutManager.monitors.length;
-		const [x, y] = global.get_pointer();
-		syncStrip(x, y, true);
 	});
+
+	// sync with current monitor
+	const [x, y] = global.get_pointer();
+	syncStrip(x, y, true);
 }
 
 function disable() {
@@ -154,15 +127,14 @@ function disable() {
 	if (monitor_change_signal_id)
 		Main.layoutManager.disconnect(monitor_change_signal_id);
 
-	if (settings.get_boolean('readingstrip-enable-hotkey'))
-		Main.wm.removeKeybinding('readingstrip-hotkey');
+	Main.wm.removeKeybinding('hotkey');
 	setting_changed_signal_ids.forEach(id => settings.disconnect(id));
 	setting_changed_signal_ids = [];
 	settings = null;
 
 	panelButton.destroy();
 	panelButton = null;
-	Main.uiGroup.remove_child(strip);
+	Main.uiGroup.remove_child(strip_h);
 
 	if (pointerWatch) {
 		pointerWatch.remove();

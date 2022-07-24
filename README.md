@@ -14,7 +14,7 @@ git clone https://github.com/lupantano/readingstrip.git
 cd readingstrip && make
 ```
 
-After cloning the repo, the extension is practically installed yet disabled. In order to enable it, you need to use gnome-tweak-tool - find the extension, titled 'Reading Strip', in the 'Extensions' screen and turn it 'On'. You may need to restart the shell (Alt+F2 and insert 'r' in the prompt) for the extension to be listed there.
+After cloning the repo, the extension is practically installed yet disabled. In order to enable it, you need to use gnome-extensions-app - find the extension, titled 'Reading Strip', in the 'Extensions' screen and turn it 'On'.
 
 # Use
 You can activate/deactive with **Super+Ctrl+space**, **Super+space** or click on icon panel.
@@ -26,16 +26,13 @@ You can activate/deactive with **Super+Ctrl+space**, **Super+space** or click on
 cd ~/.local/share/gnome-shell/extensions/readingstrip@lupantano.gihthub/
 
 # height 1:100, default = 2
-gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-height 2
+gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip height 2
 
 # opacity 1:100, default = 35
-gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-opacity 35
-
-# readingstrip-enable-hotkey false:true, default = true
-gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-enable-hotkey true
+gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip opacity 35
 
 # readingstrip-color  rgb(0,0,0): rgb(255,255,255), default = rgb(246,211,45)
-gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip readingstrip-color rgb(246,211,45)
+gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip color rgb(246,211,45)
 ```
 
 # TODO
