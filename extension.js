@@ -52,18 +52,18 @@ const ReadingStrip = GObject.registerClass(
 
 // follow cursor position, and monitor as well
 function syncStrip(monitor_changed = false) {
-    const [x, y] = global.get_pointer();
+	const [x, y] = global.get_pointer();
 	if (monitor_changed || num_monitors > 1) {
 		currentMonitor = Main.layoutManager.currentMonitor;
 		strip_h.x = currentMonitor.x;
 		strip_h.width = currentMonitor.width;
 
-        strip_v.x = x - strip_v.width;
+		strip_v.x = x - strip_v.width;
 		strip_v.height = currentMonitor.height;
 	}
 
 	strip_h.y = y - strip_h.height / 2;
-    strip_v.y = currentMonitor.y;
+	strip_v.y = currentMonitor.y;
 }
 
 // toggle strip on or off
@@ -78,7 +78,7 @@ function toggleReadingStrip() {
 		pointerWatch = pointerWatcher.addWatch(interval, syncStrip);
 	}
 	strip_h.visible = !strip_h.visible;
-    strip_v.visible = strip_h.visible;
+	strip_v.visible = strip_h.visible;
 	settings.set_boolean('enabled', strip_h.visible);
 }
 
@@ -96,7 +96,7 @@ function enable() {
 	});
 	Main.uiGroup.add_child(strip_h);
 
-    // create vertical strip
+	// create vertical strip
 	strip_v = new St.Widget({
 		reactive: false,
 		can_focus: false,
@@ -112,8 +112,8 @@ function enable() {
 		strip_h.opacity = settings.get_double('opacity') * 255/100;
 		strip_h.height = settings.get_double('height') * currentMonitor.height/100;
 
-        strip_v.visible = strip_h.visible && settings.get_boolean('vertical');
-        strip_v.style = strip_h.style;
+		strip_v.visible = strip_h.visible && settings.get_boolean('vertical');
+		strip_v.style = strip_h.style;
 		strip_v.opacity = strip_h.opacity;
 		strip_v.width = strip_h.height / 4;
 	}));
@@ -153,7 +153,7 @@ function disable() {
 	panelButton.destroy();
 	panelButton = null;
 	Main.uiGroup.remove_child(strip_h);
-    Main.uiGroup.remove_child(strip_v);
+	Main.uiGroup.remove_child(strip_v);
 
 	pointerWatch.remove();
 	pointerWatch = null;
