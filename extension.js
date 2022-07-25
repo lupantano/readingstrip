@@ -115,7 +115,7 @@ function enable() {
         strip_v.visible = strip_h.visible && settings.get_boolean('vertical');
         strip_v.style = strip_h.style;
 		strip_v.opacity = strip_h.opacity;
-		strip_v.width = strip_h.height / 2;
+		strip_v.width = strip_h.height / 4;
 	}));
 
 	// load previous state
