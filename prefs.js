@@ -41,7 +41,7 @@ function buildPrefsWidget() {
 			step_increment: 0.5,
 			page_increment: 1
 		}),
-		halign: Gtk.Align.END,
+		halign: Gtk.Align.END
 	});
 	prefsWidget.attach(heightSpinButton, 1, 2, 1, 1);
 
@@ -68,7 +68,7 @@ function buildPrefsWidget() {
 			step_increment: 5,
 			page_increment: 20
 		}),
-		halign: Gtk.Align.END,
+		halign: Gtk.Align.END
 	});
 	prefsWidget.attach(opacitySpinButton, 1, 3, 1, 1);
 
@@ -139,6 +139,7 @@ function buildPrefsWidget() {
 		use_markup: true
 	});
 	prefsWidget.attach(aboutLabel, 0, 7, 2, 1);
+    prefsWidget.show_all();
 
 	return prefsWidget;
 }
