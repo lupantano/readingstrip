@@ -3,6 +3,8 @@ It is a **extension for Gnome-Shell** with an equivalent function to a reading g
 
 ![Sample](img/sample_1.png)
 
+![Video Sample](img/sample.gif)
+
 # Installation
 * Install from [gnome extensions site](https://extensions.gnome.org/extension/4419/reading-strip/);
 * Install via git:
@@ -23,7 +25,7 @@ You can activate/deactive with **Super+Ctrl+space**, **Super+space** or click on
 ![Sample](img/sample_2.png)
 
 ```
-cd ~/.local/share/gnome-shell/extensions/readingstrip@lupantano
+cd ~/.local/share/gnome-shell/extensions/readingstrip@lupantano.gihthub
 
 # height 1:100, default = 2
 gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip height 2
