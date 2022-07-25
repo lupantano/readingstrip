@@ -10,29 +10,33 @@ function init (){
 function buildPrefsWidget() {
 	this.settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.readingstrip');
 	let prefsWidget = new Gtk.Grid({
-		margin_start: 40,
-		margin_end: 40,
-		margin_top: 40,
-		margin_bottom: 40,
-		column_spacing: 20,
-		row_spacing: 12
+		margin_start: 5,
+		margin_end: 5,
+		margin_top: 5,
+		margin_bottom: 5,
+		row_spacing: 10,
+        column_homogeneous: true,
+		visible: true
 	});
 
 	let shortcutsLabel = new Gtk.Label({
-		label: 'You can activate/deactive with <b>SUPER+CTRL+SPACE</b> or click on icon panel',
+		label: 'You can activate/deactive with <b>SUPER+CTRL+SPACE</b> \n or click on icon panel',
 		halign: Gtk.Align.CENTER,
-		useMarkup: true
+		justify: Gtk.Align.CENTER,
+		useMarkup: true,
+		visible: true
 	});
 	prefsWidget.attach(shortcutsLabel, 0, 1, 2, 1);
 
-	let heightLabel = new Gtk.Label({
-		label: '<b>Height</b> (%)',
-		halign: Gtk.Align.START,
-		use_markup: true
+	let sizeLabel = new Gtk.Label({
+		label: '<b>Size</b> (%)',
+		halign: Gtk.Align.CENTER,
+		use_markup: true,
+		visible: true
 	});
-	prefsWidget.attach(heightLabel, 0, 2, 1, 1);
+	prefsWidget.attach(sizeLabel, 0, 2, 1, 1);
 
-	let heightSpinButton = new Gtk.SpinButton({
+	let sizeSpinButton = new Gtk.SpinButton({
 		value: this.settings.get_double('height'),
 		digits: 1,
 		adjustment: new Gtk.Adjustment({
@@ -41,21 +45,23 @@ function buildPrefsWidget() {
 			step_increment: 0.5,
 			page_increment: 1
 		}),
-		halign: Gtk.Align.END
+		halign: Gtk.Align.CENTER,
+		visible: true
 	});
-	prefsWidget.attach(heightSpinButton, 1, 2, 1, 1);
+	prefsWidget.attach(sizeSpinButton, 1, 2, 1, 1);
 
 	this.settings.bind(
 		'height',
-		heightSpinButton,
+		sizeSpinButton,
 		'value',
 		Gio.SettingsBindFlags.DEFAULT
 	);
 
 	let opacityLabel = new Gtk.Label({
 		label: '<b>Opacity</b> (%)',
-		halign: Gtk.Align.START,
-		use_markup: true
+		halign: Gtk.Align.CENTER,
+		use_markup: true,
+		visible: true
 	});
 	prefsWidget.attach(opacityLabel, 0, 3, 1, 1);
 
@@ -68,7 +74,8 @@ function buildPrefsWidget() {
 			step_increment: 5,
 			page_increment: 20
 		}),
-		halign: Gtk.Align.END
+		halign: Gtk.Align.CENTER,
+		visible: true
 	});
 	prefsWidget.attach(opacitySpinButton, 1, 3, 1, 1);
 
@@ -81,23 +88,21 @@ function buildPrefsWidget() {
 
 	let colorLabel = new Gtk.Label({
 		label: '<b>Color</b>:',
-		halign: Gtk.Align.START,
-		use_markup: true
+		halign: Gtk.Align.CENTER,
+		use_markup: true,
+		visible: true
 	});
 	prefsWidget.attach(colorLabel, 0, 4, 1, 1);
 
-	let colorButton = new Gtk.ColorButton();
+	let colorButton = new Gtk.ColorButton({
+		halign: Gtk.Align.CENTER,
+		valign: Gtk.Align.CENTER,
+		visible: true
+	});
 	let rgba = new Gdk.RGBA();
 	rgba.parse(this.settings.get_string('color'));
 	colorButton.rgba = rgba;
 	prefsWidget.attach(colorButton, 1, 4, 1, 1);
-
-	this.settings.bind(
-		'color',
-		colorButton,
-		'rgba.to_string()',
-		Gio.SettingsBindFlags.DEFAULT
-	);
 
 	colorButton.connect('color-set', () => {
 		this.settings.set_string('color', colorButton.rgba.to_string());
@@ -105,13 +110,16 @@ function buildPrefsWidget() {
 
 	let verticalLabel = new Gtk.Label({
 		label: '<b>Vertical Strip</b>:',
-		halign: Gtk.Align.START,
-		use_markup: true
+		halign: Gtk.Align.CENTER,
+		use_markup: true,
+		visible: true
 	});
 	prefsWidget.attach(verticalLabel, 0, 5, 1, 1);
 
 	let verticalCheckButton = new Gtk.CheckButton({
-		active: this.settings.get_boolean('vertical')
+		active: this.settings.get_boolean('vertical'),
+		halign: Gtk.Align.CENTER,
+		visible: true
 	});
 	prefsWidget.attach(verticalCheckButton, 1, 5, 1, 1);
 
@@ -123,7 +131,10 @@ function buildPrefsWidget() {
 	);
 
 	let resetButton = new Gtk.Button({
-		label: "Reset Settings"
+		label: "Reset",
+		halign: Gtk.Align.CENTER,
+		valign: Gtk.Align.CENTER,
+		visible: true
 	});
 	resetButton.connect('clicked', () => {
 		this.settings.set_double('opacity', 35);
@@ -136,10 +147,11 @@ function buildPrefsWidget() {
 	let aboutLabel = new Gtk.Label({
 		label: '<a href="https://github.com/lupantano/readingstrip">Reading Strip</a> Copyright (C) 2021 <a href="https://matrix.to/#/@lupantano:matrix.org">Luigi Pantano</a>',
 		halign: Gtk.Align.CENTER,
-		use_markup: true
+		justify: Gtk.Align.CENTER,
+		use_markup: true,
+		visible: true
 	});
 	prefsWidget.attach(aboutLabel, 0, 7, 2, 1);
-    prefsWidget.show_all();
 
 	return prefsWidget;
 }
