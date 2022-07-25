@@ -23,7 +23,7 @@ You can activate/deactive with **Super+Ctrl+space**, **Super+space** or click on
 ![Sample](img/sample_2.png)
 
 ```
-cd ~/.local/share/gnome-shell/extensions/readingstrip@lupantano.gihthub/
+cd ~/.local/share/gnome-shell/extensions/readingstrip@lupantano
 
 # height 1:100, default = 2
 gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip height 2
@@ -39,7 +39,7 @@ gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip color
 - [ ] Preferences: strip's color like default color theme;
 - [ ] Preferences: add blur around stripe;
 - [ ] Preferences: add blur on not focused window 
-- [ ] Preferences: add vertical stripe;
+- [x] Preferences: add vertical stripe;
 - [ ] Preferences: add shortcuts change;
 - [x] Preferences: color button;
 - [x] Preferences GUI;

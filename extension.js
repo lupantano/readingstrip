@@ -68,7 +68,7 @@ function syncStrip(monitor_changed = false) {
 
 // toggle strip on or off
 function toggleReadingStrip() {
-	if (strip_h.visible && strip_v.visible) {
+	if (strip_h.visible) {
 		panelButtonIcon.gicon = panelButtonIcon_off;
 		pointerWatch.remove();
 		pointerWatch = null;
@@ -78,7 +78,7 @@ function toggleReadingStrip() {
 		pointerWatch = pointerWatcher.addWatch(interval, syncStrip);
 	}
 	strip_h.visible = !strip_h.visible;
-    strip_v.visible = !strip_h.visible;
+    strip_v.visible = strip_h.visible;
 	settings.set_boolean('enabled', strip_h.visible);
 }
 
