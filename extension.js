@@ -18,8 +18,7 @@
 const { St, Clutter, GObject, Meta, Shell, Gio } = imports.gi;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
-const PointerWatcher = imports.ui.pointerWatcher;
-const pointerWatcher = PointerWatcher.getPointerWatcher();
+const pointerWatcher = imports.ui.pointerWatcher.getPointerWatcher();
 const ExtensionUtils = imports.misc.extensionUtils;
 const Extension = ExtensionUtils.getCurrentExtension();
 const interval = 1000 / 60;
@@ -155,8 +154,11 @@ function disable() {
 	Main.uiGroup.remove_child(strip_h);
 	Main.uiGroup.remove_child(strip_v);
 
-	pointerWatch.remove();
-	pointerWatch = null;
+	if (pointerWatch){
+		pointerWatch.remove();
+		pointerWatch = null;
+	}
+
 	strip_h.destroy;
 	strip_h = null;
 

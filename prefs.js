@@ -15,7 +15,7 @@ function buildPrefsWidget() {
 		margin_top: 5,
 		margin_bottom: 5,
 		row_spacing: 10,
-        column_homogeneous: true,
+		column_homogeneous: true,
 		visible: true
 	});
 
