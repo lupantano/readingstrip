@@ -1,6 +1,11 @@
 # Reading Strip
 It is a **extension for Gnome-Shell** with an equivalent function to a reading guide on the computer, that's really useful for people with **dyslexia**.
 
+**Features**:
+- **horizontal strip**: function to a reading guide on the screen.
+- **vertical strip**: this is really useful for graphic designers who want to check if their margins and indentations line up properly when displayed on the screen.
+- **strip preferences**: color, transparency, size.
+
 ![Sample](img/sample_1.png)
 
 ![Video Sample](img/sample.gif)
