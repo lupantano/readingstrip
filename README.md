@@ -1,3 +1,5 @@
+[![license](https://img.shields.io/badge/license-GPLv3-green.svg)](LICENSE)
+
 # Reading Strip
 It is a **extension for Gnome-Shell** with an equivalent function to a reading guide on the computer, that's really useful for people with **dyslexia**.
 
