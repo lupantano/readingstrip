@@ -45,6 +45,7 @@ gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip color
 - [ ] Preferences: add shortcuts change;
 - [x] Preferences: color button;
 - [x] Preferences GUI;
+- [x] Language: IT, EN
 
 # Contributors
 @justperfection

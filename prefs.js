@@ -3,8 +3,13 @@
 const { Gio, Gtk, Gdk } = imports.gi;
 const ExtensionUtils = imports.misc.extensionUtils;
 
+const Me = ExtensionUtils.getCurrentExtension();
+const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
+const _ = Gettext.gettext;
+
 function init (){
-	// nothing to do :-D
+	ExtensionUtils.initTranslations();
+	return new buildPrefsWidget();
 }
 
 function buildPrefsWidget() {
@@ -20,7 +25,7 @@ function buildPrefsWidget() {
 	});
 
 	let shortcutsLabel = new Gtk.Label({
-		label: 'You can activate/deactive with <b>SUPER+CTRL+SPACE</b> \n or click on icon panel',
+		label: _('You can activate/deactive with <b>SUPER+CTRL+SPACE</b> \nor click on icon panel'),
 		halign: Gtk.Align.CENTER,
 		justify: Gtk.Align.CENTER,
 		useMarkup: true,
@@ -29,7 +34,7 @@ function buildPrefsWidget() {
 	prefsWidget.attach(shortcutsLabel, 0, 1, 2, 1);
 
 	let sizeLabel = new Gtk.Label({
-		label: '<b>Size</b> (%)',
+		label: _('<b>Size</b> (%)'),
 		halign: Gtk.Align.CENTER,
 		use_markup: true,
 		visible: true
@@ -58,7 +63,7 @@ function buildPrefsWidget() {
 	);
 
 	let opacityLabel = new Gtk.Label({
-		label: '<b>Opacity</b> (%)',
+		label: _('<b>Opacity</b> (%)'),
 		halign: Gtk.Align.CENTER,
 		use_markup: true,
 		visible: true
@@ -87,7 +92,7 @@ function buildPrefsWidget() {
 	);
 
 	let colorLabel = new Gtk.Label({
-		label: '<b>Color</b>:',
+		label: _('<b>Color</b>:'),
 		halign: Gtk.Align.CENTER,
 		use_markup: true,
 		visible: true
@@ -109,7 +114,7 @@ function buildPrefsWidget() {
 	});
 
 	let verticalLabel = new Gtk.Label({
-		label: '<b>Vertical Strip</b>:',
+		label: _('<b>Vertical Strip</b>:'),
 		halign: Gtk.Align.CENTER,
 		use_markup: true,
 		visible: true
@@ -131,7 +136,7 @@ function buildPrefsWidget() {
 	);
 
 	let resetButton = new Gtk.Button({
-		label: "Reset",
+		label: _('Reset'),
 		halign: Gtk.Align.CENTER,
 		valign: Gtk.Align.CENTER,
 		visible: true
