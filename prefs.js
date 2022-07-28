@@ -150,7 +150,7 @@ function buildPrefsWidget() {
 	prefsWidget.attach(resetButton, 1, 6, 1, 1);
 
 	let aboutLabel = new Gtk.Label({
-		label: '<a href="https://github.com/lupantano/readingstrip">Reading Strip</a> Copyright (C) 2021 <a href="https://matrix.to/#/@lupantano:matrix.org">Luigi Pantano</a>',
+		label: '<a href="https://github.com/lupantano/readingstrip">Reading Strip</a> Copyright (C) 2022 <a href="https://matrix.to/#/@lupantano:matrix.org">Luigi Pantano</a>',
 		halign: Gtk.Align.CENTER,
 		justify: Gtk.Align.CENTER,
 		use_markup: true,
