@@ -26,7 +26,7 @@ const panelButtonIcon_on = Gio.icon_new_for_string(`${Extension.path}/icons/read
 const panelButtonIcon_off = Gio.icon_new_for_string(`${Extension.path}/icons/readingstrip-off-symbolic.svg`);
 
 let panelButton, panelButtonIcon;
-let strip_h, strip_v, pointerWatch;
+let strip_h, strip_v, focus_up, focus_down,  pointerWatch;
 let settings, setting_changed_signal_ids = [];
 let currentMonitor = Main.layoutManager.currentMonitor;
 let num_monitors = Main.layoutManager.monitors.length;
@@ -59,10 +59,22 @@ function syncStrip(monitor_changed = false) {
 
 		strip_v.x = x - strip_v.width;
 		strip_v.height = currentMonitor.height;
+
+		focus_up.width = currentMonitor.width;
+		focus_up.height = y - strip_h.height / 2;
+
+		focus_down.width = currentMonitor.width;
+		focus_down.height = currentMonitor.height - focus_up.height;
 	}
 
 	strip_h.y = y - strip_h.height / 2;
 	strip_v.y = currentMonitor.y;
+
+	focus_up.x = 0;
+	focus_up.y = 0;
+
+	focus_down.x = 0;
+	focus_down.y = y + strip_h.height / 2;
 }
 
 // toggle strip on or off
@@ -78,6 +90,8 @@ function toggleReadingStrip() {
 	}
 	strip_h.visible = !strip_h.visible;
 	strip_v.visible = strip_h.visible;
+	focus_up.visible = strip_h.visible;
+	focus_down.visible = strip_h.visible;
 	settings.set_boolean('enabled', strip_h.visible);
 }
 
@@ -104,10 +118,29 @@ function enable() {
 	});
 	Main.uiGroup.add_child(strip_v);
 
+	// create  - focus
+	focus_up = new St.Widget({
+		reactive: false,
+		can_focus: false,
+		track_hover: false,
+		visible: false,
+		opacity: 75 * 255/100
+	});
+	Main.uiGroup.add_child(focus_up);
+
+	focus_down = new St.Widget({
+		reactive: false,
+		can_focus: false,
+		track_hover: false,
+		visible: false,
+		opacity: 75 * 255/100
+	});
+	Main.uiGroup.add_child(focus_down);
+
 	// synchronize extension state with current settings
 	settings = ExtensionUtils.getSettings();
 	setting_changed_signal_ids.push(settings.connect('changed', () => {
-		strip_h.style = 'background-color : ' + settings.get_string('color');
+		strip_h.style = 'background-color : ' + settings.get_string('color-strip');
 		strip_h.opacity = settings.get_double('opacity') * 255/100;
 		strip_h.height = settings.get_double('height') * currentMonitor.height/100;
 
@@ -115,6 +148,12 @@ function enable() {
 		strip_v.style = strip_h.style;
 		strip_v.opacity = strip_h.opacity;
 		strip_v.width = strip_h.height / 4;
+
+		focus_up.visible = strip_h.visible && settings.get_boolean('focusmode');
+		focus_up.style = 'background-color : ' + settings.get_string('color-focus');
+
+		focus_down.visible = strip_h.visible && settings.get_boolean('focusmode');
+		focus_down.style = 'background-color : ' + settings.get_string('color-focus');
 	}));
 
 	// load previous state
@@ -161,7 +200,11 @@ function disable() {
 
 	strip_h.destroy;
 	strip_h = null;
-
 	strip_v.destroy;
 	strip_v = null;
+
+	focus_up.destroy;
+	focus_up = null
+	focus_down.destroy;
+	focus_down = null;
 }

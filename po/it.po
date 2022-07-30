@@ -6,18 +6,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0\n"
+"Project-Id-Version: 1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-27 11:48+0200\n"
-"PO-Revision-Date: 2022-07-27 20:22+0200\n"
-"Last-Translator: Albano Battistella <albano_battistella@hotmail.com>\n"
+"POT-Creation-Date: 2022-07-30 22:19+0200\n"
+"PO-Revision-Date: 2022-07-30 22:30+0200\n"
+"Last-Translator: Luigi Pantano <nil>\n"
 "Language-Team: Italian <nil>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Generator: Gtranslator 42.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: prefs.js:28
 msgid ""
@@ -36,13 +36,33 @@ msgid "<b>Opacity</b> (%)"
 msgstr "<b>Trasparenza</b> (%)"
 
 #: prefs.js:95
-msgid "<b>Color</b>:"
-msgstr "<b>Colore</b>:"
+msgid "<b>Strip Color</b>:"
+msgstr "<b>Colore barra</b>"
 
 #: prefs.js:117
+msgid "<b>Color Focus</b>:"
+msgstr "<b>Colore focus</b>"
+
+#: prefs.js:139
 msgid "<b>Vertical Strip</b>:"
 msgstr "<b>Barra verticale</b>:"
 
-#: prefs.js:139
-msgid "Reset"
-msgstr "Impostazioni predefinite"
+#: prefs.js:161
+msgid "<b>Focus strip</b>:"
+msgstr "<b>Barra focus</b>:"
+
+#: prefs.js:183
+msgid "<b>Profile</b>:"
+msgstr "<b>Profili</b>:"
+
+#: prefs.js:197
+msgid "Focus Mode"
+msgstr "Senza distrazioni"
+
+#: prefs.js:212
+msgid "Rules"
+msgstr "Righelli"
+
+#: prefs.js:227
+msgid "Default"
+msgstr "Predefinito"

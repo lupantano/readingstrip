@@ -6,7 +6,9 @@ It is a **extension for Gnome-Shell** with an equivalent function to a reading g
 **Features**:
 - **horizontal strip**: function to a reading guide on the screen.
 - **vertical strip**: this is really useful for graphic designers who want to check if their margins and indentations line up properly when displayed on the screen.
+- **focus strip**: try it :-D;
 - **strip preferences**: color, transparency, size.
+- **profile**: try it :-D;
 
 ![Sample](img/sample_1.png)
 
@@ -40,18 +42,23 @@ gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip heigh
 # opacity 1:100, default = 35
 gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip opacity 35
 
-# color  rgb(0,0,0): rgb(255,255,255), default = rgb(246,211,45)
-gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip color rgb(246,211,45)
+# color-strip  rgb(0,0,0): rgb(255,255,255), default = rgb(246,211,45)
+gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip color-strip rgb(246,211,45)
 ```
 
 # TODO
 - [ ] Preferences: strip's color like default color theme;
-- [ ] Preferences: add blur around stripe;
+- [x] Preferences: add focus mode;
 - [ ] Preferences: add blur on not focused window 
 - [x] Preferences: add vertical stripe;
 - [ ] Preferences: add shortcuts change;
+- [ ] Preferences: user profile (color, opacity, etc);
+- [ ] Preferences: change cursor icon;
+- [ ] Preferences focus mode: resize (h x w), color;
+- [ ] daltonism features;
 - [x] Preferences: color button;
 - [x] Preferences GUI;
+- [X] Preferences: profiles;
 - [x] Language: IT, EN
 
 # Contributors

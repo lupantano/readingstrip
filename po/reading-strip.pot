@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-27 11:53+0200\n"
+"POT-Creation-Date: 2022-07-30 22:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,13 +32,33 @@ msgid "<b>Opacity</b> (%)"
 msgstr ""
 
 #: prefs.js:95
-msgid "<b>Color</b>:"
+msgid "<b>Strip Color</b>:"
 msgstr ""
 
 #: prefs.js:117
-msgid "<b>Vertical Strip</b>:"
+msgid "<b>Color Focus</b>:"
 msgstr ""
 
 #: prefs.js:139
-msgid "Reset"
+msgid "<b>Vertical Strip</b>:"
+msgstr ""
+
+#: prefs.js:161
+msgid "<b>Focus strip</b>:"
+msgstr ""
+
+#: prefs.js:183
+msgid "<b>Profile</b>:"
+msgstr ""
+
+#: prefs.js:197
+msgid "Focus Mode"
+msgstr ""
+
+#: prefs.js:212
+msgid "Rules"
+msgstr ""
+
+#: prefs.js:227
+msgid "Default"
 msgstr ""

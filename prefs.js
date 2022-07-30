@@ -35,7 +35,7 @@ function buildPrefsWidget() {
 
 	let sizeLabel = new Gtk.Label({
 		label: _('<b>Size</b> (%)'),
-		halign: Gtk.Align.CENTER,
+		halign: Gtk.Align.START,
 		use_markup: true,
 		visible: true
 	});
@@ -45,7 +45,7 @@ function buildPrefsWidget() {
 		value: this.settings.get_double('height'),
 		digits: 1,
 		adjustment: new Gtk.Adjustment({
-			lower: 2,
+			lower: 1,
 			upper: 100,
 			step_increment: 0.5,
 			page_increment: 1
@@ -64,7 +64,7 @@ function buildPrefsWidget() {
 
 	let opacityLabel = new Gtk.Label({
 		label: _('<b>Opacity</b> (%)'),
-		halign: Gtk.Align.CENTER,
+		halign: Gtk.Align.START,
 		use_markup: true,
 		visible: true
 	});
@@ -74,7 +74,7 @@ function buildPrefsWidget() {
 		value: this.settings.get_double('opacity'),
 		digits: 1,
 		adjustment: new Gtk.Adjustment({
-			lower: 5,
+			lower: 0,
 			upper: 100,
 			step_increment: 5,
 			page_increment: 20
@@ -91,42 +91,64 @@ function buildPrefsWidget() {
 		Gio.SettingsBindFlags.DEFAULT
 	);
 
-	let colorLabel = new Gtk.Label({
-		label: _('<b>Color</b>:'),
-		halign: Gtk.Align.CENTER,
+	let colorStripLabel = new Gtk.Label({
+		label: _('<b>Strip Color</b>:'),
+		halign: Gtk.Align.START,
 		use_markup: true,
 		visible: true
 	});
-	prefsWidget.attach(colorLabel, 0, 4, 1, 1);
+	prefsWidget.attach(colorStripLabel, 0, 4, 1, 1);
 
-	let colorButton = new Gtk.ColorButton({
+	let colorStripButton = new Gtk.ColorButton({
 		halign: Gtk.Align.CENTER,
 		valign: Gtk.Align.CENTER,
 		visible: true
 	});
-	let rgba = new Gdk.RGBA();
-	rgba.parse(this.settings.get_string('color'));
-	colorButton.rgba = rgba;
-	prefsWidget.attach(colorButton, 1, 4, 1, 1);
+	let rgba_strip = new Gdk.RGBA();
+	rgba_strip.parse(this.settings.get_string('color-strip'));
+	colorStripButton.rgba = rgba_strip;
+	prefsWidget.attach(colorStripButton, 1, 4, 1, 1);
 
-	colorButton.connect('color-set', () => {
-		this.settings.set_string('color', colorButton.rgba.to_string());
+	colorStripButton.connect('color-set', () => {
+		this.settings.set_string('color-strip', colorStripButton.rgba.to_string());
+	});
+
+	let colorFocusLabel = new Gtk.Label({
+		label: _('<b>Color Focus</b>:'),
+		halign: Gtk.Align.START,
+		use_markup: true,
+		visible: true
+	});
+	prefsWidget.attach(colorFocusLabel, 0, 5, 1, 1);
+
+	let colorFocusButton = new Gtk.ColorButton({
+		halign: Gtk.Align.CENTER,
+		valign: Gtk.Align.CENTER,
+		visible: true
+	});
+	let rgba_focus = new Gdk.RGBA();
+	rgba_focus.parse(this.settings.get_string('color-focus'));
+	colorFocusButton.rgba = rgba_focus;
+	prefsWidget.attach(colorFocusButton, 1, 5, 1, 1);
+
+	colorFocusButton.connect('color-set', () => {
+		this.settings.set_string('color-focus', colorFocusButton.rgba.to_string());
 	});
 
 	let verticalLabel = new Gtk.Label({
 		label: _('<b>Vertical Strip</b>:'),
-		halign: Gtk.Align.CENTER,
+		halign: Gtk.Align.START,
 		use_markup: true,
 		visible: true
 	});
-	prefsWidget.attach(verticalLabel, 0, 5, 1, 1);
+	prefsWidget.attach(verticalLabel, 0, 6, 1, 1);
 
-	let verticalCheckButton = new Gtk.CheckButton({
+	let verticalCheckButton = new Gtk.Switch({
 		active: this.settings.get_boolean('vertical'),
 		halign: Gtk.Align.CENTER,
 		visible: true
 	});
-	prefsWidget.attach(verticalCheckButton, 1, 5, 1, 1);
+	prefsWidget.attach(verticalCheckButton, 1, 6, 1, 1);
 
 	this.settings.bind(
 		'vertical',
@@ -135,19 +157,87 @@ function buildPrefsWidget() {
 		Gio.SettingsBindFlags.DEFAULT
 	);
 
-	let resetButton = new Gtk.Button({
-		label: _('Reset'),
+	let focusStripLabel = new Gtk.Label({
+		label: _('<b>Focus strip</b>:'),
+		halign: Gtk.Align.START,
+		use_markup: true,
+		visible: true
+	});
+	prefsWidget.attach(focusStripLabel, 0, 7, 1, 1);
+
+	let focusStripCheckButton = new Gtk.Switch({
+		active: this.settings.get_boolean('focusmode'),
+		halign: Gtk.Align.CENTER,
+		visible: true
+	});
+	prefsWidget.attach(focusStripCheckButton, 1, 7, 1, 1);
+
+	this.settings.bind(
+		'focusmode',
+		focusStripCheckButton,
+		'active',
+		Gio.SettingsBindFlags.DEFAULT
+	);
+
+	let profileLabel = new Gtk.Label({
+		label: _('<b>Profile</b>:'),
+		halign: Gtk.Align.START,
+		use_markup: true,
+		visible: true
+	});
+	prefsWidget.attach(profileLabel, 0, 8, 1, 1);
+
+	let buttonBox = new Gtk.FlowBox({
+		homogeneous: true,
+		visible: true
+	});
+	prefsWidget.attach(buttonBox, 0, 9, 2, 1);
+
+	let focusProfileButton = new Gtk.Button({
+		label: _('Focus Mode'),
 		halign: Gtk.Align.CENTER,
 		valign: Gtk.Align.CENTER,
 		visible: true
 	});
-	resetButton.connect('clicked', () => {
+	focusProfileButton.connect('clicked', () => {
+		this.settings.set_double('opacity', 0);
+		this.settings.set_double('height', 10);
+		this.settings.set_string('color-focus', 'rgb(0,0,0)');
+		this.settings.set_boolean('vertical', false);
+		this.settings.set_boolean('focusmode', true);
+	});
+	buttonBox.insert(focusProfileButton, 1);
+
+	let rulesProfileButton = new Gtk.Button({
+		label: _('Rules'),
+		halign: Gtk.Align.CENTER,
+		valign: Gtk.Align.CENTER,
+		visible: true
+	});
+	rulesProfileButton.connect('clicked', () => {
+		this.settings.set_double('opacity', 100);
+		this.settings.set_double('height', 5);
+		this.settings.set_string('color-strip', 'rgb(246,211,45)');
+		this.settings.set_boolean('vertical', true);
+		this.settings.set_boolean('focusmode', false);
+	});
+	buttonBox.insert(rulesProfileButton, 2);
+
+	let defaultProfileButton = new Gtk.Button({
+		label: _('Default'),
+		halign: Gtk.Align.CENTER,
+		valign: Gtk.Align.CENTER,
+		visible: true
+	});
+	defaultProfileButton.connect('clicked', () => {
 		this.settings.set_double('opacity', 35);
 		this.settings.set_double('height', 2);
-		this.settings.set_string('color', 'rgb(246,211,45)');
+		this.settings.set_string('color-strip', 'rgb(246,211,45)');
+		this.settings.set_string('color-focus', 'rgb(0,0,0)');
 		this.settings.set_boolean('vertical', false);
+		this.settings.set_boolean('focusmode', false);
 	});
-	prefsWidget.attach(resetButton, 1, 6, 1, 1);
+	buttonBox.insert(defaultProfileButton, 3);
 
 	let aboutLabel = new Gtk.Label({
 		label: '<a href="https://github.com/lupantano/readingstrip">Reading Strip</a> Copyright (C) 2021 <a href="https://matrix.to/#/@lupantano:matrix.org">Luigi Pantano</a>',
@@ -156,7 +246,7 @@ function buildPrefsWidget() {
 		use_markup: true,
 		visible: true
 	});
-	prefsWidget.attach(aboutLabel, 0, 7, 2, 1);
+	prefsWidget.attach(aboutLabel, 0, 10, 2, 1);
 
 	return prefsWidget;
 }

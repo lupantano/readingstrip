@@ -6,7 +6,7 @@
 			<summary>State of extension, whether it's enabled or disabled using indicator icon in panel</summary>
 			<description>State of extension, whether it's enabled or disabled using indicator icon in panel</description>
 		</key>
-		<key name="color" type="s">
+		<key name="color-strip" type="s">
 			<default>"rgb(246,211,45)"</default>
 			<summary>Strip color</summary>
 			<description>Strip color</description>
@@ -25,6 +25,16 @@
 			<default>false</default>
 			<summary>enable/disable vertical strip</summary>
 			<description>enable/disable vertical strip</description>
+		</key>
+		<key name="color-focus" type="s">
+			<default>"rgb(0,0,0)"</default>
+			<summary>Strip color</summary>
+			<description>Strip color</description>
+		</key>
+		<key name="focusmode" type="b">
+			<default>false</default>
+			<summary>enable/disable focus mode</summary>
+			<description>enable/disable focus mode</description>
 		</key>
 		<key name="hotkey" type="as">
 			<default><![CDATA[['<Super><Control>space','<Super>space']]]></default>
