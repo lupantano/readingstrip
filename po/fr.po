@@ -1,0 +1,65 @@
+# FRENCH TRANSLATION FOR READINGSTRIP.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# ALBANO BATTISTELLA <albano_battistella@hotmail.com>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-07-31 07:54+0200\n"
+"PO-Revision-Date: 2022-07-31 14:07+0200\n"
+"Last-Translator: Albano Battistella <Albano_battistella@hotmail.com>\n"
+"Language-Team: French <LL@li.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: prefs.js:28
+msgid ""
+"You can activate/deactive with <b>SUPER+CTRL+SPACE</b> \n"
+"or click on icon panel"
+msgstr ""
+"Vous pouvez activer/désactiver avec <b>SUPER+CTRL+ESPACE</b> \n"
+"ou cliquez sur le panneau d'icônes"
+
+#: prefs.js:37
+msgid "<b>Size</b> (%)"
+msgstr "<b>Dimension</b> (%)"
+
+#: prefs.js:66
+msgid "<b>Opacity</b> (%)"
+msgstr "<b>Transparence</b> (%)"
+
+#: prefs.js:95
+msgid "<b>Strip Color</b>:"
+msgstr "<b>Couleur de la barre</b>"
+
+#: prefs.js:117
+msgid "<b>Color Focus</b>:"
+msgstr "<b>Couleur de mise au point</b>:"
+
+#: prefs.js:139
+msgid "<b>Vertical Strip</b>:"
+msgstr "<b>Barre verticale</b>:"
+
+#: prefs.js:161
+msgid "<b>Focus strip</b>:"
+msgstr "<b>Barre de mise au point</b>:"
+
+#: prefs.js:183
+msgid "<b>Profile</b>:"
+msgstr "<b>Profil</b>:"
+
+#: prefs.js:197
+msgid "Focus Mode"
+msgstr "Sans distraction"
+
+#: prefs.js:212
+msgid "Rules"
+msgstr "Règles"
+
+#: prefs.js:227
+msgid "Default"
+msgstr "Par défaut"
