@@ -1,7 +1,8 @@
 [![license](https://img.shields.io/badge/license-GPLv3-green.svg)](LICENSE)
 
 # Reading Strip
-It is a **extension for Gnome-Shell** with an equivalent function to a reading guide on the computer, that's really useful for people with **dyslexia**.
+It is a **extension for Gnome-Shell** with an equivalent function to a reading guide on the computer, that's really useful for people with **dyslexia**. 
+These work great for **helping children focus while reading**. It highlights the sentence that they are reading and blocks the sentence above and below. It's already used in **education projects** at schools, it focused the attention on screen but it's also really useful for **programmers and graphic** designers who want check their works.
 
 **Features**:
 - **horizontal strip**: function to a reading guide on the screen.
