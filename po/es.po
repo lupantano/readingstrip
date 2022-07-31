@@ -1,0 +1,67 @@
+# Spanish translation for Reading Strip.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Óscar Fernández Díaz <oscfdezdz@tuta.io>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-07-31 12:19+0200\n"
+"PO-Revision-Date: 2022-07-31 12:26+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.1.1\n"
+
+#: prefs.js:28
+msgid ""
+"You can activate/deactive with <b>SUPER+CTRL+SPACE</b> \n"
+"or click on icon panel"
+msgstr ""
+"Puede activar/desactivar con <b>SUPER+CTRL+ESPACIO</b> \n"
+"o hacer clic en el panel de iconos"
+
+#: prefs.js:37
+msgid "<b>Size</b> (%)"
+msgstr "<b>Tamaño</b> (%)"
+
+#: prefs.js:66
+msgid "<b>Opacity</b> (%)"
+msgstr "<b>Opacidad</b> (%)"
+
+#: prefs.js:95
+msgid "<b>Strip Color</b>:"
+msgstr "<b>Color de la franja</b>:"
+
+#: prefs.js:117
+msgid "<b>Color Focus</b>:"
+msgstr "<b>Color de enfoque</b>:"
+
+#: prefs.js:139
+msgid "<b>Vertical Strip</b>:"
+msgstr "<b>Tira vertical</b>:"
+
+#: prefs.js:161
+msgid "<b>Focus strip</b>:"
+msgstr "<b>Franja de enfoque</b>:"
+
+#: prefs.js:183
+msgid "<b>Profile</b>:"
+msgstr "<b>Perfil</b>:"
+
+#: prefs.js:197
+msgid "Focus Mode"
+msgstr "Modo enfoque"
+
+#: prefs.js:212
+msgid "Rules"
+msgstr "Reglas"
+
+#: prefs.js:227
+msgid "Default"
+msgstr "Predeterminada"
