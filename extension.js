@@ -198,13 +198,13 @@ function disable() {
 		pointerWatch = null;
 	}
 
-	strip_h.destroy;
+	strip_h.destroy();
 	strip_h = null;
-	strip_v.destroy;
+	strip_v.destroy();
 	strip_v = null;
 
-	focus_up.destroy;
+	focus_up.destroy();
 	focus_up = null
-	focus_down.destroy;
+	focus_down.destroy();
 	focus_down = null;
 }
