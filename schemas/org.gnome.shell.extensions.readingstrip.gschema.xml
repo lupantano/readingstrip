@@ -37,12 +37,12 @@
 			<description>enable/disable focus mode</description>
 		</key>
 		<key name="hotkey" type="as">
-			<default><![CDATA[['<Super><Control>space','<Super>space']]]></default>
+			<default><![CDATA[['<Super><Control>space']]]></default>
 			<summary>Hotkey to enable/disable the strip</summary>
 			<description>Hotkey to enable/disable the strip</description>
 		</key>
 		<key name="hotkey-vertical" type="as">
-			<default><![CDATA[['<Super><Control><Shift>space','<Super><Shift>space']]]></default>
+			<default><![CDATA[['<Super><Control><Shift>space']]]></default>
 			<summary>Hotkey to enable/disable the vertical strip</summary>
 			<description>Hotkey to enable/disable the vertical strip</description>
 		</key>
