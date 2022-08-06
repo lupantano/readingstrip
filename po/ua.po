@@ -1,0 +1,65 @@
+# UKRAINIAN TRANSLATION FOR READING STRIP.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# ALBANO BATTISTELLA <ALBANO_BATTISTELLA@HOTMAIL.COM>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-07-31 07:54+0200\n"
+"PO-Revision-Date: 2022-08-06 22:00+0200\n"
+"Last-Translator: Albano Battistella <albano_battistella@hotmail.com>\n"
+"Language-Team: <LL@li.org>\n"
+"Language: ua\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: prefs.js:28
+msgid ""
+"You can activate/deactive with <b>SUPER+CTRL+SPACE</b> \n"
+"or click on icon panel"
+msgstr ""
+"Ви можете активувати/дезактивувати за допомогою <b>SUPER+CTRL+ПРОБІЛ</b> \n"
+"або клацніть на панелі значків"
+
+#: prefs.js:37
+msgid "<b>Size</b> (%)"
+msgstr "<b>Товщина</b> (%)"
+
+#: prefs.js:66
+msgid "<b>Opacity</b> (%)"
+msgstr "<b>Прозорість</b> (%)"
+
+#: prefs.js:95
+msgid "<b>Strip Color</b>:"
+msgstr "<b>Колір бару</b>:"
+
+#: prefs.js:117
+msgid "<b>Color Focus</b>:"
+msgstr "<b>Колір фокусування</b>:"
+
+#: prefs.js:139
+msgid "<b>Vertical Strip</b>:"
+msgstr "<b>Вертикальна смуга</b>"
+
+#: prefs.js:161
+msgid "<b>Focus strip</b>:"
+msgstr "<b>Панель фокусування</b>:"
+
+#: prefs.js:183
+msgid "<b>Profile</b>:"
+msgstr "<b>Профіль</b>:"
+
+#: prefs.js:197
+msgid "Focus Mode"
+msgstr "Без відволікань"
+
+#: prefs.js:212
+msgid "Rules"
+msgstr "лінійка"
+
+#: prefs.js:227
+msgid "Default"
+msgstr "За замовчуванням"
