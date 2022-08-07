@@ -27,8 +27,7 @@ const panelButtonIcon_off = Gio.icon_new_for_string(`${Extension.path}/icons/rea
 
 let panelButton, panelButtonIcon;
 let strip_h, strip_v, focus_up, focus_down,  pointerWatch;
-let settings = ExtensionUtils.getSettings();
-let setting_changed_signal_ids = [];
+let settings, setting_changed_signal_ids = [];
 let currentMonitor = Main.layoutManager.currentMonitor;
 let num_monitors = Main.layoutManager.monitors.length;
 let monitor_change_signal_id = 0;
@@ -97,6 +96,8 @@ function toggleReadingStrip() {
 }
 
 function enable() {
+    settings = ExtensionUtils.getSettings();
+
 	// add button to top panel
 	panelButton = new ReadingStrip();
 	Main.panel.addToStatusArea('ReadingStrip', panelButton);
