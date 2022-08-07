@@ -27,7 +27,7 @@ const panelButtonIcon_off = Gio.icon_new_for_string(`${Extension.path}/icons/rea
 
 let panelButton, panelButtonIcon;
 let strip_h, strip_v, focus_up, focus_down,  pointerWatch;
-let settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.readingstrip');
+let settings = ExtensionUtils.getSettings();
 let setting_changed_signal_ids = [];
 let currentMonitor = Main.layoutManager.currentMonitor;
 let num_monitors = Main.layoutManager.monitors.length;

@@ -30,7 +30,7 @@ function init (){
 }
 
 function buildPrefsWidget() {
-	this.settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.readingstrip');
+	this.settings = ExtensionUtils.getSettings();
 	let prefsWidget = new Gtk.Grid({
 		margin_start: 5,
 		margin_end: 5,
