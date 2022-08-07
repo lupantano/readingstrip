@@ -34,7 +34,7 @@ msgstr "<b>Прозорість</b> (%)"
 
 #: prefs.js:95
 msgid "<b>Strip Color</b>:"
-msgstr "<b>Колір бару</b>:"
+msgstr "<b>Колір смуги</b>:"
 
 #: prefs.js:117
 msgid "<b>Color Focus</b>:"
@@ -42,11 +42,11 @@ msgstr "<b>Колір фокусування</b>:"
 
 #: prefs.js:139
 msgid "<b>Vertical Strip</b>:"
-msgstr "<b>Вертикальна смуга</b>"
+msgstr "<b>Вертикальна смуга</b>:"
 
 #: prefs.js:161
 msgid "<b>Focus strip</b>:"
-msgstr "<b>Панель фокусування</b>:"
+msgstr "<b>Смуга фокусування</b>:"
 
 #: prefs.js:183
 msgid "<b>Profile</b>:"
@@ -58,8 +58,8 @@ msgstr "Без відволікань"
 
 #: prefs.js:212
 msgid "Rules"
-msgstr "лінійка"
+msgstr "Лінійки"
 
 #: prefs.js:227
 msgid "Default"
-msgstr "За замовчуванням"
+msgstr "Типово"
