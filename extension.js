@@ -27,7 +27,8 @@ const panelButtonIcon_off = Gio.icon_new_for_string(`${Extension.path}/icons/rea
 
 let panelButton, panelButtonIcon;
 let strip_h, strip_v, focus_up, focus_down,  pointerWatch;
-let settings, setting_changed_signal_ids = [];
+let settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.readingstrip');
+let setting_changed_signal_ids = [];
 let currentMonitor = Main.layoutManager.currentMonitor;
 let num_monitors = Main.layoutManager.monitors.length;
 let monitor_change_signal_id = 0;
@@ -138,7 +139,6 @@ function enable() {
 	Main.uiGroup.add_child(focus_down);
 
 	// synchronize extension state with current settings
-	settings = ExtensionUtils.getSettings();
 	setting_changed_signal_ids.push(settings.connect('changed', () => {
 		strip_h.style = 'background-color : ' + settings.get_string('color-strip');
 		strip_h.opacity = settings.get_double('opacity') * 255/100;
