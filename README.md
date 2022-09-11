@@ -61,7 +61,7 @@ gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip color
 - [x] Preferences: color button;
 - [x] Preferences GUI;
 - [X] Preferences: profiles;
-- [x] Language: IT, EN, DE, ES, FR, :ukraine:
+- [x] Language: IT, EN, DE, ES, FR, 🇺🇦, 🇧🇷
 
 # Contributors
 @justperfection
