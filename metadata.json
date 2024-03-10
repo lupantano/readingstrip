@@ -1,10 +1,10 @@
 {
-  "name": "Reading Strip",
-  "description": "It’s an extension for Gnome-Shell. It works as a reading guide for computer and this is really useful for people affected by dyslexia. It works great in helping children focusing to read very well, it marks the sentence that they are reading and hides the previous and the next one. It's already used in education projects at schools, it puts the attention on screen but it's also really useful for programmers and graphic designers who want to check their works.",
+  "description": "It's an extension for Gnome-Shell. It works as a reading guide for computer and this is really useful for people affected by dyslexia. It works great in helping children focusing to read very well, it marks the sentence that they are reading and hides the previous and the next one. It's already used in education projects at schools, it puts the attention on screen but it's also really useful for programmers and graphic designers who want to check their works.",
   "gettext-domain": "reading-strip",
+  "name": "ReadingStrip",
   "settings-schema": "org.gnome.shell.extensions.readingstrip",
   "shell-version": ["3.36", "3.38", "40", "41", "42", "43", "44"],
   "url": "https://github.com/lupantano/readingstrip",
   "uuid": "readingstrip@lupantano.gihthub",
-  "version": 25
+  "version": 30
 }
