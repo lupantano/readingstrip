@@ -171,7 +171,7 @@ class ReadingStrip {
 
 	// load previous state
 	if (settings.get_boolean('enabled'))
-	    toggleReadingStrip();
+	    toggleStrip();
 
 	// synchronize hot key
 	Main.wm.addKeybinding('hotkey', settings,
