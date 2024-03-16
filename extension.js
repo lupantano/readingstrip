@@ -15,198 +15,220 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-const St = imports.gi.St;
-const Gio = imports.gi.Gio;
-const Meta = imports.gi.Meta;
-const Shell = imports.gi.Shell;
+import St from "gi://St";
+import Gio from "gi://Gio";
+import Meta from "gi://Meta";
+import Shell from "gi://Shell";
+import * as Main from "resource:///org/gnome/shell/ui/main.js";
+import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
+import { getPointerWatcher } from "resource:///org/gnome/shell/ui/pointerWatcher.js";
 
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-const {
-    gettext: _,
-} = ExtensionUtils;
+import {
+  Extension,
+  gettext as _,
+} from "resource:///org/gnome/shell/extensions/extension.js";
 
-const Main = imports.ui.main;
-const PanelMenu = imports.ui.panelMenu;
-const icon_on = Gio.icon_new_for_string(`${Me.path}/icons/readingstrip-on-symbolic.svg`);
-const icon_off = Gio.icon_new_for_string(`${Me.path}/icons/readingstrip-off-symbolic.svg`);
-let icon;
-
-const pointerWatcher = imports.ui.pointerWatcher.getPointerWatcher();
 const interval = 1000 / 60;
-let currentMonitor = Main.layoutManager.currentMonitor;
-let num_monitors = Main.layoutManager.monitors.length;
-let monitor_change_signal_id = 0;
 
-let strip_h, strip_v, focus_up, focus_down,  pointerWatch;
-let settings, setting_changed_signal_ids = [];
-
-// follow cursor position, and monitor as well
-function syncStrip(monitor_changed = false) {
+export default class ReadingStrip extends Extension {
+  // follow cursor position, and monitor as well
+  syncStrip(monitor_changed = false) {
     const [x, y] = global.get_pointer();
-    if (monitor_changed || num_monitors > 1) {
-	currentMonitor = Main.layoutManager.currentMonitor;
-	strip_h.x = currentMonitor.x;
-	strip_h.width = currentMonitor.width;
+    if (monitor_changed || this.num_monitors > 1) {
+      this.currentMonitor = Main.layoutManager.currentMonitor;
+      this.strip_h.x = this.currentMonitor.x;
+      this.strip_h.width = this.currentMonitor.width;
 
-	strip_v.x = x - strip_v.width;
-	strip_v.height = currentMonitor.height;
+      this.strip_v.x = x - this.strip_v.width;
+      this.strip_v.height = this.currentMonitor.height;
 
-	focus_up.width = currentMonitor.width;
-	focus_up.height = y - strip_h.height / 2;
+      this.focus_up.width = this.currentMonitor.width;
+      this.focus_up.height = y - this.strip_h.height / 2;
 
-	focus_down.width = currentMonitor.width;
-	focus_down.height = currentMonitor.height - focus_up.height;
+      this.focus_down.width = this.currentMonitor.width;
+      this.focus_down.height =
+        this.currentMonitor.height - this.focus_up.height;
     }
 
-    strip_h.y = y - strip_h.height / 2;
-    strip_v.y = currentMonitor.y;
+    this.strip_h.y = y - this.strip_h.height / 2;
+    this.strip_v.y = this.currentMonitor.y;
 
-    focus_up.x = 0;
-    focus_up.y = 0;
+    this.focus_up.x = 0;
+    this.focus_up.y = 0;
 
-    focus_down.x = 0;
-    focus_down.y = y + strip_h.height / 2;
-}
+    this.focus_down.x = 0;
+    this.focus_down.y = y + this.strip_h.height / 2;
+  }
 
-// toggle strip on or off
-function toggleStrip() {
-    if (strip_h.visible) {
-	icon.gicon = icon_off;
-	pointerWatch.remove();
-	pointerWatch = null;
+  // toggle strip on or off
+  toggleStrip() {
+    if (this.strip_h.visible) {
+      this.icon.gicon = this.icon_off;
+      this.pointerWatch.remove();
+      this.pointerWatch = null;
     } else {
-	icon.gicon = icon_on;
-	syncStrip(true);
-	pointerWatch = pointerWatcher.addWatch(interval, syncStrip);
+      this.icon.gicon = this.icon_on;
+      this.syncStrip(true);
+      this.pointerWatch = this.pointerWatcher.addWatch(
+        interval,
+        this.syncStrip.bind(this)
+      );
     }
-    strip_h.visible = !strip_h.visible;
-    strip_v.visible = strip_h.visible;
-    focus_up.visible = strip_h.visible;
-    focus_down.visible = strip_h.visible;
-    settings.set_boolean('enabled', strip_h.visible);
-}
+    this.strip_h.visible = !this.strip_h.visible;
+    this.strip_v.visible = this.strip_h.visible;
+    this.focus_up.visible = this.strip_h.visible;
+    this.focus_down.visible = this.strip_h.visible;
+    this._settings.set_boolean("enabled", this.strip_h.visible);
+  }
 
-class ReadingStrip {
-    enable() {
-	// Load settings
-	settings = ExtensionUtils.getSettings();
+  enable() {
+    // Load settings
+    this._settings = this.getSettings();
 
-	// add to top panel
-	this._indicator = new PanelMenu.Button(0.0, Me.metadata.name, false);
-	icon = new St.Icon({
-	    gicon : icon_off,
-	    style_class: 'system-status-icon',
-	});	
-        this._indicator.add_child(icon);
-	this._indicator.menu.addAction(_('Show/Hide'), () => toggleStrip());
-	this._indicator.menu.addAction(_('Settings...'), () => ExtensionUtils.openPrefs(), 'settings-symbolic');
-	
-	Main.panel.addToStatusArea(Me.metadata.uuid, this._indicator);
-        this._count = 0;
+    this.icon_on = Gio.icon_new_for_string(
+      `${this.path}/icons/readingstrip-on-symbolic.svg`
+    );
+    this.icon_off = Gio.icon_new_for_string(
+      `${this.path}/icons/readingstrip-off-symbolic.svg`
+    );
 
-	// create vertical strip
-	strip_v = new St.Widget({
-	    reactive: false,
-	    can_focus: false,
-	    track_hover: false,
-	    visible: false
-	});
-	Main.uiGroup.add_child(strip_v);
+    this.pointerWatcher = getPointerWatcher();
+    this.currentMonitor = Main.layoutManager.currentMonitor;
+    this.num_monitors = Main.layoutManager.monitors.length;
+    this.monitor_change_signal_id = 0;
 
-	// create horizontal strip
-	strip_h = new St.Widget({
-	    reactive: false,
-	    can_focus: false,
-	    track_hover: false,
-	    visible: false
-	});
-	Main.uiGroup.add_child(strip_h);
+    this.pointerWatch = null;
+    this.setting_changed_signal_ids = [];
 
-	// create vertical strip
-	strip_v = new St.Widget({
-	    reactive: false,
-	    can_focus: false,
-	    track_hover: false,
-	    visible: false
-	});
-	Main.uiGroup.add_child(strip_v);
+    // add to top panel
+    this._indicator = new PanelMenu.Button(0.0, this.metadata.name, false);
+    this.icon = new St.Icon({
+      gicon: this.icon_off,
+      style_class: "system-status-icon",
+    });
+    this._indicator.add_child(this.icon);
+    this._indicator.menu.addAction(_("Show/Hide"), () => this.toggleStrip());
+    this._indicator.menu.addAction(
+      _("Settings..."),
+      () => this.openPreferences(),
+      "settings-symbolic"
+    );
 
-	// create  - focus
-	focus_up = new St.Widget({
-	    reactive: false,
-	    can_focus: false,
-	    track_hover: false,
-	    visible: false,
-	    opacity: 75 * 255/100
-	});
-	Main.uiGroup.add_child(focus_up);
+    Main.panel.addToStatusArea(this.metadata.uuid, this._indicator);
+    this._count = 0;
 
-	focus_down = new St.Widget({
-	    reactive: false,
-	    can_focus: false,
-	    track_hover: false,
-	    visible: false,
-	    opacity: 75 * 255/100
-	});
-	Main.uiGroup.add_child(focus_down);
+    // create vertical strip
+    this.strip_v = new St.Widget({
+      reactive: false,
+      can_focus: false,
+      track_hover: false,
+      visible: false,
+    });
+    Main.uiGroup.add_child(this.strip_v);
 
-	// synchronize extension state with current settings
-	setting_changed_signal_ids.push(settings.connect('changed', () => {
-	    strip_h.style = 'background-color : ' + settings.get_string('color-strip');
-	    strip_h.opacity = settings.get_double('opacity') * 255/100;
-	    strip_h.height = settings.get_double('height') * currentMonitor.height/100;
+    // create horizontal strip
+    this.strip_h = new St.Widget({
+      reactive: false,
+      can_focus: false,
+      track_hover: false,
+      visible: false,
+    });
+    Main.uiGroup.add_child(this.strip_h);
 
-	    strip_v.visible = strip_h.visible && settings.get_boolean('vertical');
-	    strip_v.style = strip_h.style;
-	    strip_v.opacity = strip_h.opacity;
-	    strip_v.width = strip_h.height / 4;
+    // create vertical strip
+    this.strip_v = new St.Widget({
+      reactive: false,
+      can_focus: false,
+      track_hover: false,
+      visible: false,
+    });
+    Main.uiGroup.add_child(this.strip_v);
 
-	    focus_up.visible = strip_h.visible && settings.get_boolean('focusmode');
-	    focus_up.style = 'background-color : ' + settings.get_string('color-focus');
+    // create  - focus
+    this.focus_up = new St.Widget({
+      reactive: false,
+      can_focus: false,
+      track_hover: false,
+      visible: false,
+      opacity: (75 * 255) / 100,
+    });
+    Main.uiGroup.add_child(this.focus_up);
 
-	    focus_down.visible = strip_h.visible && settings.get_boolean('focusmode');
-	    focus_down.style = 'background-color : ' + settings.get_string('color-focus');
-	}));
+    this.focus_down = new St.Widget({
+      reactive: false,
+      can_focus: false,
+      track_hover: false,
+      visible: false,
+      opacity: (75 * 255) / 100,
+    });
+    Main.uiGroup.add_child(this.focus_down);
 
-	// load previous state
-	if (settings.get_boolean('enabled'))
-	    toggleStrip();
+    // synchronize extension state with current settings
+    this.setting_changed_signal_ids.push(
+      this._settings.connect("changed", () => {
+        this.strip_h.style =
+          "background-color : " + this._settings.get_string("color-strip");
+        this.strip_h.opacity =
+          (this._settings.get_double("opacity") * 255) / 100;
+        this.strip_h.height =
+          (this._settings.get_double("height") * this.currentMonitor.height) /
+          100;
 
-	// synchronize hot key
-	Main.wm.addKeybinding('hotkey', settings,
-			      Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
-			      Shell.ActionMode.ALL,
-			      () => {
-				  toggleStrip();
-			      }
-			     );
+        this.strip_v.visible =
+          this.strip_h.visible && this._settings.get_boolean("vertical");
+        this.strip_v.style = this.strip_h.style;
+        this.strip_v.opacity = this.strip_h.opacity;
+        this.strip_v.width = this.strip_h.height / 4;
 
-	// watch for monitor changes
-	monitor_change_signal_id = Main.layoutManager.connect('monitors-changed', () => {
-	    num_monitors = Main.layoutManager.monitors.length;
-	});
-	
+        this.focus_up.visible =
+          this.strip_h.visible && this._settings.get_boolean("focusmode");
+        this.focus_up.style =
+          "background-color : " + this._settings.get_string("color-focus");
+
+        this.focus_down.visible =
+          this.strip_h.visible && this._settings.get_boolean("focusmode");
+        this.focus_down.style =
+          "background-color : " + this._settings.get_string("color-focus");
+      })
+    );
+
+    // load previous state
+    if (this._settings.get_boolean("enabled")) this.toggleStrip();
+
+    // synchronize hot key
+    Main.wm.addKeybinding(
+      "hotkey",
+      this._settings,
+      Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
+      Shell.ActionMode.ALL,
+      () => {
+        this.toggleStrip();
+      }
+    );
+
+    // watch for monitor changes
+    this.monitor_change_signal_id = Main.layoutManager.connect(
+      "monitors-changed",
+      () => {
+        this.num_monitors = Main.layoutManager.monitors.length;
+      }
+    );
+  }
+
+  disable() {
+    if (this._indicator) {
+      this._indicator.destroy();
+      this._indicator = null;
     }
 
-    disable() {
-        if (this._indicator) {
-	    this._indicator.destroy();
-	    this._indicator = null;
-        }
+    if (this.monitor_change_signal_id)
+      Main.layoutManager.disconnect(this.monitor_change_signal_id);
 
-	if (monitor_change_signal_id)
-	    Main.layoutManager.disconnect(monitor_change_signal_id);
-
-	Main.wm.removeKeybinding('hotkey');
-	setting_changed_signal_ids.forEach(id => settings.disconnect(id));
-	setting_changed_signal_ids = [];
-	settings = null;
-    }
-}
-
-function init() {
-    ExtensionUtils.initTranslations();
-
-    return new ReadingStrip();
+    Main.wm.removeKeybinding("hotkey");
+    this.setting_changed_signal_ids.forEach((id) =>
+      this._settings.disconnect(id)
+    );
+    this.setting_changed_signal_ids = [];
+    this._settings = null;
+  }
 }
