@@ -20,7 +20,7 @@
 import Gio from "gi://Gio";
 import Gtk from "gi://Gtk";
 import Gdk from "gi://Gdk";
-import Adw from "gi://Adw";
+import Adw from "gi://Adw"; // TODO: use Adw widgets where possible
 import {
   ExtensionPreferences,
   gettext as _,
@@ -31,7 +31,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
     window._settings = this.getSettings();
 
     const page = new Adw.PreferencesPage();
-    const group = new Adw.PreferencesGroup({});
+    const group = new Adw.PreferencesGroup({}); // TODO: add groups: for settings, copyright, etc.
     const widgetPrefs = this.buildPrefsWidget();
 
     group.add(widgetPrefs);
@@ -41,7 +41,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
 
   buildPrefsWidget() {
     const settings = this.getSettings();
-    let prefsWidget = new Gtk.Grid({
+    const prefsWidget = new Gtk.Grid({
       margin_start: 5,
       margin_end: 5,
       margin_top: 5,
@@ -51,7 +51,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
       visible: true,
     });
 
-    let shortcutsLabel = new Gtk.Label({
+    const shortcutsLabel = new Gtk.Label({
       label: _(
         "You can activate/deactive with <b>SUPER+CTRL+SPACE</b> \nor click on icon panel"
       ),
@@ -62,7 +62,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
     });
     prefsWidget.attach(shortcutsLabel, 0, 1, 2, 1);
 
-    let sizeLabel = new Gtk.Label({
+    const sizeLabel = new Gtk.Label({
       label: _("<b>Size</b> (%)"),
       halign: Gtk.Align.START,
       use_markup: true,
@@ -70,7 +70,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
     });
     prefsWidget.attach(sizeLabel, 0, 2, 1, 1);
 
-    let sizeSpinButton = new Gtk.SpinButton({
+    const sizeSpinButton = new Gtk.SpinButton({
       value: settings.get_double("height"),
       digits: 1,
       adjustment: new Gtk.Adjustment({
@@ -91,7 +91,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
       Gio.SettingsBindFlags.DEFAULT
     );
 
-    let opacityLabel = new Gtk.Label({
+    const opacityLabel = new Gtk.Label({
       label: _("<b>Opacity</b> (%)"),
       halign: Gtk.Align.START,
       use_markup: true,
@@ -99,7 +99,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
     });
     prefsWidget.attach(opacityLabel, 0, 3, 1, 1);
 
-    let opacitySpinButton = new Gtk.SpinButton({
+    const opacitySpinButton = new Gtk.SpinButton({
       value: settings.get_double("opacity"),
       digits: 1,
       adjustment: new Gtk.Adjustment({
@@ -120,7 +120,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
       Gio.SettingsBindFlags.DEFAULT
     );
 
-    let colorStripLabel = new Gtk.Label({
+    const colorStripLabel = new Gtk.Label({
       label: _("<b>Strip Color</b>:"),
       halign: Gtk.Align.START,
       use_markup: true,
@@ -128,12 +128,12 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
     });
     prefsWidget.attach(colorStripLabel, 0, 4, 1, 1);
 
-    let colorStripButton = new Gtk.ColorButton({
+    const colorStripButton = new Gtk.ColorButton({
       halign: Gtk.Align.CENTER,
       valign: Gtk.Align.CENTER,
       visible: true,
     });
-    let rgba_strip = new Gdk.RGBA();
+    const rgba_strip = new Gdk.RGBA();
     rgba_strip.parse(settings.get_string("color-strip"));
     colorStripButton.rgba = rgba_strip;
     prefsWidget.attach(colorStripButton, 1, 4, 1, 1);
@@ -142,7 +142,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
       settings.set_string("color-strip", colorStripButton.rgba.to_string());
     });
 
-    let colorFocusLabel = new Gtk.Label({
+    const colorFocusLabel = new Gtk.Label({
       label: _("<b>Color Focus</b>:"),
       halign: Gtk.Align.START,
       use_markup: true,
@@ -150,12 +150,12 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
     });
     prefsWidget.attach(colorFocusLabel, 0, 5, 1, 1);
 
-    let colorFocusButton = new Gtk.ColorButton({
+    const colorFocusButton = new Gtk.ColorButton({
       halign: Gtk.Align.CENTER,
       valign: Gtk.Align.CENTER,
       visible: true,
     });
-    let rgba_focus = new Gdk.RGBA();
+    const rgba_focus = new Gdk.RGBA();
     rgba_focus.parse(settings.get_string("color-focus"));
     colorFocusButton.rgba = rgba_focus;
     prefsWidget.attach(colorFocusButton, 1, 5, 1, 1);
@@ -164,7 +164,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
       settings.set_string("color-focus", colorFocusButton.rgba.to_string());
     });
 
-    let verticalLabel = new Gtk.Label({
+    const verticalLabel = new Gtk.Label({
       label: _("<b>Vertical Strip</b>:"),
       halign: Gtk.Align.START,
       use_markup: true,
@@ -172,7 +172,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
     });
     prefsWidget.attach(verticalLabel, 0, 6, 1, 1);
 
-    let verticalCheckButton = new Gtk.Switch({
+    const verticalCheckButton = new Gtk.Switch({
       active: settings.get_boolean("vertical"),
       halign: Gtk.Align.CENTER,
       visible: true,
@@ -186,7 +186,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
       Gio.SettingsBindFlags.DEFAULT
     );
 
-    let focusStripLabel = new Gtk.Label({
+    const focusStripLabel = new Gtk.Label({
       label: _("<b>Focus strip</b>:"),
       halign: Gtk.Align.START,
       use_markup: true,
@@ -194,7 +194,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
     });
     prefsWidget.attach(focusStripLabel, 0, 7, 1, 1);
 
-    let focusStripCheckButton = new Gtk.Switch({
+    const focusStripCheckButton = new Gtk.Switch({
       active: settings.get_boolean("focusmode"),
       halign: Gtk.Align.CENTER,
       visible: true,
@@ -208,7 +208,8 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
       Gio.SettingsBindFlags.DEFAULT
     );
 
-    let profileLabel = new Gtk.Label({
+    // TODO: maybe use a select Adw widget here and have it centered.
+    const profileLabel = new Gtk.Label({
       label: _("<b>Profile</b>:"),
       halign: Gtk.Align.START,
       use_markup: true,
@@ -216,13 +217,13 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
     });
     prefsWidget.attach(profileLabel, 0, 8, 1, 1);
 
-    let buttonBox = new Gtk.FlowBox({
+    const buttonBox = new Gtk.FlowBox({
       homogeneous: true,
       visible: true,
     });
     prefsWidget.attach(buttonBox, 0, 9, 2, 1);
 
-    let focusProfileButton = new Gtk.Button({
+    const focusProfileButton = new Gtk.Button({
       label: _("Focus Mode"),
       halign: Gtk.Align.CENTER,
       valign: Gtk.Align.CENTER,
@@ -237,7 +238,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
     });
     buttonBox.insert(focusProfileButton, 1);
 
-    let rulesProfileButton = new Gtk.Button({
+    const rulesProfileButton = new Gtk.Button({
       label: _("Rules"),
       halign: Gtk.Align.CENTER,
       valign: Gtk.Align.CENTER,
@@ -252,7 +253,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
     });
     buttonBox.insert(rulesProfileButton, 2);
 
-    let defaultProfileButton = new Gtk.Button({
+    const defaultProfileButton = new Gtk.Button({
       label: _("Default"),
       halign: Gtk.Align.CENTER,
       valign: Gtk.Align.CENTER,
@@ -268,7 +269,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
     });
     buttonBox.insert(defaultProfileButton, 3);
 
-    let aboutLabel = new Gtk.Label({
+    const aboutLabel = new Gtk.Label({
       label:
         '<a href="https://github.com/lupantano/readingstrip">Reading Strip</a> Copyright (C) 2021 <a href="https://matrix.to/#/@lupantano:matrix.org">Luigi Pantano</a>',
       halign: Gtk.Align.CENTER,
