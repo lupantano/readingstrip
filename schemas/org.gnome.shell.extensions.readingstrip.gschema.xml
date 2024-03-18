@@ -1,45 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
-	<schema id="org.gnome.shell.extensions.readingstrip" path="/org/gnome/shell/extensions/readingstrip/">
-		<key name="enabled" type="b">
-			<default>true</default>
-			<summary>State of extension, whether it's enabled or disabled using indicator icon in panel</summary>
-			<description>State of extension, whether it's enabled or disabled using indicator icon in panel</description>
-		</key>
-		<key name="color-strip" type="s">
-			<default>"rgb(246,211,45)"</default>
-			<summary>Strip color</summary>
-			<description>Strip color</description>
-		</key>
-		<key name="opacity" type="d">
-			<default>35</default>
-			<summary>% of opacity</summary>
-			<description>% of opacity</description>
-		</key>
-		<key name="height" type="d">
-			<default>2.0</default>
-			<summary>% of height of monitor</summary>
-			<description>% of height of monitor</description>
-		</key>
-		<key name="vertical" type="b">
-			<default>false</default>
-			<summary>enable/disable vertical strip</summary>
-			<description>enable/disable vertical strip</description>
-		</key>
-		<key name="color-focus" type="s">
-			<default>"rgb(0,0,0)"</default>
-			<summary>Strip color</summary>
-			<description>Strip color</description>
-		</key>
-		<key name="focusmode" type="b">
-			<default>false</default>
-			<summary>enable/disable focus mode</summary>
-			<description>enable/disable focus mode</description>
-		</key>
-		<key name="hotkey" type="as">
-			<default><![CDATA[['<Super><Control>space']]]></default>
-			<summary>Hotkey to enable/disable the strip</summary>
-			<description>Hotkey to enable/disable the strip</description>
-		</key>
-	</schema>
+  <schema id="org.gnome.shell.extensions.readingstrip" path="/org/gnome/shell/extensions/readingstrip/">
+    <key name="enabled" type="b">
+      <default>true</default>
+      <summary>State of extension, whether it's enabled or disabled using indicator icon in panel</summary>
+      <description>State of extension, whether it's enabled or disabled using indicator icon in panel</description>
+    </key>
+    <key name="color-strip" type="s">
+      <default>"rgb(246,211,45)"</default>
+      <summary>Strip color</summary>
+      <description>Strip color</description>
+    </key>
+    <key name="opacity" type="d">
+      <default>35</default>
+      <summary>% of opacity</summary>
+      <description>% of opacity</description>
+    </key>
+    <key name="refresh" type="i">
+      <default>1</default>
+      <summary>ms refresh time</summary>
+      <description>ms refresh time </description>
+    </key>
+    <key name="height" type="d">
+      <default>2.0</default>
+      <summary>% of height of monitor</summary>
+      <description>% of height of monitor</description>
+    </key>
+    <key name="vertical" type="b">
+      <default>false</default>
+      <summary>enable/disable vertical strip</summary>
+      <description>enable/disable vertical strip</description>
+    </key>
+    <key name="color-focus" type="s">
+      <default>"rgb(0,0,0)"</default>
+      <summary>Strip color</summary>
+      <description>Strip color</description>
+    </key>
+    <key name="focusmode" type="b">
+      <default>false</default>
+      <summary>enable/disable focus mode</summary>
+      <description>enable/disable focus mode</description>
+    </key>
+    <key name="hotkey" type="as">
+      <default><![CDATA[['<Super><Control>space']]]></default>
+      <summary>Hotkey to enable/disable the strip</summary>
+      <description>Hotkey to enable/disable the strip</description>
+    </key>
+    <key name="hotkey-locked" type="as">
+      <default><![CDATA[['<Super><Shift><Control>space']]]></default>
+      <summary>Hotkey to lock/unlcok the strip</summary>
+      <description>Hotkey to lock/unlock the strip</description>
+    </key>
+  </schema>
 </schemalist>

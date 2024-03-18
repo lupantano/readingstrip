@@ -57,7 +57,7 @@ gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip color
 - [ ] Preferences: change cursor icon;
 - [ ] Preferences focus mode: resize (h x w), color;
 - [ ] Daltonism features;
-- [ ] Preferences: hold on/off the strip;
+- [X] Preferences: hold on/off the strip;
 - [x] Preferences: color button;
 - [x] Preferences GUI;
 - [X] Preferences: profiles;
