@@ -70,7 +70,15 @@ function syncStrip(monitor_changed = false) {
 
 // toggle strip on or off
 function toggleStrip() {
-    if (strip_h.visible) {
+    strip_h.visible = !strip_h.visible;
+    strip_v.visible = strip_h.visible;
+    focus_up.visible = strip_h.visible;
+    focus_down.visible = strip_h.visible;
+    settings.set_boolean('enabled', strip_h.visible);
+    
+    strip_locked = 0;
+    
+    if (icon.gicon == icon_on) {
 	icon.gicon = icon_off;
 	pointerWatch.remove();
 	pointerWatch = null;
@@ -79,16 +87,11 @@ function toggleStrip() {
 	syncStrip(true);
 	pointerWatch = pointerWatcher.addWatch(refresh, syncStrip);
     }
-    strip_h.visible = !strip_h.visible;
-    strip_v.visible = strip_h.visible;
-    focus_up.visible = strip_h.visible;
-    focus_down.visible = strip_h.visible;
-    settings.set_boolean('enabled', strip_h.visible);
 }
 
 // lock/unlock strip on screen
 function lockStrip() {
-    if (strip_h.visible && !strip_locked) {
+    if (!strip_locked) {
 	pointerWatch.remove();
 	pointerWatch = null;
 	strip_locked = 1;
