@@ -168,7 +168,7 @@ class ReadingStrip {
 
 	// synchronize extension state with current settings
 	setting_changed_signal_ids.push(settings.connect('changed', () => {
-	    strip_h.style = 'background-color : ' + settings.get_string('color-strip');
+	    strip_h.style = 'background-color : ' + settings.get_string('color-strip') + ';border: 1px solid #708090;';
 	    strip_h.opacity = settings.get_double('opacity') * 255/100;
 	    strip_h.height = settings.get_double('height') * currentMonitor.height/100;
 
