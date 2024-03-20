@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-18 17:28+0100\n"
-"PO-Revision-Date: 2024-03-19 08:00+0100\n"
+"POT-Creation-Date: 2024-03-20 17:28+0100\n"
+"PO-Revision-Date: 2024-03-20 14:00+0100\n"
 "Last-Translator: Albano Battistella <albanobattistella@gmail.com>\n"
 "Language-Team: Italian <Zorin-OS Team>\n"
 "Language: it\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: extension.js:114
+#: extension.js:117
 msgid "Show/Hide"
 msgstr "Mostra/Nascondi"
 
-#: extension.js:115
+#: extension.js:118
 msgid "Settings..."
 msgstr "Impostazioni..."
 
