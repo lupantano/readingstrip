@@ -1,68 +1,80 @@
-# SOME DESCRIPTIVE TITLE.
+# ITALIAN TRANSLATION.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# Luigi Pantano <nil>, 2022.
+# Luigi Pantano <nil>, 2022
+# Albano Battistella <albanobattistella@gmail.com>,2022,2023,2024.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.1\n"
+"Project-Id-Version: 3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-30 22:19+0200\n"
-"PO-Revision-Date: 2022-07-30 22:30+0200\n"
-"Last-Translator: Luigi Pantano <nil>\n"
-"Language-Team: Italian <nil>\n"
+"POT-Creation-Date: 2024-03-20 17:28+0100\n"
+"PO-Revision-Date: 2024-03-20 14:00+0100\n"
+"Last-Translator: Albano Battistella <albanobattistella@gmail.com>\n"
+"Language-Team: Italian <Zorin-OS Team>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 42.0\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: prefs.js:28
+#: extension.js:117
+msgid "Show/Hide"
+msgstr "Mostra/Nascondi"
+
+#: extension.js:118
+msgid "Settings..."
+msgstr "Impostazioni..."
+
+#: prefs.js:45
 msgid ""
-"You can activate/deactive with <b>SUPER+CTRL+SPACE</b> \n"
-"or click on icon panel"
+"You can activate/deactive with <b>SUPER+CTRL+SPACE</b> or click on icon "
+"panel\n"
+"You can lock/unlock movement with <b>SUPER+SHIFT+CTRL+SPACE</b>"
 msgstr ""
-"Puoi attivare/disattivare premendo <b>SUPER+CTRL+SPACE</b> \n"
-"oppure cliccando sull'icona nel pannello"
+"Puoi attivare/disattivare premendo <b>SUPER+CTRL+SPAZIO</b> oppure cliccando "
+"sull'icona nel pannello\n"
+"Puoi bloccare/sbloccare il movimento con <b>SUPER+SHIFT+CTRL+SPAZIO</b>"
 
-#: prefs.js:37
+#: prefs.js:54
 msgid "<b>Size</b> (%)"
 msgstr "<b>Spessore</b> (%)"
 
-#: prefs.js:66
+#: prefs.js:83
 msgid "<b>Opacity</b> (%)"
 msgstr "<b>Trasparenza</b> (%)"
 
-#: prefs.js:95
+#: prefs.js:112
+msgid "<b>Refresh</b> (ms)"
+msgstr "<b>Refresh</b> (ms)"
+
+#: prefs.js:141
 msgid "<b>Strip Color</b>:"
-msgstr "<b>Colore barra</b>"
+msgstr "<b>Colore barra</b>:"
 
-#: prefs.js:117
+#: prefs.js:163
 msgid "<b>Color Focus</b>:"
-msgstr "<b>Colore focus</b>"
+msgstr "<b>Colore focus</b>:"
 
-#: prefs.js:139
+#: prefs.js:185
 msgid "<b>Vertical Strip</b>:"
 msgstr "<b>Barra verticale</b>:"
 
-#: prefs.js:161
+#: prefs.js:207
 msgid "<b>Focus strip</b>:"
 msgstr "<b>Barra focus</b>:"
 
-#: prefs.js:183
+#: prefs.js:229
 msgid "<b>Profile</b>:"
-msgstr "<b>Profili</b>:"
+msgstr "<b>Profilo</b>:"
 
-#: prefs.js:197
+#: prefs.js:243
 msgid "Focus Mode"
 msgstr "Senza distrazioni"
 
-#: prefs.js:212
+#: prefs.js:258
 msgid "Rules"
 msgstr "Righelli"
 
-#: prefs.js:227
+#: prefs.js:273
 msgid "Default"
 msgstr "Predefinito"
