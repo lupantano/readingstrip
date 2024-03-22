@@ -28,6 +28,7 @@ const {
 
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
+const PopupMenu = imports.ui.popupMenu;
 const icon_on = Gio.icon_new_for_string(`${Me.path}/icons/readingstrip-on-symbolic.svg`);
 const icon_off = Gio.icon_new_for_string(`${Me.path}/icons/readingstrip-off-symbolic.svg`);
 let icon;
@@ -114,7 +115,13 @@ class ReadingStrip {
 	    style_class: 'system-status-icon',
 	});	
         this._indicator.add_child(icon);
-	this._indicator.menu.addAction(_('Show/Hide'), () => toggleStrip());
+	
+	this._buttonSwitchItem = new PopupMenu.PopupSwitchMenuItem(_('Show/Hide'), { status: false }, {});
+	this._buttonSwitchItem.connect('toggled', () => {
+            toggleStrip();
+	});
+	this._buttonSwitchItem.setToggleState(false);
+	this._indicator.menu.addMenuItem(this._buttonSwitchItem);
 	this._indicator.menu.addAction(_('Settings...'), () => ExtensionUtils.openPrefs(), 'settings-symbolic');
 	
 	Main.panel.addToStatusArea(Me.metadata.uuid, this._indicator);
