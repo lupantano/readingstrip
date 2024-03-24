@@ -138,7 +138,7 @@ function buildPrefsWidget() {
     );
     
     let colorStripLabel = new Gtk.Label({
-	label: _('<b>Strip Color</b>:'),
+	label: _('<b>Strip Color</b>'),
 	halign: Gtk.Align.START,
 	use_markup: true,
 	visible: true
@@ -160,7 +160,7 @@ function buildPrefsWidget() {
     });
 
     let colorFocusLabel = new Gtk.Label({
-	label: _('<b>Color Focus</b>:'),
+	label: _('<b>Color Focus</b>'),
 	halign: Gtk.Align.START,
 	use_markup: true,
 	visible: true
@@ -182,7 +182,7 @@ function buildPrefsWidget() {
     });
 
     let verticalLabel = new Gtk.Label({
-	label: _('<b>Vertical Strip</b>:'),
+	label: _('<b>Vertical Strip</b>'),
 	halign: Gtk.Align.START,
 	use_markup: true,
 	visible: true
@@ -204,7 +204,7 @@ function buildPrefsWidget() {
     );
 
     let focusStripLabel = new Gtk.Label({
-	label: _('<b>Focus strip</b>:'),
+	label: _('<b>Focus strip</b>'),
 	halign: Gtk.Align.START,
 	use_markup: true,
 	visible: true
@@ -226,7 +226,7 @@ function buildPrefsWidget() {
     );
 
     let profileLabel = new Gtk.Label({
-	label: _('<b>Profile</b>:'),
+	label: _('<b>Profile</b>'),
 	halign: Gtk.Align.START,
 	use_markup: true,
 	visible: true

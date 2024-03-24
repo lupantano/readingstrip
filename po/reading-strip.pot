@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-22 06:06+0100\n"
+"POT-Creation-Date: 2024-03-24 09:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: extension.js:119
+#: extension.js:121
 msgid "Show/Hide"
 msgstr ""
 
-#: extension.js:125
+#: extension.js:127
 msgid "Settings..."
 msgstr ""
 
@@ -45,23 +45,23 @@ msgid "<b>Refresh</b> (ms)"
 msgstr ""
 
 #: prefs.js:141
-msgid "<b>Strip Color</b>:"
+msgid "<b>Strip Color</b>"
 msgstr ""
 
 #: prefs.js:163
-msgid "<b>Color Focus</b>:"
+msgid "<b>Color Focus</b>"
 msgstr ""
 
 #: prefs.js:185
-msgid "<b>Vertical Strip</b>:"
+msgid "<b>Vertical Strip</b>"
 msgstr ""
 
 #: prefs.js:207
-msgid "<b>Focus strip</b>:"
+msgid "<b>Focus strip</b>"
 msgstr ""
 
 #: prefs.js:229
-msgid "<b>Profile</b>:"
+msgid "<b>Profile</b>"
 msgstr ""
 
 #: prefs.js:243

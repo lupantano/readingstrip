@@ -2,67 +2,81 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# Luigi Pantano <nil>, 2022.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-31 17:08+0200\n"
-"PO-Revision-Date: 2022-07-31 20:51+0200\n"
-"Last-Translator: Luigi Pantano <nil>\n"
-"Language-Team: Deutsch <nil>\n"
+"POT-Creation-Date: 2024-03-24 09:11+0100\n"
+"PO-Revision-Date: 2024-03-24 09:52+0100\n"
+"Last-Translator: Luigi Pantano\n"
+"Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 42.0\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Poedit 3.4.2\n"
 
-#: prefs.js:28
+#: extension.js:121
+msgid "Show/Hide"
+msgstr "Anzeigen/Verbergen"
+
+#: extension.js:127
+msgid "Settings..."
+msgstr "Einstellungen..."
+
+#: prefs.js:45
 msgid ""
-"You can activate/deactive with <b>SUPER+CTRL+SPACE</b> \n"
-"or click on icon panel"
+"You can activate/deactive with <b>SUPER+CTRL+SPACE</b> or click on icon "
+"panel\n"
+"You can lock/unlock movement with <b>SUPER+SHIFT+CTRL+SPACE</b>"
 msgstr ""
-"Sie können aktivieren / deaktivieren, indem Sie <b>SUPER+CTRL+SPACE</b>\n"
-"drücken oder auf das Panel-Symbol klicken"
+"Sie können aktivieren / deaktivieren, indem sie <b>SUPER+CTRL+SPACE</b> "
+"drücken oder auf das Panel-Symbol klicken\n"
+"Sie können die bewegung sperren/entsperren mit "
+"<b>SUPER+SHIFT+CTRL+SPACE</b>"
 
-#: prefs.js:37
+#: prefs.js:54
 msgid "<b>Size</b> (%)"
 msgstr "<b>Dicke</b> (%)"
 
-#: prefs.js:66
+#: prefs.js:83
 msgid "<b>Opacity</b> (%)"
 msgstr "<b>Trasparenz</b> (%)"
 
-#: prefs.js:95
-msgid "<b>Strip Color</b>:"
-msgstr "<b>Farbeleiste</b>:"
+#: prefs.js:112
+msgid "<b>Refresh</b> (ms)"
+msgstr "<b>Refresh</b> (ms)"
 
-#: prefs.js:117
-msgid "<b>Color Focus</b>:"
-msgstr "<b>Fokusfarbe</b>:"
+#: prefs.js:141
+msgid "<b>Strip Color</b>"
+msgstr "<b>Farbeleiste</b>"
 
-#: prefs.js:139
-msgid "<b>Vertical Strip</b>:"
-msgstr "<b>Senkrechter Leiste</b>:"
+#: prefs.js:163
+msgid "<b>Color Focus</b>"
+msgstr "<b>Fokusfarbe</b>"
 
-#: prefs.js:161
-msgid "<b>Focus strip</b>:"
-msgstr "<b>Fokusleiste</b>:"
+#: prefs.js:185
+msgid "<b>Vertical Strip</b>"
+msgstr "<b>Senkrechter Leiste</b>"
 
-#: prefs.js:183
-msgid "<b>Profile</b>:"
-msgstr "<b>Profile</b>:"
+#: prefs.js:207
+msgid "<b>Focus strip</b>"
+msgstr "<b>Fokusleiste</b>"
 
-#: prefs.js:197
+#: prefs.js:229
+msgid "<b>Profile</b>"
+msgstr "<b>Profile</b>"
+
+#: prefs.js:243
 msgid "Focus Mode"
 msgstr "Ohne Ablenkung"
 
-#: prefs.js:212
+#: prefs.js:258
 msgid "Rules"
 msgstr "Lineale"
 
-#: prefs.js:227
+#: prefs.js:273
 msgid "Default"
 msgstr "Ursprünglich"

@@ -41,69 +41,71 @@ let monitor_change_signal_id = 0;
 let strip_h, strip_v, focus_up, focus_down,  pointerWatch, refresh = 1, strip_locked = 0;
 let settings, setting_changed_signal_ids = [];
 
-// follow cursor position, and monitor as well
-function syncStrip(monitor_changed = false) {
-    const [x, y] = global.get_pointer();
-    if (monitor_changed || num_monitors > 1) {
-	currentMonitor = Main.layoutManager.currentMonitor;
-	strip_h.x = currentMonitor.x;
-	strip_h.width = currentMonitor.width;
-
-	strip_v.x = x - strip_v.width;
-	strip_v.height = currentMonitor.height;
-
-	focus_up.width = currentMonitor.width;
-	focus_up.height = y - strip_h.height / 2;
-
-	focus_down.width = currentMonitor.width;
-	focus_down.height = currentMonitor.height - focus_up.height;
-    }
-
-    strip_h.y = y - strip_h.height / 2;
-    strip_v.y = currentMonitor.y;
-
-    focus_up.x = 0;
-    focus_up.y = 0;
-
-    focus_down.x = 0;
-    focus_down.y = y + strip_h.height / 2;
-}
-
-// toggle strip on or off
-function toggleStrip() {
-    strip_h.visible = !strip_h.visible;
-    strip_v.visible = strip_h.visible;
-    focus_up.visible = strip_h.visible;
-    focus_down.visible = strip_h.visible;
-    settings.set_boolean('enabled', strip_h.visible);
-    
-    strip_locked = 0;
-    
-    if (icon.gicon == icon_on) {
-	icon.gicon = icon_off;
-	pointerWatch.remove();
-	pointerWatch = null;
-    } else {
-	icon.gicon = icon_on;
-	syncStrip(true);
-	pointerWatch = pointerWatcher.addWatch(refresh, syncStrip);
-    }
-}
-
-// lock/unlock strip on screen
-function lockStrip() {
-    if (!strip_locked) {
-	pointerWatch.remove();
-	pointerWatch = null;
-	strip_locked = 1;
-    } else {
-	syncStrip(true);
-	pointerWatch = pointerWatcher.addWatch(refresh, syncStrip);
-	strip_locked = 0;
-    }
-}
-
 class ReadingStrip {
+    // follow cursor position, and monitor as well
+    syncStrip(monitor_changed = false) {
+	const [x, y] = global.get_pointer();
+	if (monitor_changed || num_monitors > 1) {
+	    currentMonitor = Main.layoutManager.currentMonitor;
+	    strip_h.x = currentMonitor.x;
+	    strip_h.width = currentMonitor.width;
+
+	    strip_v.x = x - strip_v.width;
+	    strip_v.height = currentMonitor.height;
+
+	    focus_up.width = currentMonitor.width;
+	    focus_up.height = y - strip_h.height / 2;
+
+	    focus_down.width = currentMonitor.width;
+	    focus_down.height = currentMonitor.height - focus_up.height;
+	}
+
+	strip_h.y = y - strip_h.height / 2;
+	strip_v.y = currentMonitor.y;
+
+	focus_up.x = 0;
+	focus_up.y = 0;
+
+	focus_down.x = 0;
+	focus_down.y = y + strip_h.height / 2;
+    }
+
+    // toggle strip on or off
+    toggleStrip() {
+	strip_h.visible = !strip_h.visible;
+	strip_v.visible = strip_h.visible;
+	focus_up.visible = strip_h.visible;
+	focus_down.visible = strip_h.visible;
+	settings.set_boolean('enabled', strip_h.visible);
+	
+	strip_locked = 0;
+	
+	if (icon.gicon == icon_on) {
+	    icon.gicon = icon_off;
+	    this._buttonSwitchItem.setToggleState(false);
+	    pointerWatch.remove();
+	    pointerWatch = null;
+	} else {
+	    icon.gicon = icon_on;
+	    this._buttonSwitchItem.setToggleState(true);
+	    this.syncStrip(true);
+	    pointerWatch = pointerWatcher.addWatch(refresh, this.syncStrip);
+	}
+    }
+
+    // lock/unlock strip on screen
+    lockStrip() {
+	if (!strip_locked) {
+	    pointerWatch.remove();
+	    pointerWatch = null;
+	    strip_locked = 1;
+	} else {
+	    this.syncStrip(true);
+	    pointerWatch = pointerWatcher.addWatch(refresh, this.syncStrip);
+	    strip_locked = 0;
+	}
+    }
+
     enable() {
 	// Load settings
 	settings = ExtensionUtils.getSettings();
@@ -118,7 +120,7 @@ class ReadingStrip {
 	
 	this._buttonSwitchItem = new PopupMenu.PopupSwitchMenuItem(_('Show/Hide'), { status: false }, {});
 	this._buttonSwitchItem.connect('toggled', () => {
-            toggleStrip();
+            this.toggleStrip();
 	});
 	this._buttonSwitchItem.setToggleState(false);
 	this._indicator.menu.addMenuItem(this._buttonSwitchItem);
@@ -195,14 +197,14 @@ class ReadingStrip {
 
 	// load previous state
 	if (settings.get_boolean('enabled'))
-	    toggleStrip();
+	    this.toggleStrip();
 
 	// synchronize hot key enable/disable
 	Main.wm.addKeybinding('hotkey', settings,
 			      Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
 			      Shell.ActionMode.ALL,
 			      () => {
-				  toggleStrip();
+				  this.toggleStrip();
 			      }
 			     );
 	// synchronize hot key lock/unlock
@@ -210,7 +212,7 @@ class ReadingStrip {
 			      Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
 			      Shell.ActionMode.ALL,
 			      () => {
-				  lockStrip();
+				  this.lockStrip();
 			      }
 			     );
 	

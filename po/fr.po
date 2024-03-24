@@ -1,65 +1,82 @@
-# FRENCH TRANSLATION FOR READINGSTRIP.
+# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# ALBANO BATTISTELLA <albano_battistella@hotmail.com>, 2022.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.1\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-31 07:54+0200\n"
-"PO-Revision-Date: 2022-07-31 14:07+0200\n"
-"Last-Translator: Albano Battistella <Albano_battistella@hotmail.com>\n"
-"Language-Team: French <LL@li.org>\n"
+"POT-Creation-Date: 2024-03-24 09:11+0100\n"
+"PO-Revision-Date: 2024-03-24 09:43+0100\n"
+"Last-Translator: Luigi Pantano\n"
+"Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.2\n"
 
-#: prefs.js:28
+#: extension.js:121
+msgid "Show/Hide"
+msgstr "Afficher/Masquer"
+
+#: extension.js:127
+msgid "Settings..."
+msgstr "Paramètres..."
+
+#: prefs.js:45
 msgid ""
-"You can activate/deactive with <b>SUPER+CTRL+SPACE</b> \n"
-"or click on icon panel"
+"You can activate/deactive with <b>SUPER+CTRL+SPACE</b> or click on icon "
+"panel\n"
+"You can lock/unlock movement with <b>SUPER+SHIFT+CTRL+SPACE</b>"
 msgstr ""
-"Vous pouvez activer/désactiver avec <b>SUPER+CTRL+ESPACE</b> \n"
-"ou cliquez sur le panneau d'icônes"
+"Vous pouvez activer/désactiver avec <b>SUPER+CTRL+ESPACE</b> ou cliquez "
+"sur le panneau d'icônes\n"
+"Vous pouvez verrouiller/déverrouiller le mouvement avec "
+"<b>SUPER+SHIFT+CTRL+SPACE</b>"
 
-#: prefs.js:37
+#: prefs.js:54
 msgid "<b>Size</b> (%)"
 msgstr "<b>Dimension</b> (%)"
 
-#: prefs.js:66
+#: prefs.js:83
 msgid "<b>Opacity</b> (%)"
 msgstr "<b>Transparence</b> (%)"
 
-#: prefs.js:95
-msgid "<b>Strip Color</b>:"
+#: prefs.js:112
+msgid "<b>Refresh</b> (ms)"
+msgstr "<b>Refresh</b> (ms)"
+
+#: prefs.js:141
+msgid "<b>Strip Color</b>"
 msgstr "<b>Couleur de la barre</b>"
 
-#: prefs.js:117
-msgid "<b>Color Focus</b>:"
-msgstr "<b>Couleur de mise au point</b>:"
+#: prefs.js:163
+msgid "<b>Color Focus</b>"
+msgstr "<b>Couleur de mise au point</b>"
 
-#: prefs.js:139
-msgid "<b>Vertical Strip</b>:"
-msgstr "<b>Barre verticale</b>:"
+#: prefs.js:185
+msgid "<b>Vertical Strip</b>"
+msgstr "<b>Barre verticale</b>"
 
-#: prefs.js:161
-msgid "<b>Focus strip</b>:"
-msgstr "<b>Barre de mise au point</b>:"
+#: prefs.js:207
+msgid "<b>Focus strip</b>"
+msgstr "<b>Barre de mise au point</b>"
 
-#: prefs.js:183
-msgid "<b>Profile</b>:"
-msgstr "<b>Profil</b>:"
+#: prefs.js:229
+msgid "<b>Profile</b>"
+msgstr "<b>Profil</b>"
 
-#: prefs.js:197
+#: prefs.js:243
 msgid "Focus Mode"
 msgstr "Sans distraction"
 
-#: prefs.js:212
+#: prefs.js:258
 msgid "Rules"
 msgstr "Règles"
 
-#: prefs.js:227
+#: prefs.js:273
 msgid "Default"
 msgstr "Par défaut"
