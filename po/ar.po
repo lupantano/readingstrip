@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-24 09:11+0100\n"
-"PO-Revision-Date: 2024-03-24 12:10+0100\n"
+"POT-Creation-Date: 2024-03-24 09:53+0100\n"
+"PO-Revision-Date: 2024-03-24 10:46+0100\n"
 "Last-Translator: Luigi Pantano\n"
 "Language-Team: \n"
-"Language: de\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,11 +20,11 @@ msgstr ""
 
 #: extension.js:121
 msgid "Show/Hide"
-msgstr "Anzeigen/Verbergen"
+msgstr "إظهار/إخفاء"
 
 #: extension.js:127
 msgid "Settings..."
-msgstr "Einstellungen..."
+msgstr "الإعدادات..."
 
 #: prefs.js:45
 msgid ""
@@ -32,18 +32,17 @@ msgid ""
 "panel\n"
 "You can lock/unlock movement with <b>SUPER+SHIFT+CTRL+SPACE</b>"
 msgstr ""
-"Sie können aktivieren / deaktivieren, indem sie <b>SUPER+CTRL+SPACE</b> "
-"drücken oder auf das Panel-Symbol klicken\n"
-"Sie können die bewegung sperren/entsperren mit "
-"<b>SUPER+SHIFT+CTRL+SPACE</b>"
+"يمكنك تنشيط/إلغاء التنشيط باستخدام <b>SUPER+SUPER+SHIFTRL+SPACE</b> أو "
+"النقر على لوحة الأيقونات\n"
+"يمكنك قفل/إلغاء قفل الحركة باستخدام <b>SUPER+SHIFT+SCTRL+SPACE</b>"
 
 #: prefs.js:54
 msgid "<b>Size</b> (%)"
-msgstr "<b>Dicke</b> (%)"
+msgstr "<b>الحجم</b> (%)"
 
 #: prefs.js:83
 msgid "<b>Opacity</b> (%)"
-msgstr "<b>Trasparenz</b> (%)"
+msgstr "<b>التعتيم</b> (%)"
 
 #: prefs.js:112
 msgid "<b>Refresh</b> (ms)"
@@ -51,32 +50,32 @@ msgstr "<b>Refresh</b> (ms)"
 
 #: prefs.js:141
 msgid "<b>Strip Color</b>"
-msgstr "<b>Farbeleiste</b>"
+msgstr "<b>لون الشريط</b>"
 
 #: prefs.js:163
 msgid "<b>Color Focus</b>"
-msgstr "<b>Fokusfarbe</b>"
+msgstr "<b>التركيز على الألوان</b>"
 
 #: prefs.js:185
 msgid "<b>Vertical Strip</b>"
-msgstr "<b>Senkrechter Leiste</b>"
+msgstr "<b>شريط عمودي</b>"
 
 #: prefs.js:207
 msgid "<b>Focus strip</b>"
-msgstr "<b>Fokus Leiste</b>"
+msgstr "<b>شريط التركيز</b>"
 
 #: prefs.js:229
 msgid "<b>Profile</b>"
-msgstr "<b>Profile</b>"
+msgstr "<b>الملف الشخصي</b>"
 
 #: prefs.js:243
 msgid "Focus Mode"
-msgstr "Ohne Ablenkung"
+msgstr "وضع التركيز"
 
 #: prefs.js:258
 msgid "Rules"
-msgstr "Lineale"
+msgstr "القواعد"
 
 #: prefs.js:273
 msgid "Default"
-msgstr "Ursprünglich"
+msgstr "افتراضي"
