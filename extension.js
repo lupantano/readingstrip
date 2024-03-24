@@ -29,16 +29,12 @@ const {
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
-const icon_on = Gio.icon_new_for_string(`${Me.path}/icons/readingstrip-on-symbolic.svg`);
-const icon_off = Gio.icon_new_for_string(`${Me.path}/icons/readingstrip-off-symbolic.svg`);
 let icon;
 
-const pointerWatcher = imports.ui.pointerWatcher.getPointerWatcher();
 let currentMonitor = Main.layoutManager.currentMonitor;
 let num_monitors = Main.layoutManager.monitors.length;
 let monitor_change_signal_id = 0;
-
-let strip_h, strip_v, focus_up, focus_down,  pointerWatch, refresh = 1, strip_locked = 0;
+let strip_h, strip_v, focus_up, focus_down, pointerWatch, refresh = 1, strip_locked = 0;
 let settings, setting_changed_signal_ids = [];
 
 class ReadingStrip {
@@ -80,16 +76,16 @@ class ReadingStrip {
 	
 	strip_locked = 0;
 	
-	if (icon.gicon == icon_on) {
-	    icon.gicon = icon_off;
+	if (icon.gicon == this.icon_on) {
+	    icon.gicon = this.icon_off;
 	    this._buttonSwitchItem.setToggleState(false);
 	    pointerWatch.remove();
 	    pointerWatch = null;
 	} else {
-	    icon.gicon = icon_on;
+	    icon.gicon = this.icon_on;
 	    this._buttonSwitchItem.setToggleState(true);
 	    this.syncStrip(true);
-	    pointerWatch = pointerWatcher.addWatch(refresh, this.syncStrip);
+	    pointerWatch = this.pointerWatcher.addWatch(refresh, this.syncStrip);
 	}
     }
 
@@ -101,19 +97,23 @@ class ReadingStrip {
 	    strip_locked = 1;
 	} else {
 	    this.syncStrip(true);
-	    pointerWatch = pointerWatcher.addWatch(refresh, this.syncStrip);
+	    pointerWatch = this.pointerWatcher.addWatch(refresh, this.syncStrip);
 	    strip_locked = 0;
 	}
     }
 
     enable() {
+	this.icon_on = Gio.icon_new_for_string(`${Me.path}/icons/readingstrip-on-symbolic.svg`);
+	this.icon_off = Gio.icon_new_for_string(`${Me.path}/icons/readingstrip-off-symbolic.svg`);
+	this.pointerWatcher = imports.ui.pointerWatcher.getPointerWatcher();
+	
 	// Load settings
 	settings = ExtensionUtils.getSettings();
 
 	// add to top panel
 	this._indicator = new PanelMenu.Button(0.0, Me.metadata.name, false);
 	icon = new St.Icon({
-	    gicon : icon_off,
+	    gicon : this.icon_off,
 	    style_class: 'system-status-icon',
 	});	
         this._indicator.add_child(icon);
@@ -233,9 +233,14 @@ class ReadingStrip {
 	    Main.layoutManager.disconnect(monitor_change_signal_id);
 
 	Main.wm.removeKeybinding('hotkey');
+	Main.wm.removeKeybinding('hotkey-locked');
 	setting_changed_signal_ids.forEach(id => settings.disconnect(id));
 	setting_changed_signal_ids = [];
 	settings = null;
+	icon = null;
+	this.icon_on = null;
+	this.icon_off = null;
+	this.pointerWatcher = null;
     }
 }
 
