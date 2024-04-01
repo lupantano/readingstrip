@@ -58,10 +58,11 @@ gsettings --schemadir schemas/ set org.gnome.shell.extensions.readingstrip color
 - [ ] Preferences focus mode: resize (h x w), color;
 - [ ] Daltonism features;
 - [X] Preferences: hold on/off the strip;
+- [ ] Duplicate strip;
 - [x] Preferences: color button;
 - [x] Preferences GUI;
 - [X] Preferences: profiles;
-- [x] Language: IT, EN, DE, ES, FR, 🇺🇦, 🇧🇷
+- [x] Language: 🇮🇹, 🇬🇧, 🇩🇪, 🇪🇸, 🇫🇷, 🇺🇦, 🇧🇷, 🇷🇴
 
 # Contributors
 @justperfection
