@@ -31,39 +31,32 @@ const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 let icon;
 
-let currentMonitor = Main.layoutManager.currentMonitor;
-let num_monitors = Main.layoutManager.monitors.length;
-let monitor_change_signal_id = 0;
 let strip_h, strip_v, focus_up, focus_down, pointerWatch, refresh = 1, strip_locked = 0;
 let settings, setting_changed_signal_ids = [];
 
 class ReadingStrip {
     // follow cursor position, and monitor as well
-    syncStrip(monitor_changed = false) {
+    syncStrip() {
 	const [x, y] = global.get_pointer();
-	if (monitor_changed || num_monitors > 1) {
-	    currentMonitor = Main.layoutManager.currentMonitor;
-	    strip_h.x = currentMonitor.x;
-	    strip_h.width = currentMonitor.width;
+	currentMonitor = Main.layoutManager.currentMonitor;
 
-	    strip_v.x = x - strip_v.width;
-	    strip_v.height = currentMonitor.height;
-
-	    focus_up.width = currentMonitor.width;
-	    focus_up.height = y - strip_h.height / 2;
-
-	    focus_down.width = currentMonitor.width;
-	    focus_down.height = currentMonitor.height - focus_up.height;
-	}
-
+	strip_h.x = currentMonitor.x;
 	strip_h.y = y - strip_h.height / 2;
+	strip_h.width = currentMonitor.width;
+	
+	strip_v.x = x - strip_v.width;
 	strip_v.y = currentMonitor.y;
-
-	focus_up.x = 0;
-	focus_up.y = 0;
-
-	focus_down.x = 0;
+	strip_v.height = currentMonitor.height;
+	
+	focus_up.x = currentMonitor.x;
+	focus_up.y = -currentMonitor.height + y - strip_h.height / 2;
+	focus_up.width = currentMonitor.width;
+	focus_up.height = currentMonitor.height;
+	
+	focus_down.x = currentMonitor.x;
 	focus_down.y = y + strip_h.height / 2;
+	focus_down.width = currentMonitor.width;
+	focus_down.height = currentMonitor.height;
     }
 
     // toggle strip on or off
@@ -179,7 +172,7 @@ class ReadingStrip {
 	setting_changed_signal_ids.push(settings.connect('changed', () => {
 	    strip_h.style = 'background-color : ' + settings.get_string('color-strip') + ';border: 1px solid #708090;';
 	    strip_h.opacity = settings.get_double('opacity') * 255/100;
-	    strip_h.height = settings.get_double('height') * currentMonitor.height/100;
+	    strip_h.height = settings.get_double('height') * Main.layoutManager.currentMonitor.height/100;
 
 	    strip_v.visible = strip_h.visible && settings.get_boolean('vertical');
 	    strip_v.style = strip_h.style;
@@ -214,13 +207,7 @@ class ReadingStrip {
 			      () => {
 				  this.lockStrip();
 			      }
-			     );
-	
-	// watch for monitor changes
-	monitor_change_signal_id = Main.layoutManager.connect('monitors-changed', () => {
-	    num_monitors = Main.layoutManager.monitors.length;
-	});
-	
+			     );	
     }
 
     disable() {
@@ -228,9 +215,6 @@ class ReadingStrip {
 	    this._indicator.destroy();
 	    this._indicator = null;
         }
-
-	if (monitor_change_signal_id)
-	    Main.layoutManager.disconnect(monitor_change_signal_id);
 
 	Main.wm.removeKeybinding('hotkey');
 	Main.wm.removeKeybinding('hotkey-locked');
