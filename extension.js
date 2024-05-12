@@ -95,6 +95,25 @@ class ReadingStrip {
 	}
     }
 
+    onSettingsChanged() {
+	strip_h.style = 'background-color : ' + settings.get_string('color-strip') + ';border: 1px solid #708090;';
+	strip_h.opacity = settings.get_double('opacity') * 255/100;
+	strip_h.height = settings.get_double('height') * Main.layoutManager.currentMonitor.height/100;
+
+	strip_v.visible = strip_h.visible && settings.get_boolean('vertical');
+	strip_v.style = strip_h.style;
+	strip_v.opacity = strip_h.opacity;
+	strip_v.width = strip_h.height / 4;
+
+	focus_up.visible = strip_h.visible && settings.get_boolean('focusmode');
+	focus_up.style = 'background-color : ' + settings.get_string('color-focus');
+
+	focus_down.visible = strip_h.visible && settings.get_boolean('focusmode');
+	focus_down.style = 'background-color : ' + settings.get_string('color-focus');
+
+	refresh = settings.get_int('refresh');
+    }
+
     enable() {
 	this.icon_on = Gio.icon_new_for_string(`${Me.path}/icons/readingstrip-on-symbolic.svg`);
 	this.icon_off = Gio.icon_new_for_string(`${Me.path}/icons/readingstrip-off-symbolic.svg`);
@@ -169,28 +188,13 @@ class ReadingStrip {
 	Main.uiGroup.add_child(focus_down);
 
 	// synchronize extension state with current settings
-	setting_changed_signal_ids.push(settings.connect('changed', () => {
-	    strip_h.style = 'background-color : ' + settings.get_string('color-strip') + ';border: 1px solid #708090;';
-	    strip_h.opacity = settings.get_double('opacity') * 255/100;
-	    strip_h.height = settings.get_double('height') * Main.layoutManager.currentMonitor.height/100;
-
-	    strip_v.visible = strip_h.visible && settings.get_boolean('vertical');
-	    strip_v.style = strip_h.style;
-	    strip_v.opacity = strip_h.opacity;
-	    strip_v.width = strip_h.height / 4;
-
-	    focus_up.visible = strip_h.visible && settings.get_boolean('focusmode');
-	    focus_up.style = 'background-color : ' + settings.get_string('color-focus');
-
-	    focus_down.visible = strip_h.visible && settings.get_boolean('focusmode');
-	    focus_down.style = 'background-color : ' + settings.get_string('color-focus');
-
-	    refresh = settings.get_int('refresh');
-	}));
+	setting_changed_signal_ids.push(settings.connect('changed', this.onSettingsChanged));
 
 	// load previous state
-	if (settings.get_boolean('enabled'))
+	if (settings.get_boolean('enabled')) {
 	    this.toggleStrip();
+	    this.onSettingsChanged();
+	}
 
 	// synchronize hot key enable/disable
 	Main.wm.addKeybinding('hotkey', settings,
