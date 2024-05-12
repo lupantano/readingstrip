@@ -38,7 +38,7 @@ class ReadingStrip {
     // follow cursor position, and monitor as well
     syncStrip() {
 	const [x, y] = global.get_pointer();
-	currentMonitor = Main.layoutManager.currentMonitor;
+	const currentMonitor = Main.layoutManager.currentMonitor;
 
 	strip_h.x = currentMonitor.x;
 	strip_h.y = y - strip_h.height / 2;
