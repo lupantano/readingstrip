@@ -216,6 +216,11 @@ class ReadingStrip {
 	    this._indicator = null;
         }
 
+	strip_h.visible = false;
+	strip_v.visible = false;
+	focus_up.visible = false;
+	focus_down.visible = false;
+
 	Main.wm.removeKeybinding('hotkey');
 	Main.wm.removeKeybinding('hotkey-locked');
 	setting_changed_signal_ids.forEach(id => settings.disconnect(id));
