@@ -88,10 +88,16 @@ class ReadingStrip {
 	    pointerWatch.remove();
 	    pointerWatch = null;
 	    strip_locked = 1;
+	    if (icon.gicon == this.icon_on) {
+	        icon.gicon = this.icon_locked;
+	    }
 	} else {
 	    this.syncStrip(true);
 	    pointerWatch = this.pointerWatcher.addWatch(refresh, this.syncStrip);
 	    strip_locked = 0;
+	    if (icon.gicon == this.icon_locked) {
+	        icon.gicon = this.icon_on;
+	    }
 	}
     }
 
@@ -117,6 +123,7 @@ class ReadingStrip {
     enable() {
 	this.icon_on = Gio.icon_new_for_string(`${Me.path}/icons/readingstrip-on-symbolic.svg`);
 	this.icon_off = Gio.icon_new_for_string(`${Me.path}/icons/readingstrip-off-symbolic.svg`);
+	this.icon_locked = Gio.icon_new_for_string(`${Me.path}/icons/readingstrip-locked-symbolic.svg`);
 	this.pointerWatcher = imports.ui.pointerWatcher.getPointerWatcher();
 	
 	// Load settings
@@ -233,6 +240,7 @@ class ReadingStrip {
 	icon = null;
 	this.icon_on = null;
 	this.icon_off = null;
+	this.icon_locked = null;
 	this.pointerWatcher = null;
     }
 }
