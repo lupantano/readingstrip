@@ -3,8 +3,8 @@
   "gettext-domain": "reading-strip",
   "name": "ReadingStrip",
   "settings-schema": "org.gnome.shell.extensions.readingstrip",
-  "shell-version": ["3.36", "3.38", "40", "41", "42", "43", "44"],
+    "shell-version": ["45", "46", "47"],
   "url": "https://github.com/lupantano/readingstrip",
   "uuid": "readingstrip@lupantano.gihthub",
-  "version": 29
+  "version": 31
 }

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-07 10:39+0200\n"
+"POT-Creation-Date: 2024-06-30 06:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,61 +17,61 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: extension.js:117
+#: extension.js:133
 msgid "Show/Hide"
 msgstr ""
 
-#: extension.js:123
+#: extension.js:139
 msgid "Settings..."
 msgstr ""
 
-#: prefs.js:45
+#: prefs.js:60
 msgid ""
 "You can activate/deactive with <b>SUPER+CTRL+SPACE</b> or click on icon "
 "panel\n"
 "You can lock/unlock movement with <b>SUPER+SHIFT+CTRL+SPACE</b>"
 msgstr ""
 
-#: prefs.js:54
+#: prefs.js:69
 msgid "<b>Size</b> (%)"
 msgstr ""
 
-#: prefs.js:83
+#: prefs.js:98
 msgid "<b>Opacity</b> (%)"
 msgstr ""
 
-#: prefs.js:112
+#: prefs.js:127
 msgid "<b>Refresh</b> (ms)"
 msgstr ""
 
-#: prefs.js:141
+#: prefs.js:156
 msgid "<b>Strip Color</b>"
 msgstr ""
 
-#: prefs.js:163
+#: prefs.js:178
 msgid "<b>Color Focus</b>"
 msgstr ""
 
-#: prefs.js:185
+#: prefs.js:200
 msgid "<b>Vertical Strip</b>"
 msgstr ""
 
-#: prefs.js:207
+#: prefs.js:222
 msgid "<b>Focus strip</b>"
 msgstr ""
 
-#: prefs.js:229
+#: prefs.js:244
 msgid "<b>Profile</b>"
 msgstr ""
 
-#: prefs.js:243
+#: prefs.js:258
 msgid "Focus Mode"
 msgstr ""
 
-#: prefs.js:258
+#: prefs.js:273
 msgid "Rules"
 msgstr ""
 
-#: prefs.js:273
+#: prefs.js:288
 msgid "Default"
 msgstr ""
