@@ -26,11 +26,6 @@ import {
   gettext as _,
 } from "resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js";
 
-function init (){
-    ExtensionUtils.initTranslations();
-    return new ReadingStripPreferences();
-}
-
 export default class ReadingStripPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
 	window._settings = this.getSettings();
@@ -45,7 +40,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
     }
 
     buildPrefsWidget() {
-	this._settings = this.getSettings();
+	const settings = this.getSettings();
 	const prefsWidget = new Gtk.Grid({
 	    margin_start: 5,
 	    margin_end: 5,
@@ -74,7 +69,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
 	prefsWidget.attach(sizeLabel, 0, 2, 1, 1);
 
 	const sizeSpinButton = new Gtk.SpinButton({
-	    value: this._settings.get_double('height'),
+	    value: settings.get_double('height'),
 	    digits: 1,
 	    adjustment: new Gtk.Adjustment({
 		lower: 1,
@@ -87,7 +82,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
 	});
 	prefsWidget.attach(sizeSpinButton, 1, 2, 1, 1);
 
-	this._settings.bind(
+	settings.bind(
 	    'height',
 	    sizeSpinButton,
 	    'value',
@@ -103,7 +98,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
 	prefsWidget.attach(opacityLabel, 0, 3, 1, 1);
 
 	const opacitySpinButton = new Gtk.SpinButton({
-	    value: this._settings.get_double('opacity'),
+	    value: settings.get_double('opacity'),
 	    digits: 1,
 	    adjustment: new Gtk.Adjustment({
 		lower: 0,
@@ -116,7 +111,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
 	});
 	prefsWidget.attach(opacitySpinButton, 1, 3, 1, 1);
 
-	this._settings.bind(
+	settings.bind(
 	    'opacity',
 	    opacitySpinButton,
 	    'value',
@@ -132,7 +127,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
 	prefsWidget.attach(refreshLabel, 0, 4, 1, 1);
 
 	const refreshSpinButton = new Gtk.SpinButton({
-	    value: this._settings.get_int('refresh'),
+	    value: settings.get_int('refresh'),
 	    digits: 0,
 	    adjustment: new Gtk.Adjustment({
 		lower: 0,
@@ -145,7 +140,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
 	});
 	prefsWidget.attach(refreshSpinButton, 1, 4, 1, 1);
 
-	this._settings.bind(
+	settings.bind(
 	    'refresh',
 	    refreshSpinButton,
 	    'value',
@@ -166,12 +161,12 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
 	    visible: true
 	});
 	const rgba_strip = new Gdk.RGBA();
-	rgba_strip.parse(this._settings.get_string('color-strip'));
+	rgba_strip.parse(settings.get_string('color-strip'));
 	colorStripButton.rgba = rgba_strip;
 	prefsWidget.attach(colorStripButton, 1, 5, 1, 1);
 
 	colorStripButton.connect('color-set', () => {
-	    this._settings.set_string('color-strip', colorStripButton.rgba.to_string());
+	    settings.set_string('color-strip', colorStripButton.rgba.to_string());
 	});
 
 	const colorFocusLabel = new Gtk.Label({
@@ -188,12 +183,12 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
 	    visible: true
 	});
 	const rgba_focus = new Gdk.RGBA();
-	rgba_focus.parse(this._settings.get_string('color-focus'));
+	rgba_focus.parse(settings.get_string('color-focus'));
 	colorFocusButton.rgba = rgba_focus;
 	prefsWidget.attach(colorFocusButton, 1, 6, 1, 1);
 
 	colorFocusButton.connect('color-set', () => {
-	    this._settings.set_string('color-focus', colorFocusButton.rgba.to_string());
+	    settings.set_string('color-focus', colorFocusButton.rgba.to_string());
 	});
 
 	const verticalLabel = new Gtk.Label({
@@ -205,13 +200,13 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
 	prefsWidget.attach(verticalLabel, 0, 7, 1, 1);
 
 	const verticalCheckButton = new Gtk.Switch({
-	    active: this._settings.get_boolean('vertical'),
+	    active: settings.get_boolean('vertical'),
 	    halign: Gtk.Align.CENTER,
 	    visible: true
 	});
 	prefsWidget.attach(verticalCheckButton, 1, 7, 1, 1);
 
-	this._settings.bind(
+	settings.bind(
 	    'vertical',
 	    verticalCheckButton,
 	    'active',
@@ -227,13 +222,13 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
 	prefsWidget.attach(focusStripLabel, 0, 8, 1, 1);
 
 	const focusStripCheckButton = new Gtk.Switch({
-	    active: this._settings.get_boolean('focusmode'),
+	    active: settings.get_boolean('focusmode'),
 	    halign: Gtk.Align.CENTER,
 	    visible: true
 	});
 	prefsWidget.attach(focusStripCheckButton, 1, 8, 1, 1);
 
-	this._settings.bind(
+	settings.bind(
 	    'focusmode',
 	    focusStripCheckButton,
 	    'active',
@@ -261,11 +256,11 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
 	    visible: true
 	});
 	focusProfileButton.connect('clicked', () => {
-	    this._settings.set_double('opacity', 0);
-	    this._settings.set_double('height', 10);
-	    this._settings.set_string('color-focus', 'rgb(0,0,0)');
-	    this._settings.set_boolean('vertical', false);
-	    this._settings.set_boolean('focusmode', true);
+	    settings.set_double('opacity', 0);
+	    settings.set_double('height', 10);
+	    settings.set_string('color-focus', 'rgb(0,0,0)');
+	    settings.set_boolean('vertical', false);
+	    settings.set_boolean('focusmode', true);
 	});
 	buttonBox.insert(focusProfileButton, 1);
 
@@ -276,11 +271,11 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
 	    visible: true
 	});
 	rulesProfileButton.connect('clicked', () => {
-	    this._settings.set_double('opacity', 100);
-	    this._settings.set_double('height', 5);
-	    this._settings.set_string('color-strip', 'rgb(246,211,45)');
-	    this._settings.set_boolean('vertical', true);
-	    this._settings.set_boolean('focusmode', false);
+	    settings.set_double('opacity', 100);
+	    settings.set_double('height', 5);
+	    settings.set_string('color-strip', 'rgb(246,211,45)');
+	    settings.set_boolean('vertical', true);
+	    settings.set_boolean('focusmode', false);
 	});
 	buttonBox.insert(rulesProfileButton, 2);
 
@@ -291,13 +286,13 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
 	    visible: true
 	});
 	defaultProfileButton.connect('clicked', () => {
-	    this._settings.set_double('opacity', 35);
-	    this._settings.set_int('refresh', 1);
-	    this._settings.set_double('height', 2);
-	    this._settings.set_string('color-strip', 'rgb(246,211,45)');
-	    this._settings.set_string('color-focus', 'rgb(0,0,0)');
-	    this._settings.set_boolean('vertical', false);
-	    this._settings.set_boolean('focusmode', false);
+	    settings.set_double('opacity', 35);
+	    settings.set_int('refresh', 1);
+	    settings.set_double('height', 2);
+	    settings.set_string('color-strip', 'rgb(246,211,45)');
+	    settings.set_string('color-focus', 'rgb(0,0,0)');
+	    settings.set_boolean('vertical', false);
+	    settings.set_boolean('focusmode', false);
 	});
 	buttonBox.insert(defaultProfileButton, 3);
 

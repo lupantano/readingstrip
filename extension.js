@@ -19,17 +19,16 @@ import St from 'gi://St';
 import Gio from 'gi://Gio';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
-
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import { getPointerWatcher } from "resource:///org/gnome/shell/ui/pointerWatcher.js";
 
 import {
   Extension,
   gettext as _,
 } from 'resource:///org/gnome/shell/extensions/extension.js';
 
-import { getPointerWatcher } from "resource:///org/gnome/shell/ui/pointerWatcher.js";
 
 export default class ReadingStrip extends Extension {
     // follow cursor position, and monitor as well
@@ -66,7 +65,7 @@ export default class ReadingStrip extends Extension {
 	
 	this.strip_locked = 0;
 	
-	if (this.icon.gicon == this.icon_on) {
+	if (!this.strip_h.visible) {
 	    this.icon.gicon = this.icon_off;
 	    this._buttonSwitchItem.setToggleState(false);
 	    this.pointerWatch.remove();
@@ -74,8 +73,11 @@ export default class ReadingStrip extends Extension {
 	} else {
 	    this.icon.gicon = this.icon_on;
 	    this._buttonSwitchItem.setToggleState(true);
-	    this.syncStrip(true);
-	    this.pointerWatch = this.pointerWatcher.addWatch(this.refresh, this.syncStrip);
+	    this.syncStrip();
+	    this.pointerWatch = this.pointerWatcher.addWatch(
+		this.refresh,
+		this.syncStrip.bind(this)
+	    );
 	}
     }
 
@@ -86,8 +88,11 @@ export default class ReadingStrip extends Extension {
 	    this.pointerWatch = null;
 	    this.strip_locked = 1;
 	} else {
-	    this.syncStrip(true);
-	    this.pointerWatch = this.pointerWatcher.addWatch(this.refresh, this.syncStrip);
+	    this.syncStrip();
+	    this.pointerWatch = this.pointerWatcher.addWatch(
+		this.refresh,
+		this.syncStrip.bind(this)
+	    );
 	    this.strip_locked = 0;
 	}
     }
@@ -115,8 +120,13 @@ export default class ReadingStrip extends Extension {
 	this.refresh = 1, this.strip_locked = 0;
 	this.setting_changed_signal_ids = [];
 	
-	this.icon_on = Gio.icon_new_for_string(`${this.path}/icons/readingstrip-on-symbolic.svg`);
-	this.icon_off = Gio.icon_new_for_string(`${this.path}/icons/readingstrip-off-symbolic.svg`);
+	this.icon_on = Gio.icon_new_for_string(
+	    `${this.path}/icons/readingstrip-on-symbolic.svg`
+	);
+	this.icon_off = Gio.icon_new_for_string(
+	    `${this.path}/icons/readingstrip-off-symbolic.svg`
+	);
+	
 	this.pointerWatcher = getPointerWatcher();
 	
 	// Load settings
@@ -136,7 +146,11 @@ export default class ReadingStrip extends Extension {
 	});
 	this._buttonSwitchItem.setToggleState(false);
 	this._indicator.menu.addMenuItem(this._buttonSwitchItem);
-	this._indicator.menu.addAction(_('Settings...'), () => this.openPreferences(), 'settings-symbolic');
+	this._indicator.menu.addAction(
+	    _('Settings...'),
+	    () => this.openPreferences(),
+	    'settings-symbolic'
+	);
 	
 	Main.panel.addToStatusArea(this.metadata.uuid, this._indicator);
         this._count = 0;
@@ -188,7 +202,7 @@ export default class ReadingStrip extends Extension {
 	Main.uiGroup.add_child(this.focus_down);
 
 	// synchronize extension state with current settings
-	this.setting_changed_signal_ids.push(this._settings.connect('changed', this.onSettingsChanged));
+	this.setting_changed_signal_ids.push(this._settings.connect('changed', () => {this.onSettingsChanged()}));
 
 	// load previous state
 	if (this._settings.get_boolean('enabled')) {
@@ -235,10 +249,4 @@ export default class ReadingStrip extends Extension {
 	this.icon_off = null;
 	this.pointerWatcher = null;
     }
-}
-
-function init() {
-    ExtensionUtils.initTranslations();
-
-    return new ReadingStrip();
 }
