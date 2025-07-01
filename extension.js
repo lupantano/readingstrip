@@ -40,34 +40,22 @@ class Strip extends St.Widget {
             track_hover: false,
             visible: false
         });
+	
 	this.locked = false;
+
         Main.uiGroup.add_child(this);
     }
 
     show_hide() {
         this.visible = !this.visible;
-	log('[ReadingStrip]', 'visible:', this.visible);
     }
 
     lock_unlock() {
 	this.locked = !this.locked;
-	log('[ReadingStrip]', 'locked:', this.locked);
-    }
-    
-    status() {
-	log('ReadingStrip: ', this.name,
-	    'visible = ', this.visible,
-	    'opacity = ', this.opacity,
-	    'style = ', this.style,
-	    'x=', this.x,
-	    'y=', this.y,
-	    'width=', this.width,
-	    'height=', this.height)
     }
 
     sync(y, monitor) {
-        this.x = monitor.x;
-        this.y = y;
+	this.set_position(monitor.x, y);
         this.width = monitor.width;
 
         if (this.name != 'sMiddle') {
@@ -81,15 +69,12 @@ class Strip extends St.Widget {
 });
 
 export default class ReadingStrip extends Extension {
-    // follow cursor position, and monitor as well
+    // follow cursor position and monitor as well
     syncStrip() {
-	const [x, y] = global.get_pointer();
 	const currentMonitor = Main.layoutManager.currentMonitor;
-
-	log(x,y, currentMonitor);
+	const [x, y] = global.get_pointer();
 	
 	if (this.sMiddle.visible == true && this.sMiddle.locked == false) {
-	    log('move on');
 	    this.sTop.sync(-currentMonitor.height + y - this.sMiddle.height / 2, currentMonitor);
 	    this.sMiddle.sync(y - this.sMiddle.height / 2, currentMonitor);
 	    this.sBottom.sync(y + this.sMiddle.height / 2, currentMonitor);
@@ -98,19 +83,28 @@ export default class ReadingStrip extends Extension {
 
     // toggle strip on or off
     toggleStrip() {
+	// Show or hide the stripes
 	this.sMiddle.show_hide();
 	
 	if (this._settings.get_boolean('focusmode')) {
 	    this.sTop.show_hide();
 	    this.sBottom.show_hide();
 	}
-
-	// update icon status and switch status
+	
+	// add or remove pointer watcher
 	if (this.sMiddle.visible) {
-	    this._icon.gicon = this._icon_on;
+	    this.pointerWatcher = getPointerWatcher();
+	    this.pointerWatch = this.pointerWatcher.addWatch(
+		this.refresh,
+		this.syncStrip.bind(this)
+	    );
 	} else {
-	    this._icon.gicon = this._icon_off;
+	    this.pointerWatch.remove();
+	    this.pointerWatch = null;
 	}
+	
+	// update icon status and switch status
+	this._icon.gicon = this.sMiddle.visible ? this._icon_on : this._icon_off;
 	this._buttonSwitchItem.setToggleState(this.sMiddle.visible);
     }
 
@@ -161,13 +155,6 @@ export default class ReadingStrip extends Extension {
 	this._setting_changed_signal_ids = [];
 	this._setting_changed_signal_ids.push(this._settings.connect('changed', () => {this.onSettingsChanged()}));
 	this.onSettingsChanged();
-	
-	// add pointer
-	this.pointerWatcher = getPointerWatcher();
-	this.pointerWatch = this.pointerWatcher.addWatch(
-	    this.refresh,
-	    this.syncStrip.bind(this)
-	);
 	
 	// synchronize hot key enable/disable
 	Main.wm.addKeybinding('hotkey',
