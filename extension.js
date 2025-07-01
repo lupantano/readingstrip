@@ -1,6 +1,6 @@
 /*
   Reading Strip, Reading guide on the computer for people with dyslexia.
-  Copyright (C) 2021-24 Luigi Pantano
+  Copyright (C) 2021-25 Luigi Pantano
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 import St from 'gi://St';
+import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
@@ -29,189 +30,148 @@ import {
   gettext as _,
 } from 'resource:///org/gnome/shell/extensions/extension.js';
 
+var Strip = GObject.registerClass(
+class Strip extends St.Widget {
+    _init(name) {
+        super._init({
+	    name: name,
+            reactive: false,
+            can_focus: false,
+            track_hover: false,
+            visible: false
+        });
+	this.locked = false;
+        Main.uiGroup.add_child(this);
+    }
+
+    show_hide() {
+        this.visible = !this.visible;
+	log('[ReadingStrip]', 'visible:', this.visible);
+    }
+
+    lock_unlock() {
+	this.locked = !this.locked;
+	log('[ReadingStrip]', 'locked:', this.locked);
+    }
+    
+    status() {
+	log('ReadingStrip: ', this.name,
+	    'visible = ', this.visible,
+	    'opacity = ', this.opacity,
+	    'style = ', this.style,
+	    'x=', this.x,
+	    'y=', this.y,
+	    'width=', this.width,
+	    'height=', this.height)
+    }
+
+    sync(y, monitor) {
+        this.x = monitor.x;
+        this.y = y;
+        this.width = monitor.width;
+
+        if (this.name != 'sMiddle') {
+            this.height = monitor.height;
+        }
+    }
+
+    destroy() {
+        super.destroy();
+    }
+});
 
 export default class ReadingStrip extends Extension {
     // follow cursor position, and monitor as well
     syncStrip() {
 	const [x, y] = global.get_pointer();
 	const currentMonitor = Main.layoutManager.currentMonitor;
+
+	log(x,y, currentMonitor);
 	
-	this.strip_h.x = currentMonitor.x;
-	this.strip_h.y = y - this.strip_h.height / 2;
-	this.strip_h.width = currentMonitor.width;
-	
-	this.strip_v.x = x - this.strip_v.width;
-	this.strip_v.y = currentMonitor.y;
-	this.strip_v.height = currentMonitor.height;
-	
-	this.focus_up.x = currentMonitor.x;
-	this.focus_up.y = -currentMonitor.height + y - this.strip_h.height / 2;
-	this.focus_up.width = currentMonitor.width;
-	this.focus_up.height = currentMonitor.height;
-	
-	this.focus_down.x = currentMonitor.x;
-	this.focus_down.y = y + this.strip_h.height / 2;
-	this.focus_down.width = currentMonitor.width;
-	this.focus_down.height = currentMonitor.height;
+	if (this.sMiddle.visible == true && this.sMiddle.locked == false) {
+	    log('move on');
+	    this.sTop.sync(-currentMonitor.height + y - this.sMiddle.height / 2, currentMonitor);
+	    this.sMiddle.sync(y - this.sMiddle.height / 2, currentMonitor);
+	    this.sBottom.sync(y + this.sMiddle.height / 2, currentMonitor);
+	}
     }
 
     // toggle strip on or off
     toggleStrip() {
-	this.strip_h.visible = !this.strip_h.visible;
-	this.strip_v.visible = this.strip_h.visible;
-	this.focus_up.visible = this.strip_h.visible;
-	this.focus_down.visible = this.strip_h.visible;
-	this._settings.set_boolean('enabled', this.strip_h.visible);
+	this.sMiddle.show_hide();
 	
-	this.strip_locked = 0;
-	
-	if (!this.strip_h.visible) {
-	    this.icon.gicon = this.icon_off;
-	    this._buttonSwitchItem.setToggleState(false);
-	    this.pointerWatch.remove();
-	    this.pointerWatch = null;
-	} else {
-	    this.icon.gicon = this.icon_on;
-	    this._buttonSwitchItem.setToggleState(true);
-	    this.syncStrip();
-	    this.pointerWatch = this.pointerWatcher.addWatch(
-		this.refresh,
-		this.syncStrip.bind(this)
-	    );
+	if (this._settings.get_boolean('focusmode')) {
+	    this.sTop.show_hide();
+	    this.sBottom.show_hide();
 	}
-    }
 
-    // lock/unlock strip on screen
-    lockStrip() {
-	if (!this.strip_locked) {
-	    this.pointerWatch.remove();
-	    this.pointerWatch = null;
-	    this.strip_locked = 1;
+	// update icon status and switch status
+	if (this.sMiddle.visible) {
+	    this._icon.gicon = this._icon_on;
 	} else {
-	    this.syncStrip();
-	    this.pointerWatch = this.pointerWatcher.addWatch(
-		this.refresh,
-		this.syncStrip.bind(this)
-	    );
-	    this.strip_locked = 0;
+	    this._icon.gicon = this._icon_off;
 	}
+	this._buttonSwitchItem.setToggleState(this.sMiddle.visible);
     }
 
     onSettingsChanged() {
-	this.strip_h.style = 'background-color : ' + this._settings.get_string('color-strip') + ';border: 1px solid #708090;';
-	this.strip_h.opacity = this._settings.get_double('opacity') * 255/100;
-	this.strip_h.height = this._settings.get_double('height') * Main.layoutManager.currentMonitor.height/100;
+	this.sMiddle.style = 'background-color : ' + this._settings.get_string('color-strip') + ';border: 1px solid #708090;';
+	this.sMiddle.opacity = 255 * this._settings.get_double('opacity')/100;
+	this.sMiddle.height =  Main.layoutManager.currentMonitor.height * this._settings.get_double('height')/100;
 
-	this.strip_v.visible = this.strip_h.visible && this._settings.get_boolean('vertical');
-	this.strip_v.style = this.strip_h.style;
-	this.strip_v.opacity = this.strip_h.opacity;
-	this.strip_v.width = this.strip_h.height / 4;
-
-	this.focus_up.visible = this.strip_h.visible && this._settings.get_boolean('focusmode');
-	this.focus_up.style = 'background-color : ' + this._settings.get_string('color-focus');
-
-	this.focus_down.visible = this.strip_h.visible && this._settings.get_boolean('focusmode');
-	this.focus_down.style = 'background-color : ' + this._settings.get_string('color-focus');
+	this.sTop.visible = this.sBottom.visible = this.sMiddle.visible && this._settings.get_boolean('focusmode');
+	this.sTop.opacity = this.sBottom.opacity = 255 * 75/100;
+	this.sTop.style = this.sBottom.style = 'background-color : ' + this._settings.get_string('color-focus');
 
 	this.refresh = this._settings.get_int('refresh');
     }
-
+    
     enable() {
-	this.refresh = 1, this.strip_locked = 0;
-	this.setting_changed_signal_ids = [];
+	// add Stripes
+	this.sTop = new Strip('sTop');
+	this.sMiddle = new Strip('sMiddle');
+	this.sBottom = new Strip('sBottom');
 	
-	this.icon_on = Gio.icon_new_for_string(
-	    `${this.path}/icons/readingstrip-on-symbolic.svg`
-	);
-	this.icon_off = Gio.icon_new_for_string(
-	    `${this.path}/icons/readingstrip-off-symbolic.svg`
-	);
-	
-	this.pointerWatcher = getPointerWatcher();
-	
-	// Load settings
-	this._settings = this.getSettings();
-
 	// add to top panel
+	this._icon_on = Gio.icon_new_for_string(`${this.path}/icons/readingstrip-on-symbolic.svg`);
+	this._icon_off = Gio.icon_new_for_string(`${this.path}/icons/readingstrip-off-symbolic.svg`);
+	
 	this._indicator = new PanelMenu.Button(0.0, this.metadata.name, false);
-	this.icon = new St.Icon({
-	    gicon : this.icon_off,
+	this._icon = new St.Icon({
+	    gicon : this._icon_off,
 	    style_class: 'system-status-icon',
 	});	
-        this._indicator.add_child(this.icon);
+        this._indicator.add_child(this._icon);
 	
-	this._buttonSwitchItem = new PopupMenu.PopupSwitchMenuItem(_('Show/Hide'), { status: false }, {});
+	this._buttonSwitchItem = new PopupMenu.PopupSwitchMenuItem(_('Show/Hide'), false, {});
 	this._buttonSwitchItem.connect('toggled', () => {
             this.toggleStrip();
 	});
-	this._buttonSwitchItem.setToggleState(false);
 	this._indicator.menu.addMenuItem(this._buttonSwitchItem);
 	this._indicator.menu.addAction(
 	    _('Settings...'),
 	    () => this.openPreferences(),
-	    'settings-symbolic'
+	    'org.gnome.Settings-symbolic'
 	);
 	
 	Main.panel.addToStatusArea(this.metadata.uuid, this._indicator);
-        this._count = 0;
 
-	// create vertical strip
-	this.strip_v = new St.Widget({
-	    reactive: false,
-	    can_focus: false,
-	    track_hover: false,
-	    visible: false
-	});
-	Main.uiGroup.add_child(this.strip_v);
-
-	// create horizontal strip
-	this.strip_h = new St.Widget({
-	    reactive: false,
-	    can_focus: false,
-	    track_hover: false,
-	    visible: false
-	});
-	Main.uiGroup.add_child(this.strip_h);
-
-	// create vertical strip
-	this.strip_v = new St.Widget({
-	    reactive: false,
-	    can_focus: false,
-	    track_hover: false,
-	    visible: false
-	});
-	Main.uiGroup.add_child(this.strip_v);
-
-	// create  - focus
-	this.focus_up = new St.Widget({
-	    reactive: false,
-	    can_focus: false,
-	    track_hover: false,
-	    visible: false,
-	    opacity: 75 * 255/100
-	});
-	Main.uiGroup.add_child(this.focus_up);
-
-	this.focus_down = new St.Widget({
-	    reactive: false,
-	    can_focus: false,
-	    track_hover: false,
-	    visible: false,
-	    opacity: 75 * 255/100
-	});
-	Main.uiGroup.add_child(this.focus_down);
-
-	// synchronize extension state with current settings
-	this.setting_changed_signal_ids.push(this._settings.connect('changed', () => {this.onSettingsChanged()}));
-
-	// load previous state
-	if (this._settings.get_boolean('enabled')) {
-	    this.toggleStrip();
-	    this.onSettingsChanged();
-	}
-
+	// settings
+	this._settings = this.getSettings();
+	this._setting_changed_signal_ids = [];
+	this._setting_changed_signal_ids.push(this._settings.connect('changed', () => {this.onSettingsChanged()}));
+	this.onSettingsChanged();
+	
+	// add pointer
+	this.pointerWatcher = getPointerWatcher();
+	this.pointerWatch = this.pointerWatcher.addWatch(
+	    this.refresh,
+	    this.syncStrip.bind(this)
+	);
+	
 	// synchronize hot key enable/disable
-	Main.wm.addKeybinding('hotkey', this._settings,
+	Main.wm.addKeybinding('hotkey',
+			      this._settings,
 			      Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
 			      Shell.ActionMode.ALL,
 			      () => {
@@ -219,34 +179,36 @@ export default class ReadingStrip extends Extension {
 			      }
 			     );
 	// synchronize hot key lock/unlock
-	Main.wm.addKeybinding('hotkey-locked', this._settings,
+	Main.wm.addKeybinding('hotkey-locked',
+			      this._settings,
 			      Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
 			      Shell.ActionMode.ALL,
 			      () => {
-				  this.lockStrip();
+				  this.sMiddle.lock_unlock();
 			      }
-			     );	
+			     );
     }
 
     disable() {
-        if (this._indicator) {
-	    this._indicator.destroy();
-	    this._indicator = null;
-        }
+	this._indicator.destroy();
+	this._indicator = null;
 
-	this.strip_h.visible = false;
-	this.strip_v.visible = false;
-	this.focus_up.visible = false;
-	this.focus_down.visible = false;
+	this.sTop.destroy();
+	this.sMiddle.destroy();
+	this.sBottom.destroy();
 
-	Main.wm.removeKeybinding('hotkey');
-	Main.wm.removeKeybinding('hotkey-locked');
-	this.setting_changed_signal_ids.forEach(id => this._settings.disconnect(id));
-	this.setting_changed_signal_ids = [];
+	this._setting_changed_signal_ids.forEach(id => this._settings.disconnect(id));
+	this._setting_changed_signal_ids = [];
 	this._settings = null;
+
+	this.pointerWatch.remove();
+	this.pointerWatch = null;
+	
 	this.icon = null;
 	this.icon_on = null;
 	this.icon_off = null;
-	this.pointerWatcher = null;
+
+	Main.wm.removeKeybinding('hotkey');
+	Main.wm.removeKeybinding('hotkey-locked');
     }
 }

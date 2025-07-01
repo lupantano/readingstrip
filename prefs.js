@@ -1,6 +1,6 @@
 /*
   Reading Strip, Reading guide on the computer for people with dyslexia.
-  Copyright (C) 2021-22 Luigi Pantano
+  Copyright (C) 2021-25 Luigi Pantano
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -297,7 +297,7 @@ export default class ReadingStripPreferences extends ExtensionPreferences {
 	buttonBox.insert(defaultProfileButton, 3);
 
 	const aboutLabel = new Gtk.Label({
-	    label: '<a href="https://github.com/lupantano/readingstrip">Reading Strip</a> Copyright (C) 2021-2024 <a href="https://matrix.to/#/@lupantano:matrix.org">Luigi Pantano</a>',
+	    label: '<a href="https://github.com/lupantano/readingstrip">Reading Strip</a> Copyright (C) 2021-2025 <a href="https://matrix.to/#/@lupantano:matrix.org">Luigi Pantano</a>',
 	    halign: Gtk.Align.CENTER,
 	    justify: Gtk.Align.CENTER,
 	    use_markup: true,
