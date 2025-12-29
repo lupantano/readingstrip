@@ -64,6 +64,7 @@ class Strip extends St.Widget {
     }
 
     destroy() {
+        Main.uiGroup.remove_child(this);
         super.destroy();
     }
 });
@@ -90,10 +91,10 @@ export default class ReadingStrip extends Extension {
 	    this.sTop.show_hide();
 	    this.sBottom.show_hide();
 	}
-	
+
 	// add or remove pointer watcher
 	if (this.sMiddle.visible) {
-	    this.pointerWatcher = getPointerWatcher();
+            this.pointerWatcher = getPointerWatcher();
 	    this.pointerWatch = this.pointerWatcher.addWatch(
 		this.refresh,
 		this.syncStrip.bind(this)
@@ -118,9 +119,13 @@ export default class ReadingStrip extends Extension {
 	this.sTop.style = this.sBottom.style = 'background-color : ' + this._settings.get_string('color-focus');
 
 	this.refresh = this._settings.get_int('refresh');
+        this.syncStrip();
     }
     
     enable() {
+        this.pointerWatch = null;
+        this.pointerWatcher = null; 
+        
 	// add Stripes
 	this.sTop = new Strip('sTop');
 	this.sMiddle = new Strip('sMiddle');
@@ -155,25 +160,25 @@ export default class ReadingStrip extends Extension {
 	this._setting_changed_signal_ids = [];
 	this._setting_changed_signal_ids.push(this._settings.connect('changed', () => {this.onSettingsChanged()}));
 	this.onSettingsChanged();
-	
-	// synchronize hot key enable/disable
-	Main.wm.addKeybinding('hotkey',
-			      this._settings,
-			      Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
-			      Shell.ActionMode.ALL,
-			      () => {
-				  this.toggleStrip();
-			      }
-			     );
+        
+        // synchronize hot key enable/disable
+        // BUG: freeze
+        this._keybindingId_show = Main.wm.addKeybinding(
+            "show",
+            this._settings,
+            Meta.KeyBindingFlags.NONE,
+            Shell.ActionMode.NORMAL,
+            () => { this.toggleStrip(); }
+        );
+
 	// synchronize hot key lock/unlock
-	Main.wm.addKeybinding('hotkey-locked',
-			      this._settings,
-			      Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
-			      Shell.ActionMode.ALL,
-			      () => {
-				  this.sMiddle.lock_unlock();
-			      }
-			     );
+        this._keybindingId_lock = Main.wm.addKeybinding(
+            "lock",
+            this._settings,
+            Meta.KeyBindingFlags.NONE,
+            Shell.ActionMode.NORMAL,
+            () => { this.sMiddle.lock_unlock(); }
+        );
     }
 
     disable() {
@@ -188,14 +193,18 @@ export default class ReadingStrip extends Extension {
 	this._setting_changed_signal_ids = [];
 	this._settings = null;
 
-	this.pointerWatch.remove();
+        if (this.pointerWatch){
+	    this.pointerWatch.remove();
+        }
 	this.pointerWatch = null;
 	
 	this.icon = null;
 	this.icon_on = null;
 	this.icon_off = null;
-
-	Main.wm.removeKeybinding('hotkey');
-	Main.wm.removeKeybinding('hotkey-locked');
+        
+	Main.wm.removeKeybinding('show');
+        this._keybindingId_show = null;
+	Main.wm.removeKeybinding('lock');
+        this._keybindingId_lock = null;
     }
 }
