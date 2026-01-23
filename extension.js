@@ -103,10 +103,9 @@ export default class ReadingStrip extends Extension {
 	    this.pointerWatch.remove();
 	    this.pointerWatch = null;
 	}
-	
-	// update icon status and switch status
+
+	// update icon status
 	this._icon.gicon = this.sMiddle.visible ? this._icon_on : this._icon_off;
-	this._buttonSwitchItem.setToggleState(this.sMiddle.visible);
     }
 
     onSettingsChanged() {
@@ -162,13 +161,12 @@ export default class ReadingStrip extends Extension {
 	this.onSettingsChanged();
         
         // synchronize hot key enable/disable
-        // BUG: freeze
         this._keybindingId_show = Main.wm.addKeybinding(
             "show",
             this._settings,
             Meta.KeyBindingFlags.NONE,
             Shell.ActionMode.NORMAL,
-            () => { this.toggleStrip(); }
+            () => { this._buttonSwitchItem.setToggleState(!this.sMiddle.visible); }
         );
 
 	// synchronize hot key lock/unlock
