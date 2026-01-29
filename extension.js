@@ -82,11 +82,24 @@ export default class ReadingStrip extends Extension {
 	}
     }
 
+    // update icon status
+    updateIcon() {
+        if (!this.sMiddle.visible) {
+            this._icon.gicon = this._icon_off;
+        } else if (this.sMiddle.locked) {
+            this._icon.gicon = this._icon_locked;
+        } else {
+            this._icon.gicon = this._icon_on;
+        }
+    }
+
     // toggle strip on or off
     toggleStrip() {
-	// Show or hide the stripes
 	this.sMiddle.show_hide();
-	
+        
+        // update settings
+        this._settings.set_boolean('enabled', this.sMiddle.visible);
+        
 	if (this._settings.get_boolean('focusmode')) {
 	    this.sTop.show_hide();
 	    this.sBottom.show_hide();
@@ -103,9 +116,6 @@ export default class ReadingStrip extends Extension {
 	    this.pointerWatch.remove();
 	    this.pointerWatch = null;
 	}
-
-	// update icon status
-	this._icon.gicon = this.sMiddle.visible ? this._icon_on : this._icon_off;
     }
 
     onSettingsChanged() {
@@ -133,6 +143,7 @@ export default class ReadingStrip extends Extension {
 	// add to top panel
 	this._icon_on = Gio.icon_new_for_string(`${this.path}/icons/readingstrip-on-symbolic.svg`);
 	this._icon_off = Gio.icon_new_for_string(`${this.path}/icons/readingstrip-off-symbolic.svg`);
+        this._icon_locked = Gio.icon_new_for_string(`${this.path}/icons/readingstrip-locked-symbolic.svg`);
 	
 	this._indicator = new PanelMenu.Button(0.0, this.metadata.name, false);
 	this._icon = new St.Icon({
@@ -144,6 +155,7 @@ export default class ReadingStrip extends Extension {
 	this._buttonSwitchItem = new PopupMenu.PopupSwitchMenuItem(_('Show/Hide'), false, {});
 	this._buttonSwitchItem.connect('toggled', () => {
             this.toggleStrip();
+            this.updateIcon();
 	});
 	this._indicator.menu.addMenuItem(this._buttonSwitchItem);
 	this._indicator.menu.addAction(
@@ -159,6 +171,10 @@ export default class ReadingStrip extends Extension {
 	this._setting_changed_signal_ids = [];
 	this._setting_changed_signal_ids.push(this._settings.connect('changed', () => {this.onSettingsChanged()}));
 	this.onSettingsChanged();
+
+        if (this._settings.get_boolean('enabled')) {
+            this._buttonSwitchItem.setToggleState(!this.sMiddle.visible);
+        }
         
         // synchronize hot key enable/disable
         this._keybindingId_show = Main.wm.addKeybinding(
@@ -166,7 +182,10 @@ export default class ReadingStrip extends Extension {
             this._settings,
             Meta.KeyBindingFlags.NONE,
             Shell.ActionMode.NORMAL,
-            () => { this._buttonSwitchItem.setToggleState(!this.sMiddle.visible); }
+            () => {
+                this._buttonSwitchItem.setToggleState(!this.sMiddle.visible);
+                this.updateIcon();
+            }
         );
 
 	// synchronize hot key lock/unlock
@@ -175,7 +194,10 @@ export default class ReadingStrip extends Extension {
             this._settings,
             Meta.KeyBindingFlags.NONE,
             Shell.ActionMode.NORMAL,
-            () => { this.sMiddle.lock_unlock(); }
+            () => {
+                this.sMiddle.lock_unlock();
+                this.updateIcon();
+            }
         );
     }
 
@@ -195,10 +217,12 @@ export default class ReadingStrip extends Extension {
 	    this.pointerWatch.remove();
         }
 	this.pointerWatch = null;
+        this.pointerWatcher = null;
 	
-	this.icon = null;
-	this.icon_on = null;
-	this.icon_off = null;
+	this._icon = null;
+	this._icon_on = null;
+	this._icon_off = null;
+        this._icon_locked = null;
         
 	Main.wm.removeKeybinding('show');
         this._keybindingId_show = null;
