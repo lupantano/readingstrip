@@ -94,27 +94,32 @@ export default class ReadingStrip extends Extension {
     }
 
     // toggle strip on or off
-    toggleStrip() {
-	this.sMiddle.show_hide();
-        
+    toggleStrip() {      
+        this.sMiddle.show_hide();
+
+        const focusVisible =
+              this.sMiddle.visible &&
+              this._settings.get_boolean('focusmode');
+
+        this.sTop.visible = this.sBottom.visible = focusVisible;
+
         // update settings
         this._settings.set_boolean('enabled', this.sMiddle.visible);
-        
-	if (this._settings.get_boolean('focusmode')) {
-	    this.sTop.show_hide();
-	    this.sBottom.show_hide();
-	}
 
 	// add or remove pointer watcher
 	if (this.sMiddle.visible) {
-            this.pointerWatcher = getPointerWatcher();
-	    this.pointerWatch = this.pointerWatcher.addWatch(
-		this.refresh,
-		this.syncStrip.bind(this)
-	    );
+            if (!this.pointerWatch) {
+                this.pointerWatcher = getPointerWatcher();
+	        this.pointerWatch = this.pointerWatcher.addWatch(
+		    this.refresh,
+		    this.syncStrip.bind(this)
+	        );
+            }
 	} else {
-	    this.pointerWatch.remove();
-	    this.pointerWatch = null;
+            if (this.pointerWatch) {
+	        this.pointerWatch.remove();
+	        this.pointerWatch = null;
+            }
 	}
     }
 
