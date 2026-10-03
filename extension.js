@@ -30,11 +30,11 @@ import {
   gettext as _,
 } from 'resource:///org/gnome/shell/extensions/extension.js';
 
-var Strip = GObject.registerClass(
+const Strip = GObject.registerClass(
 class Strip extends St.Widget {
     _init(name) {
         super._init({
-	    name: name,
+	    name,
             reactive: false,
             can_focus: false,
             track_hover: false,
@@ -42,15 +42,14 @@ class Strip extends St.Widget {
         });
 	
 	this.locked = false;
-
         Main.uiGroup.add_child(this);
     }
 
-    show_hide() {
+    toggleVisible() {
         this.visible = !this.visible;
     }
 
-    lock_unlock() {
+    toggleLocked() {
 	this.locked = !this.locked;
     }
 
@@ -67,11 +66,6 @@ class Strip extends St.Widget {
             }
         }
     }
-
-    destroy() {
-        Main.uiGroup.remove_child(this);
-        super.destroy();
-    }
 });
 
 export default class ReadingStrip extends Extension {
@@ -79,11 +73,15 @@ export default class ReadingStrip extends Extension {
     syncStrip() {
 	const currentMonitor = Main.layoutManager.currentMonitor;
 	const [x, y] = global.get_pointer();
+        const middleOffset = this.sMiddle.height / 2;
 	
-	if (this.sMiddle.visible == true && this.sMiddle.locked == false) {
-             this.sTop.sync(x, -currentMonitor.height + y - this.sMiddle.height / 2, currentMonitor);
-             this.sMiddle.sync(x, y - this.sMiddle.height / 2, currentMonitor);
-             this.sBottom.sync(x, y + this.sMiddle.height / 2, currentMonitor);
+	if (this.sMiddle.visible && !this.sMiddle.locked) {
+            this.sTop.sync(x, -currentMonitor.height + y - middleOffset, currentMonitor);
+            this.sMiddle.sync(x,
+                              y - middleOffset,
+                              currentMonitor
+                             );
+             this.sBottom.sync(x, y + middleOffset, currentMonitor);
             
             if (this.sVertical) {
                 this.sVertical.sync(x, y, currentMonitor);
@@ -104,20 +102,20 @@ export default class ReadingStrip extends Extension {
 
     // toggle strip on or off
     toggleStrip() {      
-        this.sMiddle.show_hide();
+        this.sMiddle.toggleVisible();
 
-        const focusVisible =
-              this.sMiddle.visible &&
-              this._settings.get_boolean('focusmode');
-
-        this.sTop.visible = this.sBottom.visible = focusVisible;
-        this.sVertical.visible = this.sMiddle.visible && this._settings.get_boolean('vertical');
+        const visible = this.sMiddle.visible;
+        const focusMode = this._settings.get_boolean('focusmode');
+        const vertical = this._settings.get_boolean('vertical');
+        
+        this.sTop.visible = this.sBottom.visible = visible && focusMode;
+        this.sVertical.visible = visible && vertical;
 
         // update settings
-        this._settings.set_boolean('enabled', this.sMiddle.visible);
+        this._settings.set_boolean('enabled', visible);
 
 	// add or remove pointer watcher
-	if (this.sMiddle.visible) {
+	if (visible) {
             if (!this.pointerWatch) {
                 this.pointerWatcher = getPointerWatcher();
 	        this.pointerWatch = this.pointerWatcher.addWatch(
@@ -198,7 +196,7 @@ export default class ReadingStrip extends Extension {
         }
         
         // synchronize hot key enable/disable
-        this._keybindingId_show = Main.wm.addKeybinding(
+        Main.wm.addKeybinding(
             "show",
             this._settings,
             Meta.KeyBindingFlags.NONE,
@@ -210,13 +208,13 @@ export default class ReadingStrip extends Extension {
         );
 
 	// synchronize hot key lock/unlock
-        this._keybindingId_lock = Main.wm.addKeybinding(
+        Main.wm.addKeybinding(
             "lock",
             this._settings,
             Meta.KeyBindingFlags.NONE,
             Shell.ActionMode.NORMAL,
             () => {
-                this.sMiddle.lock_unlock();
+                this.sMiddle.toggleLocked();
                 this.updateIcon();
             }
         );
@@ -225,11 +223,21 @@ export default class ReadingStrip extends Extension {
     disable() {
 	this._indicator.destroy();
 	this._indicator = null;
+        
+        this._buttonSwitchItem.destroy();
+        this._buttonSwitchItem = null;
 
-	this.sTop.destroy();
-	this.sMiddle.destroy();
-	this.sBottom.destroy();
+        this.sTop.destroy();
+	this.sTop = null;
+
+        this.sMiddle.destroy();
+	this.sMiddle = null;
+
+        this.sBottom.destroy();
+	this.sBottom = null;
+
         this.sVertical.destroy();
+        this.sVertical = null;
 
 	this._setting_changed_signal_ids.forEach(id => this._settings.disconnect(id));
 	this._setting_changed_signal_ids = [];
@@ -237,18 +245,17 @@ export default class ReadingStrip extends Extension {
 
         if (this.pointerWatch){
 	    this.pointerWatch.remove();
+	    this.pointerWatch = null;
         }
-	this.pointerWatch = null;
         this.pointerWatcher = null;
-	
-	this._icon = null;
+
+	this._icon.destroy();
+        this._icon = null;
 	this._icon_on = null;
 	this._icon_off = null;
         this._icon_locked = null;
         
 	Main.wm.removeKeybinding('show');
-        this._keybindingId_show = null;
 	Main.wm.removeKeybinding('lock');
-        this._keybindingId_lock = null;
     }
 }
